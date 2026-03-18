@@ -278,7 +278,7 @@
     <!-- Live indicator -->
     <div class="flex items-center gap-2 text-xs" style="color: var(--muted);">
       <span class="live-dot"></span>
-      <span>Live data · Updated daily</span>
+      <span id="last-updated">Live data · Updated daily</span>
     </div>
   </div>
 </header>
@@ -318,11 +318,11 @@
         <div class="stat-label">Total tech delivered</div>
       </div>
       <div class="card card-accent">
-        <div class="stat-num" data-count="1847" data-separator=",">0</div>
+        <div class="stat-num" data-count="1847" data-separator="," data-live="nonprofits">0</div>
         <div class="stat-label">Nonprofits supported</div>
       </div>
       <div class="card card-accent">
-        <div class="stat-num" data-count="312">0</div>
+        <div class="stat-num" data-count="312" data-live="techCompanies">0</div>
         <div class="stat-label">Tech companies engaged</div>
       </div>
       <div class="card card-accent">
@@ -395,7 +395,7 @@
           </svg>
         </div>
         <h3 class="font-heading font-semibold text-lg mb-2">Pro-Bono Tech Matching</h3>
-        <div class="stat-num-sm mb-1" data-count="2104" data-separator=",">0</div>
+        <div class="stat-num-sm mb-1" data-count="2104" data-separator="," data-live="collaborations">0</div>
         <div class="stat-label mb-4">collaborations delivered</div>
         <p style="color: var(--muted); font-size: 0.88rem; line-height: 1.65;">
           We match nonprofits with skilled tech volunteers for time-bound, impact-focused projects. Each collaboration is scoped, facilitated, and measured for real outcomes.
@@ -504,7 +504,7 @@
       <div style="flex: 1;">
         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
           <div class="card card-teal" style="border-left-color: var(--teal);">
-            <div class="stat-num-sm" data-count="156">0</div>
+            <div class="stat-num-sm" data-count="156" data-live="ai4cParticipants">0</div>
             <div class="stat-label">Orgs enrolled</div>
           </div>
           <div class="card card-accent">
@@ -579,7 +579,7 @@
 
         <div style="flex: 0 0 220px;">
           <div class="card movement-card text-center" style="padding: 32px;">
-            <div class="stat-num mb-1" data-count="34">0</div>
+            <div class="stat-num mb-1" data-count="34" data-live="scalingProgram">0</div>
             <div class="stat-label">Organisations enrolled</div>
             <div class="trend-up mt-3">
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 9L6 3L10 9" stroke="#8AFFE3" stroke-width="2" stroke-linecap="round"/></svg>
@@ -878,6 +878,39 @@
      JAVASCRIPT
 ═══════════════════════════════════════════════════════ -->
 <script>
+// ─── Live data from monday.com via /api/stats ─────────────────────────────────
+async function loadLiveStats() {
+  try {
+    const res = await fetch('/api/stats');
+    if (!res.ok) return; // silently fall back to hardcoded values
+    const s = await res.json();
+
+    // Map live data onto data-count attributes before count-up runs
+    const map = {
+      'nonprofits':     s.nonprofits,
+      'techCompanies':  s.techCompanies,
+      'collaborations': s.collaborations,
+      'scalingProgram': s.scalingProgram,
+      'ai4cParticipants': s.ai4cParticipants,
+      'projects':       s.projects,
+    };
+
+    document.querySelectorAll('[data-live]').forEach(el => {
+      const key = el.dataset.live;
+      if (map[key] !== undefined) el.dataset.count = map[key];
+    });
+
+    // Update last-updated text if present
+    const lu = document.getElementById('last-updated');
+    if (lu && s.lastUpdated) {
+      const d = new Date(s.lastUpdated);
+      lu.textContent = 'Updated ' + d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+    }
+  } catch (e) {
+    // Network error — use hardcoded fallback values silently
+  }
+}
+
 // ─── Count-up animation ───────────────────────────────────────────────────────
 function animateCount(el) {
   const target   = parseFloat(el.dataset.count);
@@ -913,16 +946,21 @@ function animateCount(el) {
 }
 
 // ─── Intersection observer for count-up ──────────────────────────────────────
-const countEls = document.querySelectorAll('[data-count]');
-const countObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting && !entry.target.dataset.animated) {
-      entry.target.dataset.animated = '1';
-      animateCount(entry.target);
-    }
-  });
-}, { threshold: 0.3 });
-countEls.forEach(el => countObserver.observe(el));
+function initCountObserver() {
+  const countEls = document.querySelectorAll('[data-count]');
+  const countObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.dataset.animated) {
+        entry.target.dataset.animated = '1';
+        animateCount(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  countEls.forEach(el => countObserver.observe(el));
+}
+
+// Load live data first, then start observers
+loadLiveStats().finally(() => initCountObserver());
 
 
 // ─── Geographic bar chart (pure CSS) ─────────────────────────────────────────

@@ -1,5 +1,10 @@
 {
   "rewrites": [
     { "source": "/", "destination": "/tttr-dashboard.html" }
-  ]
+  ],
+  "functions": {
+    "api/stats.js": {
+      "runtime": "nodejs20.x"
+    }
+  }
 }
