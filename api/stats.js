@@ -1,7 +1,6 @@
 export default async function handler(req, res) {
-  // Allow CORS for the dashboard
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate'); // Cache 1hr on Vercel edge
+  res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate');
 
   const MONDAY_API_KEY = process.env.MONDAY_API_KEY;
   if (!MONDAY_API_KEY) {
@@ -36,18 +35,17 @@ export default async function handler(req, res) {
     const ai4cTotal = (d.ai4cClimate[0]?.items_count || 0) + (d.ai4cDisaster[0]?.items_count || 0);
 
     const stats = {
-      nonprofits:        d.ngos[0]?.items_count || 0,
-      techCompanies:     d.techCompanies[0]?.items_count || 0,
-      projects:          d.projects[0]?.items_count || 0,
-      collaborations:    d.techOpportunities[0]?.items_count || 0,
-      scalingProgram:    d.scalingProgram[0]?.items_count || 0,
-      ai4cParticipants:  ai4cTotal,
-      ai4cSubmissions:   d.ai4cSubmissions[0]?.items_count || 0,
-      // Static metrics (not yet in monday.com — update manually)
-      techValueUSD:      24700000,
-      livesImpacted:     4200000,
-      countriesReached:  89,
-      lastUpdated:       new Date().toISOString()
+      nonprofits:       d.ngos[0]?.items_count || 0,
+      techCompanies:    d.techCompanies[0]?.items_count || 0,
+      projects:         d.projects[0]?.items_count || 0,
+      collaborations:   d.techOpportunities[0]?.items_count || 0,
+      scalingProgram:   d.scalingProgram[0]?.items_count || 0,
+      ai4cParticipants: ai4cTotal,
+      ai4cSubmissions:  d.ai4cSubmissions[0]?.items_count || 0,
+      techValueUSD:     24700000,
+      livesImpacted:    4200000,
+      countriesReached: 89,
+      lastUpdated:      new Date().toISOString()
     };
 
     res.status(200).json(stats);
