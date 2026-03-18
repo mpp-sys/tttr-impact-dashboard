@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TTTR Global Impact Dashboard</title>
+  <meta name="description" content="Tech To The Rescue — the world's largest tech-for-good ecosystem. Real-time impact data." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['Space Grotesk', 'sans-serif'],
+            body: ['DM Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg: #050024;
+      --surface: #0b0535;
+      --surface2: #110a42;
+      --purple: #6C00F0;
+      --purple-light: #AA80FF;
+      --teal: #8AFFE3;
+      --white: #FFFFFF;
+      --muted: #7A6FAA;
+      --border: rgba(108, 0, 240, 0.25);
+      --border-bright: rgba(170, 128, 255, 0.5);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* Grid background pattern */
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(108, 0, 240, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(108, 0, 240, 0.06) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    /* Radial glow */
+    .glow-purple {
+      background: radial-gradient(ellipse 60% 50% at 70% 40%, rgba(108, 0, 240, 0.22) 0%, transparent 70%);
+    }
+    .glow-teal {
+      background: radial-gradient(ellipse 50% 40% at 30% 60%, rgba(138, 255, 227, 0.08) 0%, transparent 70%);
+    }
+
+    /* Sticky header */
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(5, 0, 36, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Cards */
+    .card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .card:hover {
+      border-color: var(--border-bright);
+      transform: translateY(-2px);
+    }
+    .card-accent {
+      border-left: 3px solid var(--purple);
+    }
+    .card-teal {
+      border-left: 3px solid var(--teal);
+    }
+
+    /* Stat number */
+    .stat-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+    }
+    .stat-num-sm {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+    }
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    /* Section label */
+    .section-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+
+    /* Live dot */
+    .live-dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      background: var(--teal);
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(138, 255, 227, 0.4);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(138, 255, 227, 0.4); }
+      70%  { box-shadow: 0 0 0 8px rgba(138, 255, 227, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(138, 255, 227, 0); }
+    }
+
+    /* Trend arrow */
+    .trend-up {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.78rem;
+      color: var(--teal);
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* Chip */
+    .chip {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(138, 255, 227, 0.4);
+      color: var(--teal);
+      font-size: 0.72rem;
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: 0.05em;
+    }
+    .chip-purple {
+      border-color: rgba(108, 0, 240, 0.5);
+      color: var(--purple-light);
+    }
+
+    /* Pipeline dots */
+    .pipeline-dot {
+      display: inline-block;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+
+    /* Geo bar */
+    .geo-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--purple), var(--purple-light));
+      border-radius: 4px;
+      transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 0%;
+    }
+
+    /* Progress bar (MEL) */
+    .mel-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 0%;
+    }
+
+    /* Pull quote */
+    .pull-quote {
+      border-left: 3px solid var(--teal);
+      padding-left: 20px;
+      color: var(--purple-light);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    /* Divider */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* Movement card glow */
+    .movement-card {
+      border: 1px solid var(--border-bright);
+      box-shadow: 0 0 24px rgba(138, 255, 227, 0.06);
+    }
+
+    /* Report card */
+    .report-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .report-card:hover {
+      border-color: var(--border-bright);
+      transform: translateY(-2px);
+    }
+
+    /* CTA link */
+    .cta-link {
+      color: var(--teal);
+      text-decoration: none;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: gap 0.2s;
+    }
+    .cta-link:hover { gap: 8px; }
+
+    /* Responsive helpers */
+    @media (max-width: 768px) {
+      .hero-stats { grid-template-columns: repeat(2, 1fr); }
+      .section-split { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     STICKY HEADER
+═══════════════════════════════════════════════════════ -->
+<header class="sticky-header">
+  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+    <!-- Logo -->
+    <div class="flex items-center gap-3">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="14" cy="14" r="13" stroke="#6C00F0" stroke-width="2"/>
+        <circle cx="14" cy="14" r="8" stroke="#AA80FF" stroke-width="1.5"/>
+        <rect x="12" y="4" width="4" height="7" rx="2" fill="#8AFFE3"/>
+        <rect x="12" y="17" width="4" height="7" rx="2" fill="#8AFFE3"/>
+        <rect x="4" y="12" width="7" height="4" rx="2" fill="#8AFFE3"/>
+        <rect x="17" y="12" width="7" height="4" rx="2" fill="#8AFFE3"/>
+      </svg>
+      <span class="font-heading font-bold text-white text-sm tracking-wide">Tech To The Rescue</span>
+    </div>
+    <!-- Live indicator -->
+    <div class="flex items-center gap-2 text-xs" style="color: var(--muted);">
+      <span class="live-dot"></span>
+      <span>Live data · Updated daily</span>
+    </div>
+  </div>
+</header>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 1 — HERO
+═══════════════════════════════════════════════════════ -->
+<section id="hero" class="relative grid-bg overflow-hidden" style="min-height: 92vh; display: flex; align-items: center;">
+  <!-- Background glows -->
+  <div class="absolute inset-0 glow-purple pointer-events-none"></div>
+  <div class="absolute inset-0 glow-teal pointer-events-none"></div>
+
+  <div class="relative max-w-6xl mx-auto px-6 py-24 w-full">
+    <!-- Label -->
+    <div class="section-label mb-4" style="color: var(--teal);">
+      <span class="live-dot mr-2"></span>Global Impact Dashboard · March 2026
+    </div>
+
+    <!-- Headline -->
+    <h1 class="font-heading font-bold leading-tight mb-4" style="font-size: clamp(2.4rem, 6vw, 4.5rem); max-width: 780px;">
+      The world's largest<br/>
+      <span style="background: linear-gradient(90deg, #AA80FF, #8AFFE3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+        tech-for-good ecosystem
+      </span>
+    </h1>
+
+    <!-- Subheadline -->
+    <p class="mb-12 text-lg" style="color: var(--muted); max-width: 560px; line-height: 1.7;">
+      Connecting nonprofits and tech companies to multiply impact — now with AI at the centre.
+    </p>
+
+    <!-- Hero stat strip -->
+    <div class="hero-stats grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div class="card card-accent">
+        <div class="stat-num" data-count="24.7" data-prefix="$" data-suffix="M" data-decimals="1">$0M</div>
+        <div class="stat-label">Total tech delivered</div>
+      </div>
+      <div class="card card-accent">
+        <div class="stat-num" data-count="1847" data-separator=",">0</div>
+        <div class="stat-label">Nonprofits supported</div>
+      </div>
+      <div class="card card-accent">
+        <div class="stat-num" data-count="312">0</div>
+        <div class="stat-label">Tech companies engaged</div>
+      </div>
+      <div class="card card-accent">
+        <div class="stat-num" data-count="89">0</div>
+        <div class="stat-label">Countries reached</div>
+      </div>
+      <div class="card card-accent" style="border-left-color: var(--teal);">
+        <div class="stat-num" data-count="4.2" data-suffix="M" data-decimals="1">0M</div>
+        <div class="stat-label">Lives impacted</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 2 — NARRATIVE / STORY
+═══════════════════════════════════════════════════════ -->
+<section id="story" style="background: var(--surface); padding: 96px 24px;">
+  <div class="max-w-3xl mx-auto">
+    <div class="section-label">Our Story</div>
+    <h2 class="font-heading font-bold mb-8 leading-snug" style="font-size: clamp(1.6rem, 3.5vw, 2.4rem);">
+      We believe technology can multiply social impact — if the right people connect.
+    </h2>
+
+    <div style="color: var(--muted); line-height: 1.85; font-size: 1.05rem;">
+      <p class="mb-5">
+        Nonprofits carry the mission. Tech companies hold the tools. But these two worlds rarely meet — and when they do, it's often by accident. TTTR exists to make that connection deliberate, repeatable, and scalable.
+      </p>
+      <p class="mb-5">
+        Since 2019, we've been building the infrastructure layer for tech-powered social change: matching rigorous nonprofits with skilled tech volunteers, facilitating pro-bono collaborations, and measuring real-world outcomes. Today that infrastructure spans 89 countries and has delivered over $24 million in tech value.
+      </p>
+      <p class="mb-8">
+        Now, AI is the defining inflection point. TTTR is building AI readiness for the social sector — helping nonprofits that would otherwise be left behind become confident, capable adopters of AI for good.
+      </p>
+    </div>
+
+    <div class="pull-quote">
+      "We are not a marketplace. We are the infrastructure for tech-powered social change."
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 3 — ECOSYSTEM OVERVIEW
+═══════════════════════════════════════════════════════ -->
+<section id="ecosystem" style="padding: 96px 24px;">
+  <div class="max-w-6xl mx-auto">
+    <div class="section-label">The TTTR Ecosystem</div>
+    <h2 class="font-heading font-bold mb-3" style="font-size: clamp(1.5rem, 3vw, 2.2rem);">
+      Three pillars. One movement.
+    </h2>
+    <p class="mb-12" style="color: var(--muted); max-width: 520px; line-height: 1.7;">
+      Every collaboration in our ecosystem creates a ripple — more missions fulfilled, more tech skills applied for good.
+    </p>
+
+    <!-- 3-column cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+
+      <!-- Card 1 -->
+      <div class="card card-accent">
+        <div class="mb-4">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <circle cx="10" cy="16" r="7" stroke="#6C00F0" stroke-width="2"/>
+            <circle cx="22" cy="16" r="7" stroke="#AA80FF" stroke-width="2"/>
+            <ellipse cx="16" cy="16" rx="3" ry="7" fill="rgba(108,0,240,0.2)" stroke="none"/>
+          </svg>
+        </div>
+        <h3 class="font-heading font-semibold text-lg mb-2">Pro-Bono Tech Matching</h3>
+        <div class="stat-num-sm mb-1" data-count="2104" data-separator=",">0</div>
+        <div class="stat-label mb-4">collaborations delivered</div>
+        <p style="color: var(--muted); font-size: 0.88rem; line-height: 1.65;">
+          We match nonprofits with skilled tech volunteers for time-bound, impact-focused projects. Each collaboration is scoped, facilitated, and measured for real outcomes.
+        </p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card" style="border-left: 3px solid var(--teal);">
+        <div class="mb-4">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 4L19 10H25L20 14L22 20L16 16.5L10 20L12 14L7 10H13L16 4Z" fill="rgba(138,255,227,0.15)" stroke="#8AFFE3" stroke-width="1.5"/>
+            <circle cx="16" cy="16" r="4" fill="rgba(138,255,227,0.2)" stroke="#8AFFE3" stroke-width="1"/>
+          </svg>
+        </div>
+        <h3 class="font-heading font-semibold text-lg mb-2">AI Enablement</h3>
+        <div class="stat-num-sm mb-1" data-count="23">0</div>
+        <div class="stat-label mb-3">AI-specific projects active</div>
+        <p style="color: var(--muted); font-size: 0.88rem; line-height: 1.65; margin-bottom: 12px;">
+          Two flagship programmes help nonprofits move from AI-curious to AI-capable — with structured cohorts, expert mentorship, and responsible adoption frameworks.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="chip">AI for Changemakers</span>
+          <span class="chip">AI Impact Scaling</span>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card card-accent">
+        <div class="mb-4">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="12" stroke="#6C00F0" stroke-width="2"/>
+            <ellipse cx="16" cy="16" rx="5" ry="12" stroke="#AA80FF" stroke-width="1.5"/>
+            <line x1="4" y1="16" x2="28" y2="16" stroke="#AA80FF" stroke-width="1"/>
+            <line x1="8" y1="9" x2="24" y2="9" stroke="rgba(170,128,255,0.4)" stroke-width="1"/>
+            <line x1="8" y1="23" x2="24" y2="23" stroke="rgba(170,128,255,0.4)" stroke-width="1"/>
+          </svg>
+        </div>
+        <h3 class="font-heading font-semibold text-lg mb-2">Global Ecosystem</h3>
+        <div class="stat-num-sm mb-1" data-count="89">0</div>
+        <div class="stat-label mb-4">countries reached</div>
+        <p style="color: var(--muted); font-size: 0.88rem; line-height: 1.65;">
+          Our ecosystem spans every continent, with the fastest growth in Africa and Southeast Asia. Every new joiner expands the network effect for all members.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Secondary stats strip -->
+    <div class="card" style="padding: 16px 24px;">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        <div>
+          <div class="font-heading font-bold text-2xl text-white" data-count="47">0</div>
+          <div class="stat-label">Active projects now</div>
+        </div>
+        <div>
+          <div class="font-heading font-bold text-2xl text-white" data-count="312">0</div>
+          <div class="stat-label">Tech companies</div>
+        </div>
+        <div>
+          <div class="font-heading font-bold text-2xl text-white" data-count="1847" data-separator=",">0</div>
+          <div class="stat-label">Nonprofits supported</div>
+        </div>
+        <div>
+          <div class="font-heading font-bold text-2xl" style="color: var(--teal);" data-count="24.7" data-prefix="$" data-suffix="M" data-decimals="1">$0M</div>
+          <div class="stat-label">Total value delivered</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 4 — AI FOR CHANGEMAKERS
+═══════════════════════════════════════════════════════ -->
+<section id="ai4c" style="padding: 96px 24px; background: var(--surface);">
+  <div class="max-w-6xl mx-auto">
+    <div class="section-label">Programme Spotlight</div>
+
+    <div class="section-split flex flex-col md:flex-row gap-12">
+
+      <!-- Left: text -->
+      <div style="flex: 0 0 38%;">
+        <h2 class="font-heading font-bold mb-4 leading-snug" style="font-size: clamp(1.5rem, 3vw, 2.2rem);">
+          AI for<br/>Changemakers
+        </h2>
+        <p class="mb-4" style="color: var(--muted); line-height: 1.75; font-size: 0.95rem;">
+          A structured cohort programme that takes nonprofits from AI-curious to AI-ready in 16 weeks. Participants map use cases, receive expert coaching, and are matched with a tech partner for hands-on implementation.
+        </p>
+        <p class="mb-6" style="color: var(--muted); line-height: 1.75; font-size: 0.95rem;">
+          Cohort 1 is complete. Cohort 2 is now launching with a focus on data readiness and responsible AI adoption.
+        </p>
+        <div class="flex items-center gap-2 mb-6">
+          <span class="chip" style="background: rgba(138,255,227,0.06);">
+            ● Active — Cohort 2 Launching
+          </span>
+        </div>
+        <a href="#" class="cta-link">
+          View full AI4C dashboard <span>→</span>
+        </a>
+      </div>
+
+      <!-- Right: metrics grid -->
+      <div style="flex: 1;">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+          <div class="card card-teal" style="border-left-color: var(--teal);">
+            <div class="stat-num-sm" data-count="156">0</div>
+            <div class="stat-label">Orgs enrolled</div>
+          </div>
+          <div class="card card-accent">
+            <div class="stat-num-sm" data-count="172">0</div>
+            <div class="stat-label">Projects in pipeline</div>
+          </div>
+          <div class="card card-accent">
+            <div class="stat-num-sm" data-count="30" data-suffix="+">0</div>
+            <div class="stat-label">Countries represented</div>
+          </div>
+          <div class="card card-accent">
+            <div class="stat-num-sm" data-count="81" data-suffix="%">0%</div>
+            <div class="stat-label">Plan to expand AI use post-programme</div>
+          </div>
+          <div class="card card-accent">
+            <div class="stat-num-sm" data-count="87" data-suffix="%">0%</div>
+            <div class="stat-label">Matched with a tech partner</div>
+          </div>
+          <div class="card card-teal" style="border-left-color: var(--teal);">
+            <div class="stat-num-sm" data-count="3.8" data-suffix="/5" data-decimals="1">0/5</div>
+            <div class="stat-label">AI competence score (post)</div>
+          </div>
+        </div>
+
+        <!-- Pipeline status -->
+        <div class="card" style="padding: 16px 20px;">
+          <div class="stat-label mb-3" style="color: var(--muted);">Solution status — Cohort 1</div>
+          <div class="flex flex-wrap gap-4 text-sm" style="font-family: 'Space Grotesk', sans-serif;">
+            <span><span class="pipeline-dot" style="background:#8AFFE3;"></span>Implemented <span style="color:var(--muted);">(2)</span></span>
+            <span><span class="pipeline-dot" style="background:#AA80FF;"></span>Piloting <span style="color:var(--muted);">(9)</span></span>
+            <span><span class="pipeline-dot" style="background:#6C00F0;"></span>In development <span style="color:var(--muted);">(6)</span></span>
+            <span><span class="pipeline-dot" style="background:#3d2080;"></span>Concept <span style="color:var(--muted);">(10)</span></span>
+            <span><span class="pipeline-dot" style="background:#1a0a50;border:1px solid #6C00F0;"></span>Matching <span style="color:var(--muted);">(4)</span></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 5 — AI IMPACT SCALING PROGRAM
+═══════════════════════════════════════════════════════ -->
+<section id="aisp" style="padding: 96px 24px;">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="card" style="padding: 48px; border: 1px solid var(--border-bright); border-radius: 20px; background: linear-gradient(135deg, rgba(108,0,240,0.08) 0%, rgba(138,255,227,0.04) 100%);">
+      <div class="section-label">AI Impact Scaling Program</div>
+      <h2 class="font-heading font-bold mb-4" style="font-size: clamp(1.4rem, 3vw, 2rem);">
+        From AI-ready to AI-powered
+      </h2>
+
+      <div class="flex flex-col md:flex-row gap-10 items-start">
+        <div style="flex: 1;">
+          <p class="mb-4" style="color: var(--muted); line-height: 1.75; font-size: 0.95rem;">
+            For nonprofits that have completed initial AI adoption, the AI Impact Scaling Program provides long-term enablement — helping organisations build sustainable internal AI capabilities, data infrastructure, and governance frameworks.
+          </p>
+          <p class="mb-6" style="color: var(--muted); line-height: 1.75; font-size: 0.95rem;">
+            Participants receive access to a community of practice, dedicated mentorship from senior tech volunteers, and quarterly impact reviews.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="chip">Mentorship</span>
+            <span class="chip">Data Readiness</span>
+            <span class="chip">Responsible AI</span>
+            <span class="chip">Community of Practice</span>
+          </div>
+        </div>
+
+        <div style="flex: 0 0 220px;">
+          <div class="card movement-card text-center" style="padding: 32px;">
+            <div class="stat-num mb-1" data-count="34">0</div>
+            <div class="stat-label">Organisations enrolled</div>
+            <div class="trend-up mt-3">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 9L6 3L10 9" stroke="#8AFFE3" stroke-width="2" stroke-linecap="round"/></svg>
+              Growing programme
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- What participants receive -->
+      <div class="mt-4">
+        <div class="stat-label mb-3">What participants receive</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm" style="color: var(--muted);">
+          <div class="flex items-start gap-2">
+            <span style="color:var(--teal); margin-top: 2px;">✓</span> 12-month structured learning pathway
+          </div>
+          <div class="flex items-start gap-2">
+            <span style="color:var(--teal); margin-top: 2px;">✓</span> 1:1 mentorship from senior tech professionals
+          </div>
+          <div class="flex items-start gap-2">
+            <span style="color:var(--teal); margin-top: 2px;">✓</span> Access to TTTR's global tech volunteer network
+          </div>
+          <div class="flex items-start gap-2">
+            <span style="color:var(--teal); margin-top: 2px;">✓</span> Quarterly impact measurement & reporting support
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider" />
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 6 — GEOGRAPHIC REACH
+═══════════════════════════════════════════════════════ -->
+<section id="geography" style="padding: 96px 24px; background: var(--surface);">
+  <div class="max-w-6xl mx-auto">
+    <div class="section-label">Geographic Reach</div>
+    <h2 class="font-heading font-bold mb-3" style="font-size: clamp(1.4rem, 3vw, 2rem);">
+      89 countries. Every continent.
+    </h2>
+    <p class="mb-10" style="color: var(--muted); max-width: 500px; line-height: 1.7;">
+      Our fastest-growing regions are Africa and Southeast Asia — where the need for tech-for-good is most acute.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      <!-- Regional breakdown bars -->
+      <div>
+        <div class="stat-label mb-4">Nonprofits by region</div>
+        <div id="geo-bars" class="flex flex-col gap-4">
+          <!-- JS will render bars -->
+        </div>
+      </div>
+
+      <!-- Countries spotlight -->
+      <div>
+        <div class="stat-label mb-4">Top countries by activity</div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="card card-accent" style="padding: 14px 18px;">
+            <div class="font-heading font-bold text-xl text-white">🇺🇸 United States</div>
+            <div class="stat-label">243 nonprofits</div>
+          </div>
+          <div class="card card-accent" style="padding: 14px 18px;">
+            <div class="font-heading font-bold text-xl text-white">🇬🇧 United Kingdom</div>
+            <div class="stat-label">187 nonprofits</div>
+          </div>
+          <div class="card card-accent" style="padding: 14px 18px;">
+            <div class="font-heading font-bold text-xl text-white">🇵🇱 Poland</div>
+            <div class="stat-label">164 nonprofits</div>
+          </div>
+          <div class="card card-accent" style="padding: 14px 18px;">
+            <div class="font-heading font-bold text-xl text-white">🇰🇪 Kenya</div>
+            <div class="stat-label">98 nonprofits</div>
+          </div>
+          <div class="card card-accent" style="padding: 14px 18px;">
+            <div class="font-heading font-bold text-xl text-white">🇳🇬 Nigeria</div>
+            <div class="stat-label">87 nonprofits</div>
+          </div>
+          <div class="card card-accent" style="padding: 14px 18px;">
+            <div class="font-heading font-bold text-xl text-white">🇮🇳 India</div>
+            <div class="stat-label">81 nonprofits</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Callout -->
+    <div class="card card-teal mt-8" style="padding: 20px 24px; display: inline-block; border-left-color: var(--teal);">
+      <span style="color: var(--teal); font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem;">
+        Africa represents our fastest-growing region — nonprofits up 34% year-on-year.
+      </span>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider" />
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 7 — MOVEMENT SIGNALS (THIS MONTH)
+═══════════════════════════════════════════════════════ -->
+<section id="movement" style="padding: 80px 24px;">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex items-center gap-2 mb-2">
+      <span class="live-dot"></span>
+      <div class="section-label" style="margin-bottom: 0;">This month · March 2026</div>
+    </div>
+    <h2 class="font-heading font-bold mb-10" style="font-size: clamp(1.4rem, 3vw, 2rem);">
+      Movement signals
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- New joiners -->
+      <div class="card movement-card" style="padding: 36px;">
+        <div class="stat-label mb-2" style="color: var(--muted);">Tech companies joined this month</div>
+        <div class="flex items-end gap-4 mb-2">
+          <div class="stat-num" data-count="8" style="font-size: 4rem;">0</div>
+          <div class="trend-up mb-2">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 11L7 3L12 11" stroke="#8AFFE3" stroke-width="2" stroke-linecap="round"/></svg>
+            +8 this month
+          </div>
+        </div>
+        <div style="color: var(--muted); font-size: 0.85rem;">
+          Cumulative total: <span style="color: var(--white); font-family: 'Space Grotesk', sans-serif;">312 companies</span>
+        </div>
+      </div>
+
+      <!-- Pro-bono value -->
+      <div class="card movement-card" style="padding: 36px;">
+        <div class="stat-label mb-2" style="color: var(--muted);">Pro-bono value donated this month</div>
+        <div class="flex items-end gap-4 mb-2">
+          <div class="stat-num" style="font-size: 4rem; color: var(--teal);" data-count="340" data-prefix="$" data-suffix="K">$0K</div>
+          <div class="trend-up mb-2">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 11L7 3L12 11" stroke="#8AFFE3" stroke-width="2" stroke-linecap="round"/></svg>
+            Above monthly avg
+          </div>
+        </div>
+        <div style="color: var(--muted); font-size: 0.85rem;">
+          Cumulative total: <span style="color: var(--white); font-family: 'Space Grotesk', sans-serif;">$24.7M</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 8 — PAST IMPACT REPORTS
+═══════════════════════════════════════════════════════ -->
+<section id="reports" style="padding: 96px 24px; background: var(--surface);">
+  <div class="max-w-6xl mx-auto">
+    <div class="section-label">Track Record</div>
+    <h2 class="font-heading font-bold mb-3" style="font-size: clamp(1.4rem, 3vw, 2rem);">
+      Past impact reports
+    </h2>
+    <p class="mb-10" style="color: var(--muted); max-width: 480px; line-height: 1.7;">
+      Seven years of rigorous measurement. Every report is publicly available.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+      <!-- 2025 -->
+      <div class="report-card">
+        <div class="font-heading font-bold mb-1" style="font-size: 2.5rem; color: var(--border-bright); opacity: 0.5;">2025</div>
+        <div class="font-heading font-semibold text-white mb-1">TTTR Annual Impact Report</div>
+        <div style="color: var(--muted); font-size: 0.82rem; margin-bottom: 16px;">1,847 nonprofits · 312 companies · 89 countries</div>
+        <!-- Replace href with real URL -->
+        <a href="#" class="cta-link">View report <span>→</span></a>
+      </div>
+
+      <!-- 2024 -->
+      <div class="report-card">
+        <div class="font-heading font-bold mb-1" style="font-size: 2.5rem; color: var(--border-bright); opacity: 0.5;">2024</div>
+        <div class="font-heading font-semibold text-white mb-1">TTTR Annual Impact Report</div>
+        <div style="color: var(--muted); font-size: 0.82rem; margin-bottom: 16px;">1,200 nonprofits · 240 companies · 74 countries</div>
+        <!-- Replace href with real URL -->
+        <a href="#" class="cta-link">View report <span>→</span></a>
+      </div>
+
+      <!-- 2023 -->
+      <div class="report-card">
+        <div class="font-heading font-bold mb-1" style="font-size: 2.5rem; color: var(--border-bright); opacity: 0.5;">2023</div>
+        <div class="font-heading font-semibold text-white mb-1">TTTR Annual Impact Report</div>
+        <div style="color: var(--muted); font-size: 0.82rem; margin-bottom: 16px;">820 nonprofits · 180 companies · 61 countries</div>
+        <!-- Replace href with real URL -->
+        <a href="#" class="cta-link">View report <span>→</span></a>
+      </div>
+
+      <!-- 2022 -->
+      <div class="report-card">
+        <div class="font-heading font-bold mb-1" style="font-size: 2.5rem; color: var(--border-bright); opacity: 0.5;">2022</div>
+        <div class="font-heading font-semibold text-white mb-1">TTTR Annual Impact Report</div>
+        <div style="color: var(--muted); font-size: 0.82rem; margin-bottom: 16px;">540 nonprofits · 130 companies · 48 countries</div>
+        <!-- Replace href with real URL -->
+        <a href="#" class="cta-link">View report <span>→</span></a>
+      </div>
+
+      <!-- 2021 -->
+      <div class="report-card">
+        <div class="font-heading font-bold mb-1" style="font-size: 2.5rem; color: var(--border-bright); opacity: 0.5;">2021</div>
+        <div class="font-heading font-semibold text-white mb-1">TTTR Annual Impact Report</div>
+        <div style="color: var(--muted); font-size: 0.82rem; margin-bottom: 16px;">310 nonprofits · 90 companies · 34 countries</div>
+        <!-- Replace href with real URL -->
+        <a href="#" class="cta-link">View report <span>→</span></a>
+      </div>
+
+      <!-- 2020 -->
+      <div class="report-card">
+        <div class="font-heading font-bold mb-1" style="font-size: 2.5rem; color: var(--border-bright); opacity: 0.5;">2020</div>
+        <div class="font-heading font-semibold text-white mb-1">TTTR Founding Year Report</div>
+        <div style="color: var(--muted); font-size: 0.82rem; margin-bottom: 16px;">42 nonprofits · 28 companies · 12 countries</div>
+        <!-- Replace href with real URL -->
+        <a href="#" class="cta-link">View report <span>→</span></a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════ -->
+<footer style="padding: 64px 24px 40px; background: var(--bg);">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+
+      <!-- Col 1: Identity -->
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <circle cx="14" cy="14" r="13" stroke="#6C00F0" stroke-width="2"/>
+            <circle cx="14" cy="14" r="8" stroke="#AA80FF" stroke-width="1.5"/>
+            <rect x="12" y="4" width="4" height="7" rx="2" fill="#8AFFE3"/>
+            <rect x="12" y="17" width="4" height="7" rx="2" fill="#8AFFE3"/>
+            <rect x="4" y="12" width="7" height="4" rx="2" fill="#8AFFE3"/>
+            <rect x="17" y="12" width="7" height="4" rx="2" fill="#8AFFE3"/>
+          </svg>
+          <span class="font-heading font-bold text-white">Tech To The Rescue</span>
+        </div>
+        <p style="color: var(--muted); font-size: 0.85rem; line-height: 1.7; margin-bottom: 16px;">
+          Building the infrastructure for tech-powered social change.
+        </p>
+        <div style="color: var(--muted); font-size: 0.78rem;">© 2026 Tech To The Rescue</div>
+      </div>
+
+      <!-- Col 2: Quick links -->
+      <div>
+        <div class="stat-label mb-4">Quick Links</div>
+        <div class="flex flex-col gap-2" style="font-size: 0.88rem;">
+          <a href="https://techtotherescue.org" class="cta-link" style="color: var(--muted); font-family: 'DM Sans';">About TTTR</a>
+          <a href="#ai4c" class="cta-link" style="color: var(--muted); font-family: 'DM Sans';">AI for Changemakers</a>
+          <a href="#aisp" class="cta-link" style="color: var(--muted); font-family: 'DM Sans';">AI Impact Scaling Program</a>
+          <a href="https://techtotherescue.org" class="cta-link" style="color: var(--muted); font-family: 'DM Sans';">Join as a Nonprofit</a>
+          <a href="https://techtotherescue.org" class="cta-link" style="color: var(--muted); font-family: 'DM Sans';">Join as a Tech Company</a>
+        </div>
+      </div>
+
+      <!-- Col 3: Data note -->
+      <div>
+        <div class="stat-label mb-4">About this data</div>
+        <p style="color: var(--muted); font-size: 0.82rem; line-height: 1.7; margin-bottom: 12px;">
+          Data reflects TTTR's full programme portfolio as of March 2026. AI for Changemakers metrics from Cohort 1 MEL survey (Nov–Dec 2025). All figures are independently verified.
+        </p>
+        <p style="color: var(--muted); font-size: 0.82rem; line-height: 1.7; margin-bottom: 12px;">
+          No personally identifiable information is published on this dashboard. Organisation names (SIOs and tech companies) may be referenced.
+        </p>
+        <!-- Replace href with real methodology link -->
+        <a href="#" class="cta-link" style="font-size: 0.82rem;">View methodology →</a>
+      </div>
+
+    </div>
+
+    <hr class="divider" />
+    <div class="flex flex-col md:flex-row justify-between items-center gap-3 mt-6" style="color: var(--muted); font-size: 0.78rem;">
+      <span>Dashboard prototype · Dummy data for demonstration purposes</span>
+      <span>Built for investor and funder review</span>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════ -->
+<script>
+// ─── Count-up animation ───────────────────────────────────────────────────────
+function animateCount(el) {
+  const target   = parseFloat(el.dataset.count);
+  const prefix   = el.dataset.prefix  || '';
+  const suffix   = el.dataset.suffix  || '';
+  const decimals = parseInt(el.dataset.decimals || '0');
+  const sep      = el.dataset.separator || '';
+  const duration = 1400;
+  const start    = performance.now();
+
+  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function format(val) {
+    const fixed = val.toFixed(decimals);
+    if (sep) {
+      const parts = fixed.split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+      return prefix + parts.join('.') + suffix;
+    }
+    return prefix + fixed + suffix;
+  }
+
+  function step(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const current = easeOut(progress) * target;
+    el.textContent = format(current);
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = format(target);
+  }
+
+  requestAnimationFrame(step);
+}
+
+// ─── Intersection observer for count-up ──────────────────────────────────────
+const countEls = document.querySelectorAll('[data-count]');
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !entry.target.dataset.animated) {
+      entry.target.dataset.animated = '1';
+      animateCount(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+countEls.forEach(el => countObserver.observe(el));
+
+
+// ─── Geographic bar chart (pure CSS) ─────────────────────────────────────────
+const geoData = [
+  { region: 'Europe',           count: 680, total: 1847 },
+  { region: 'North America',    count: 310, total: 1847 },
+  { region: 'Africa',           count: 270, total: 1847 },
+  { region: 'Asia & Pacific',   count: 240, total: 1847 },
+  { region: 'Latin America',    count: 220, total: 1847 },
+  { region: 'Middle East',      count:  90, total: 1847 },
+  { region: 'Other',            count:  37, total: 1847 },
+];
+
+const container = document.getElementById('geo-bars');
+geoData.forEach(d => {
+  const pct = Math.round((d.count / d.total) * 100);
+  const row = document.createElement('div');
+  row.innerHTML = `
+    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+      <span style="font-size:0.85rem; color:#fff; font-family:'DM Sans';">${d.region}</span>
+      <span style="font-size:0.8rem; color:var(--muted); font-family:'Space Grotesk';">${d.count.toLocaleString()}</span>
+    </div>
+    <div style="height:6px; background:rgba(255,255,255,0.06); border-radius:4px; overflow:hidden;">
+      <div class="geo-bar-fill" data-pct="${pct}" style="width:0%;"></div>
+    </div>
+  `;
+  container.appendChild(row);
+});
+
+// Animate geo bars on scroll
+const barFills = document.querySelectorAll('.geo-bar-fill');
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const fills = entry.target.querySelectorAll('.geo-bar-fill');
+      fills.forEach(f => {
+        if (!f.dataset.animated) {
+          f.dataset.animated = '1';
+          setTimeout(() => { f.style.width = f.dataset.pct + '%'; }, 150);
+        }
+      });
+    }
+  });
+}, { threshold: 0.2 });
+barObserver.observe(container);
+// Also trigger on individual fills
+barFills.forEach(f => {
+  const fillObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !e.target.dataset.animated) {
+        e.target.dataset.animated = '1';
+        setTimeout(() => { e.target.style.width = e.target.dataset.pct + '%'; }, 150);
+      }
+    });
+  }, { threshold: 0.5 });
+  fillObserver.observe(f);
+});
+</script>
+
+</body>
+</html>
