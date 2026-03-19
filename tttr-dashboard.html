@@ -9,7 +9,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&display=swap" rel="stylesheet" />
 
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -18,7 +18,7 @@
       theme: {
         extend: {
           fontFamily: {
-            heading: ['Space Grotesk', 'sans-serif'],
+            heading: ['DM Sans', 'sans-serif'],
             body: ['DM Sans', 'sans-serif'],
           }
         }
@@ -28,47 +28,52 @@
 
   <style>
     :root {
-      --bg: #050024;
-      --surface: #0b0535;
-      --surface2: #110a42;
+      --bg: #FCFBF3;
+      --surface: #F2EFE9;
+      --surface2: #EBE8F0;
       --purple: #6C00F0;
       --purple-light: #AA80FF;
-      --teal: #8AFFE3;
-      --white: #FFFFFF;
-      --muted: #7A6FAA;
-      --border: rgba(108, 0, 240, 0.25);
-      --border-bright: rgba(170, 128, 255, 0.5);
+      --purple-pale: #E7DEFF;
+      --purple-dark: #2C0066;
+      --text: #050024;
+      --muted: #3D376C;
+      --green: #055740;
+      --neon-teal: #8AFFE3;
+      --neon-green: #85F600;
+      --yellow: #FFD874;
+      --coral: #FA4E4B;
+      --border: rgba(108, 0, 240, 0.15);
+      --border-bright: rgba(108, 0, 240, 0.35);
     }
 
     * { box-sizing: border-box; }
 
     body {
       background-color: var(--bg);
-      color: var(--white);
+      color: var(--text);
       font-family: 'DM Sans', sans-serif;
       margin: 0;
       padding: 0;
       overflow-x: hidden;
+      line-height: 1.5;
     }
 
     h1, h2, h3, h4, .font-heading {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 800;
+      color: var(--text);
     }
 
-    /* Grid background pattern */
-    .grid-bg {
-      background-image:
-        linear-gradient(rgba(108, 0, 240, 0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(108, 0, 240, 0.06) 1px, transparent 1px);
-      background-size: 48px 48px;
+    /* Hero background — light with subtle mosaic colour blobs */
+    .hero-bg {
+      background-color: var(--bg);
+      position: relative;
     }
-
-    /* Radial glow */
-    .glow-purple {
-      background: radial-gradient(ellipse 60% 50% at 70% 40%, rgba(108, 0, 240, 0.22) 0%, transparent 70%);
-    }
-    .glow-teal {
-      background: radial-gradient(ellipse 50% 40% at 30% 60%, rgba(138, 255, 227, 0.08) 0%, transparent 70%);
+    .mosaic-blob {
+      position: absolute;
+      border-radius: 40% 60% 55% 45% / 50% 45% 55% 50%;
+      opacity: 0.18;
+      pointer-events: none;
     }
 
     /* Sticky header */
@@ -76,43 +81,50 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(5, 0, 36, 0.92);
+      background: rgba(252, 251, 243, 0.95);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
 
     /* Cards */
     .card {
-      background: rgba(255,255,255,0.03);
+      background: #FFFFFF;
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 24px;
-      transition: border-color 0.2s, transform 0.2s;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
     }
     .card:hover {
       border-color: var(--border-bright);
       transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(108, 0, 240, 0.08);
     }
     .card-accent {
       border-left: 3px solid var(--purple);
     }
-    .card-teal {
-      border-left: 3px solid var(--teal);
+    .card-green {
+      border-left: 3px solid var(--green);
+    }
+    .card-yellow {
+      border-left: 3px solid var(--yellow);
+    }
+    .card-coral {
+      border-left: 3px solid var(--coral);
     }
 
     /* Stat number */
     .stat-num {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 700;
-      color: var(--white);
+      font-weight: 800;
+      color: var(--text);
       line-height: 1;
     }
     .stat-num-sm {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: clamp(1.5rem, 3vw, 2.25rem);
-      font-weight: 700;
-      color: var(--white);
+      font-weight: 800;
+      color: var(--text);
       line-height: 1;
     }
     .stat-label {
@@ -125,11 +137,12 @@
 
     /* Section label */
     .section-label {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.7rem;
+      font-weight: 700;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--teal);
+      color: var(--purple);
       margin-bottom: 12px;
     }
 
@@ -137,15 +150,15 @@
     .live-dot {
       display: inline-block;
       width: 8px; height: 8px;
-      background: var(--teal);
+      background: var(--purple);
       border-radius: 50%;
-      box-shadow: 0 0 0 0 rgba(138, 255, 227, 0.4);
+      box-shadow: 0 0 0 0 rgba(108, 0, 240, 0.4);
       animation: pulse 2s infinite;
     }
     @keyframes pulse {
-      0%   { box-shadow: 0 0 0 0 rgba(138, 255, 227, 0.4); }
-      70%  { box-shadow: 0 0 0 8px rgba(138, 255, 227, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(138, 255, 227, 0); }
+      0%   { box-shadow: 0 0 0 0 rgba(108, 0, 240, 0.4); }
+      70%  { box-shadow: 0 0 0 8px rgba(108, 0, 240, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(108, 0, 240, 0); }
     }
 
     /* Trend arrow */
@@ -154,24 +167,30 @@
       align-items: center;
       gap: 4px;
       font-size: 0.78rem;
-      color: var(--teal);
-      font-family: 'Space Grotesk', sans-serif;
+      color: var(--green);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
     }
 
     /* Chip */
     .chip {
       display: inline-block;
-      padding: 3px 12px;
+      padding: 4px 14px;
       border-radius: 999px;
-      border: 1px solid rgba(138, 255, 227, 0.4);
-      color: var(--teal);
+      background: var(--purple-pale);
+      color: var(--purple-dark);
       font-size: 0.72rem;
-      font-family: 'Space Grotesk', sans-serif;
-      letter-spacing: 0.05em;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.04em;
     }
-    .chip-purple {
-      border-color: rgba(108, 0, 240, 0.5);
-      color: var(--purple-light);
+    .chip-green {
+      background: #C9E8D7;
+      color: var(--green);
+    }
+    .chip-yellow {
+      background: #FFE9AF;
+      color: #7A4800;
     }
 
     /* Pipeline dots */
@@ -201,11 +220,12 @@
 
     /* Pull quote */
     .pull-quote {
-      border-left: 3px solid var(--teal);
+      border-left: 3px solid var(--purple);
       padding-left: 20px;
-      color: var(--purple-light);
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.05rem;
+      color: var(--purple-dark);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 1.1rem;
       font-style: italic;
       line-height: 1.6;
     }
@@ -217,30 +237,32 @@
       margin: 0;
     }
 
-    /* Movement card glow */
+    /* Movement card */
     .movement-card {
       border: 1px solid var(--border-bright);
-      box-shadow: 0 0 24px rgba(138, 255, 227, 0.06);
+      box-shadow: 0 4px 16px rgba(108, 0, 240, 0.06);
     }
 
     /* Report card */
     .report-card {
-      background: rgba(255,255,255,0.02);
+      background: #FFFFFF;
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 20px 24px;
-      transition: border-color 0.2s, transform 0.2s;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
     }
     .report-card:hover {
       border-color: var(--border-bright);
       transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(108, 0, 240, 0.08);
     }
 
     /* CTA link */
     .cta-link {
-      color: var(--teal);
+      color: var(--purple);
       text-decoration: none;
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
       font-size: 0.85rem;
       display: inline-flex;
       align-items: center;
@@ -248,6 +270,26 @@
       transition: gap 0.2s;
     }
     .cta-link:hover { gap: 8px; }
+
+    /* Primary button */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      background: var(--purple);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover {
+      background: var(--purple-dark);
+      transform: translateY(-1px);
+    }
 
     /* Responsive helpers */
     @media (max-width: 768px) {
@@ -268,12 +310,12 @@
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="14" cy="14" r="13" stroke="#6C00F0" stroke-width="2"/>
         <circle cx="14" cy="14" r="8" stroke="#AA80FF" stroke-width="1.5"/>
-        <rect x="12" y="4" width="4" height="7" rx="2" fill="#8AFFE3"/>
-        <rect x="12" y="17" width="4" height="7" rx="2" fill="#8AFFE3"/>
-        <rect x="4" y="12" width="7" height="4" rx="2" fill="#8AFFE3"/>
-        <rect x="17" y="12" width="7" height="4" rx="2" fill="#8AFFE3"/>
+        <rect x="12" y="4" width="4" height="7" rx="2" fill="#6C00F0"/>
+        <rect x="12" y="17" width="4" height="7" rx="2" fill="#6C00F0"/>
+        <rect x="4" y="12" width="7" height="4" rx="2" fill="#6C00F0"/>
+        <rect x="17" y="12" width="7" height="4" rx="2" fill="#6C00F0"/>
       </svg>
-      <span class="font-heading font-bold text-white text-sm tracking-wide">Tech To The Rescue</span>
+      <span class="font-heading font-bold text-sm tracking-wide" style="color: var(--text);">Tech To The Rescue</span>
     </div>
     <!-- Live indicator -->
     <div class="flex items-center gap-2 text-xs" style="color: var(--muted);">
@@ -287,23 +329,24 @@
 <!-- ═══════════════════════════════════════════════════════
      SECTION 1 — HERO
 ═══════════════════════════════════════════════════════ -->
-<section id="hero" class="relative grid-bg overflow-hidden" style="min-height: 92vh; display: flex; align-items: center;">
-  <!-- Background glows -->
-  <div class="absolute inset-0 glow-purple pointer-events-none"></div>
-  <div class="absolute inset-0 glow-teal pointer-events-none"></div>
+<section id="hero" class="hero-bg relative overflow-hidden" style="min-height: 92vh; display: flex; align-items: center;">
+  <!-- Mosaic colour blobs -->
+  <div class="mosaic-blob" style="width:420px;height:320px;background:#AA80FF;top:-60px;right:8%;"></div>
+  <div class="mosaic-blob" style="width:260px;height:220px;background:#FFD874;top:80px;right:2%;border-radius:55% 45% 40% 60% / 45% 55% 50% 50%;"></div>
+  <div class="mosaic-blob" style="width:180px;height:160px;background:#FA4E4B;top:200px;right:20%;border-radius:50% 50% 60% 40% / 40% 60% 45% 55%;"></div>
+  <div class="mosaic-blob" style="width:140px;height:120px;background:#8AFFE3;bottom:80px;right:5%;border-radius:45% 55% 50% 50% / 55% 45% 55% 45%;opacity:0.25;"></div>
+  <div class="mosaic-blob" style="width:100px;height:90px;background:#055740;bottom:120px;right:28%;border-radius:50%;opacity:0.15;"></div>
 
   <div class="relative max-w-6xl mx-auto px-6 py-24 w-full">
     <!-- Label -->
-    <div class="section-label mb-4" style="color: var(--teal);">
+    <div class="section-label mb-4">
       <span class="live-dot mr-2"></span>Global Impact Dashboard · March 2026
     </div>
 
     <!-- Headline -->
-    <h1 class="font-heading font-bold leading-tight mb-4" style="font-size: clamp(2.4rem, 6vw, 4.5rem); max-width: 780px;">
+    <h1 class="font-heading leading-tight mb-4" style="font-size: clamp(2.4rem, 6vw, 4.5rem); max-width: 780px; color: var(--text);">
       The world's largest<br/>
-      <span style="background: linear-gradient(90deg, #AA80FF, #8AFFE3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-        tech-for-good ecosystem
-      </span>
+      <span style="color: var(--purple);">tech-for-good ecosystem</span>
     </h1>
 
     <!-- Subheadline -->
@@ -321,15 +364,15 @@
         <div class="stat-num" data-count="1847" data-separator="," data-live="nonprofits">0</div>
         <div class="stat-label">Nonprofits supported</div>
       </div>
-      <div class="card card-accent">
+      <div class="card" style="border-left: 3px solid var(--yellow);">
         <div class="stat-num" data-count="312" data-live="techCompanies">0</div>
         <div class="stat-label">Tech companies engaged</div>
       </div>
-      <div class="card card-accent">
+      <div class="card" style="border-left: 3px solid var(--coral);">
         <div class="stat-num" data-count="89">0</div>
         <div class="stat-label">Countries reached</div>
       </div>
-      <div class="card card-accent" style="border-left-color: var(--teal);">
+      <div class="card" style="border-left: 3px solid var(--green);">
         <div class="stat-num" data-count="4.2" data-suffix="M" data-decimals="1">0M</div>
         <div class="stat-label">Lives impacted</div>
       </div>
@@ -344,11 +387,11 @@
 <section id="story" style="background: var(--surface); padding: 96px 24px;">
   <div class="max-w-3xl mx-auto">
     <div class="section-label">Our Story</div>
-    <h2 class="font-heading font-bold mb-8 leading-snug" style="font-size: clamp(1.6rem, 3.5vw, 2.4rem);">
+    <h2 class="font-heading mb-8 leading-snug" style="font-size: clamp(1.6rem, 3.5vw, 2.4rem); color: var(--text);">
       We believe technology can multiply social impact — if the right people connect.
     </h2>
 
-    <div style="color: var(--muted); line-height: 1.85; font-size: 1.05rem;">
+    <div style="color: var(--muted); line-height: 1.6; font-size: 1.05rem;">
       <p class="mb-5">
         Nonprofits carry the mission. Tech companies hold the tools. But these two worlds rarely meet — and when they do, it's often by accident. TTTR exists to make that connection deliberate, repeatable, and scalable.
       </p>
@@ -375,7 +418,7 @@
 <section id="ecosystem" style="padding: 96px 24px;">
   <div class="max-w-6xl mx-auto">
     <div class="section-label">The TTTR Ecosystem</div>
-    <h2 class="font-heading font-bold mb-3" style="font-size: clamp(1.5rem, 3vw, 2.2rem);">
+    <h2 class="font-heading mb-3" style="font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--text);">
       Three pillars. One movement.
     </h2>
     <p class="mb-12" style="color: var(--muted); max-width: 520px; line-height: 1.7;">
@@ -403,22 +446,22 @@
       </div>
 
       <!-- Card 2 -->
-      <div class="card" style="border-left: 3px solid var(--teal);">
+      <div class="card" style="border-left: 3px solid var(--neon-green);">
         <div class="mb-4">
           <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-            <path d="M16 4L19 10H25L20 14L22 20L16 16.5L10 20L12 14L7 10H13L16 4Z" fill="rgba(138,255,227,0.15)" stroke="#8AFFE3" stroke-width="1.5"/>
-            <circle cx="16" cy="16" r="4" fill="rgba(138,255,227,0.2)" stroke="#8AFFE3" stroke-width="1"/>
+            <path d="M16 4L19 10H25L20 14L22 20L16 16.5L10 20L12 14L7 10H13L16 4Z" fill="rgba(133,246,0,0.15)" stroke="#85F600" stroke-width="1.5"/>
+            <circle cx="16" cy="16" r="4" fill="rgba(133,246,0,0.2)" stroke="#85F600" stroke-width="1"/>
           </svg>
         </div>
-        <h3 class="font-heading font-semibold text-lg mb-2">AI Enablement</h3>
+        <h3 class="font-heading font-semibold text-lg mb-2" style="color:var(--text);">AI Enablement</h3>
         <div class="stat-num-sm mb-1" data-count="23">0</div>
         <div class="stat-label mb-3">AI-specific projects active</div>
         <p style="color: var(--muted); font-size: 0.88rem; line-height: 1.65; margin-bottom: 12px;">
           Two flagship programmes help nonprofits move from AI-curious to AI-capable — with structured cohorts, expert mentorship, and responsible adoption frameworks.
         </p>
         <div class="flex flex-wrap gap-2">
-          <span class="chip">AI for Changemakers</span>
-          <span class="chip">AI Impact Scaling</span>
+          <span class="chip-green chip">AI for Changemakers</span>
+          <span class="chip-green chip">AI Impact Scaling</span>
         </div>
       </div>
 
@@ -447,19 +490,19 @@
     <div class="card" style="padding: 16px 24px;">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
         <div>
-          <div class="font-heading font-bold text-2xl text-white" data-count="47">0</div>
+          <div class="font-heading font-bold text-2xl" style="color:var(--text);" data-count="47">0</div>
           <div class="stat-label">Active projects now</div>
         </div>
         <div>
-          <div class="font-heading font-bold text-2xl text-white" data-count="312">0</div>
+          <div class="font-heading font-bold text-2xl" style="color:var(--text);" data-count="312">0</div>
           <div class="stat-label">Tech companies</div>
         </div>
         <div>
-          <div class="font-heading font-bold text-2xl text-white" data-count="1847" data-separator=",">0</div>
+          <div class="font-heading font-bold text-2xl" style="color:var(--text);" data-count="1847" data-separator=",">0</div>
           <div class="stat-label">Nonprofits supported</div>
         </div>
         <div>
-          <div class="font-heading font-bold text-2xl" style="color: var(--teal);" data-count="24.7" data-prefix="$" data-suffix="M" data-decimals="1">$0M</div>
+          <div class="font-heading font-bold text-2xl" style="color: var(--purple);" data-count="24.7" data-prefix="$" data-suffix="M" data-decimals="1">$0M</div>
           <div class="stat-label">Total value delivered</div>
         </div>
       </div>
@@ -481,7 +524,7 @@
 
       <!-- Left: text -->
       <div style="flex: 0 0 38%;">
-        <h2 class="font-heading font-bold mb-4 leading-snug" style="font-size: clamp(1.5rem, 3vw, 2.2rem);">
+        <h2 class="font-heading mb-4 leading-snug" style="font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--text);">
           AI for<br/>Changemakers
         </h2>
         <p class="mb-4" style="color: var(--muted); line-height: 1.75; font-size: 0.95rem;">
@@ -491,9 +534,7 @@
           Cohort 1 is complete. Cohort 2 is now launching with a focus on data readiness and responsible AI adoption.
         </p>
         <div class="flex items-center gap-2 mb-6">
-          <span class="chip" style="background: rgba(138,255,227,0.06);">
-            ● Active — Cohort 2 Launching
-          </span>
+          <span class="chip chip-green">● Active — Cohort 2 Launching</span>
         </div>
         <a href="#" class="cta-link">
           View full AI4C dashboard <span>→</span>
@@ -503,7 +544,7 @@
       <!-- Right: metrics grid -->
       <div style="flex: 1;">
         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-          <div class="card card-teal" style="border-left-color: var(--teal);">
+          <div class="card" style="border-left: 3px solid var(--neon-green);">
             <div class="stat-num-sm" data-count="156" data-live="ai4cParticipants">0</div>
             <div class="stat-label">Orgs enrolled</div>
           </div>
@@ -523,7 +564,7 @@
             <div class="stat-num-sm" data-count="87" data-suffix="%">0%</div>
             <div class="stat-label">Matched with a tech partner</div>
           </div>
-          <div class="card card-teal" style="border-left-color: var(--teal);">
+          <div class="card" style="border-left: 3px solid var(--neon-green);">
             <div class="stat-num-sm" data-count="3.8" data-suffix="/5" data-decimals="1">0/5</div>
             <div class="stat-label">AI competence score (post)</div>
           </div>
@@ -531,13 +572,13 @@
 
         <!-- Pipeline status -->
         <div class="card" style="padding: 16px 20px;">
-          <div class="stat-label mb-3" style="color: var(--muted);">Solution status — Cohort 1</div>
-          <div class="flex flex-wrap gap-4 text-sm" style="font-family: 'Space Grotesk', sans-serif;">
-            <span><span class="pipeline-dot" style="background:#8AFFE3;"></span>Implemented <span style="color:var(--muted);">(2)</span></span>
-            <span><span class="pipeline-dot" style="background:#AA80FF;"></span>Piloting <span style="color:var(--muted);">(9)</span></span>
+          <div class="stat-label mb-3">Solution status — Cohort 1</div>
+          <div class="flex flex-wrap gap-4 text-sm" style="color: var(--text);">
+            <span><span class="pipeline-dot" style="background:#055740;"></span>Implemented <span style="color:var(--muted);">(2)</span></span>
+            <span><span class="pipeline-dot" style="background:#85F600;"></span>Piloting <span style="color:var(--muted);">(9)</span></span>
             <span><span class="pipeline-dot" style="background:#6C00F0;"></span>In development <span style="color:var(--muted);">(6)</span></span>
-            <span><span class="pipeline-dot" style="background:#3d2080;"></span>Concept <span style="color:var(--muted);">(10)</span></span>
-            <span><span class="pipeline-dot" style="background:#1a0a50;border:1px solid #6C00F0;"></span>Matching <span style="color:var(--muted);">(4)</span></span>
+            <span><span class="pipeline-dot" style="background:#AA80FF;"></span>Concept <span style="color:var(--muted);">(10)</span></span>
+            <span><span class="pipeline-dot" style="background:#FFD874;border:1px solid #cca030;"></span>Matching <span style="color:var(--muted);">(4)</span></span>
           </div>
         </div>
       </div>
@@ -555,9 +596,9 @@
 <section id="aisp" style="padding: 96px 24px;">
   <div class="max-w-6xl mx-auto">
 
-    <div class="card" style="padding: 48px; border: 1px solid var(--border-bright); border-radius: 20px; background: linear-gradient(135deg, rgba(108,0,240,0.08) 0%, rgba(138,255,227,0.04) 100%);">
+    <div class="card" style="padding: 48px; border: 1px solid var(--border-bright); border-radius: 20px; background: linear-gradient(135deg, var(--purple-pale) 0%, #FCFBF3 100%);">
       <div class="section-label">AI Impact Scaling Program</div>
-      <h2 class="font-heading font-bold mb-4" style="font-size: clamp(1.4rem, 3vw, 2rem);">
+      <h2 class="font-heading mb-4" style="font-size: clamp(1.4rem, 3vw, 2rem); color: var(--text);">
         From AI-ready to AI-powered
       </h2>
 
@@ -594,16 +635,16 @@
         <div class="stat-label mb-3">What participants receive</div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm" style="color: var(--muted);">
           <div class="flex items-start gap-2">
-            <span style="color:var(--teal); margin-top: 2px;">✓</span> 12-month structured learning pathway
+            <span style="color:var(--purple); margin-top: 2px;">✓</span> 12-month structured learning pathway
           </div>
           <div class="flex items-start gap-2">
-            <span style="color:var(--teal); margin-top: 2px;">✓</span> 1:1 mentorship from senior tech professionals
+            <span style="color:var(--purple); margin-top: 2px;">✓</span> 1:1 mentorship from senior tech professionals
           </div>
           <div class="flex items-start gap-2">
-            <span style="color:var(--teal); margin-top: 2px;">✓</span> Access to TTTR's global tech volunteer network
+            <span style="color:var(--purple); margin-top: 2px;">✓</span> Access to TTTR's global tech volunteer network
           </div>
           <div class="flex items-start gap-2">
-            <span style="color:var(--teal); margin-top: 2px;">✓</span> Quarterly impact measurement & reporting support
+            <span style="color:var(--purple); margin-top: 2px;">✓</span> Quarterly impact measurement & reporting support
           </div>
         </div>
       </div>
@@ -621,7 +662,7 @@
 <section id="geography" style="padding: 96px 24px; background: var(--surface);">
   <div class="max-w-6xl mx-auto">
     <div class="section-label">Geographic Reach</div>
-    <h2 class="font-heading font-bold mb-3" style="font-size: clamp(1.4rem, 3vw, 2rem);">
+    <h2 class="font-heading mb-3" style="font-size: clamp(1.4rem, 3vw, 2rem); color: var(--text);">
       89 countries. Every continent.
     </h2>
     <p class="mb-10" style="color: var(--muted); max-width: 500px; line-height: 1.7;">
@@ -643,27 +684,27 @@
         <div class="stat-label mb-4">Top countries by activity</div>
         <div class="grid grid-cols-2 gap-3">
           <div class="card card-accent" style="padding: 14px 18px;">
-            <div class="font-heading font-bold text-xl text-white">🇺🇸 United States</div>
+            <div class="font-heading font-bold text-xl" style="color:var(--text);">🇺🇸 United States</div>
             <div class="stat-label">243 nonprofits</div>
           </div>
           <div class="card card-accent" style="padding: 14px 18px;">
-            <div class="font-heading font-bold text-xl text-white">🇬🇧 United Kingdom</div>
+            <div class="font-heading font-bold text-xl" style="color:var(--text);">🇬🇧 United Kingdom</div>
             <div class="stat-label">187 nonprofits</div>
           </div>
           <div class="card card-accent" style="padding: 14px 18px;">
-            <div class="font-heading font-bold text-xl text-white">🇵🇱 Poland</div>
+            <div class="font-heading font-bold text-xl" style="color:var(--text);">🇵🇱 Poland</div>
             <div class="stat-label">164 nonprofits</div>
           </div>
           <div class="card card-accent" style="padding: 14px 18px;">
-            <div class="font-heading font-bold text-xl text-white">🇰🇪 Kenya</div>
+            <div class="font-heading font-bold text-xl" style="color:var(--text);">🇰🇪 Kenya</div>
             <div class="stat-label">98 nonprofits</div>
           </div>
           <div class="card card-accent" style="padding: 14px 18px;">
-            <div class="font-heading font-bold text-xl text-white">🇳🇬 Nigeria</div>
+            <div class="font-heading font-bold text-xl" style="color:var(--text);">🇳🇬 Nigeria</div>
             <div class="stat-label">87 nonprofits</div>
           </div>
           <div class="card card-accent" style="padding: 14px 18px;">
-            <div class="font-heading font-bold text-xl text-white">🇮🇳 India</div>
+            <div class="font-heading font-bold text-xl" style="color:var(--text);">🇮🇳 India</div>
             <div class="stat-label">81 nonprofits</div>
           </div>
         </div>
@@ -672,8 +713,8 @@
     </div>
 
     <!-- Callout -->
-    <div class="card card-teal mt-8" style="padding: 20px 24px; display: inline-block; border-left-color: var(--teal);">
-      <span style="color: var(--teal); font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem;">
+    <div class="card mt-8" style="padding: 20px 24px; display: inline-block; border-left: 3px solid var(--green); background: #C9E8D7;">
+      <span style="color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.9rem;">
         Africa represents our fastest-growing region — nonprofits up 34% year-on-year.
       </span>
     </div>
@@ -693,7 +734,7 @@
       <span class="live-dot"></span>
       <div class="section-label" style="margin-bottom: 0;">This month · March 2026</div>
     </div>
-    <h2 class="font-heading font-bold mb-10" style="font-size: clamp(1.4rem, 3vw, 2rem);">
+    <h2 class="font-heading mb-10" style="font-size: clamp(1.4rem, 3vw, 2rem); color: var(--text);">
       Movement signals
     </h2>
 
@@ -705,12 +746,12 @@
         <div class="flex items-end gap-4 mb-2">
           <div class="stat-num" data-count="8" style="font-size: 4rem;">0</div>
           <div class="trend-up mb-2">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 11L7 3L12 11" stroke="#8AFFE3" stroke-width="2" stroke-linecap="round"/></svg>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 11L7 3L12 11" stroke="#055740" stroke-width="2" stroke-linecap="round"/></svg>
             +8 this month
           </div>
         </div>
         <div style="color: var(--muted); font-size: 0.85rem;">
-          Cumulative total: <span style="color: var(--white); font-family: 'Space Grotesk', sans-serif;">312 companies</span>
+          Cumulative total: <span style="color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 700;">312 companies</span>
         </div>
       </div>
 
@@ -718,14 +759,14 @@
       <div class="card movement-card" style="padding: 36px;">
         <div class="stat-label mb-2" style="color: var(--muted);">Pro-bono value donated this month</div>
         <div class="flex items-end gap-4 mb-2">
-          <div class="stat-num" style="font-size: 4rem; color: var(--teal);" data-count="340" data-prefix="$" data-suffix="K">$0K</div>
+          <div class="stat-num" style="font-size: 4rem; color: var(--purple);" data-count="340" data-prefix="$" data-suffix="K">$0K</div>
           <div class="trend-up mb-2">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 11L7 3L12 11" stroke="#8AFFE3" stroke-width="2" stroke-linecap="round"/></svg>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 11L7 3L12 11" stroke="#055740" stroke-width="2" stroke-linecap="round"/></svg>
             Above monthly avg
           </div>
         </div>
         <div style="color: var(--muted); font-size: 0.85rem;">
-          Cumulative total: <span style="color: var(--white); font-family: 'Space Grotesk', sans-serif;">$24.7M</span>
+          Cumulative total: <span style="color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 700;">$24.7M</span>
         </div>
       </div>
 
@@ -742,7 +783,7 @@
 <section id="reports" style="padding: 96px 24px; background: var(--surface);">
   <div class="max-w-6xl mx-auto">
     <div class="section-label">Track Record</div>
-    <h2 class="font-heading font-bold mb-3" style="font-size: clamp(1.4rem, 3vw, 2rem);">
+    <h2 class="font-heading mb-3" style="font-size: clamp(1.4rem, 3vw, 2rem); color: var(--text);">
       Past impact reports
     </h2>
     <p class="mb-10" style="color: var(--muted); max-width: 480px; line-height: 1.7;">
@@ -753,8 +794,8 @@
 
       <!-- 2025 -->
       <div class="report-card">
-        <div class="font-heading font-bold mb-1" style="font-size: 2.5rem; color: var(--border-bright); opacity: 0.5;">2025</div>
-        <div class="font-heading font-semibold text-white mb-1">TTTR Annual Impact Report</div>
+        <div class="font-heading font-bold mb-1" style="font-size: 2.5rem; color: var(--purple-light);">2025</div>
+        <div class="font-heading font-semibold mb-1" style="color:var(--text);">TTTR Annual Impact Report</div>
         <div style="color: var(--muted); font-size: 0.82rem; margin-bottom: 16px;">1,847 nonprofits · 312 companies · 89 countries</div>
         <!-- Replace href with real URL -->
         <a href="#" class="cta-link">View report <span>→</span></a>
@@ -762,8 +803,8 @@
 
       <!-- 2024 -->
       <div class="report-card">
-        <div class="font-heading font-bold mb-1" style="font-size: 2.5rem; color: var(--border-bright); opacity: 0.5;">2024</div>
-        <div class="font-heading font-semibold text-white mb-1">TTTR Annual Impact Report</div>
+        <div class="font-heading font-bold mb-1" style="font-size: 2.5rem; color: var(--purple-light);">2024</div>
+        <div class="font-heading font-semibold mb-1" style="color:var(--text);">TTTR Annual Impact Report</div>
         <div style="color: var(--muted); font-size: 0.82rem; margin-bottom: 16px;">1,200 nonprofits · 240 companies · 74 countries</div>
         <!-- Replace href with real URL -->
         <a href="#" class="cta-link">View report <span>→</span></a>
@@ -771,8 +812,8 @@
 
       <!-- 2023 -->
       <div class="report-card">
-        <div class="font-heading font-bold mb-1" style="font-size: 2.5rem; color: var(--border-bright); opacity: 0.5;">2023</div>
-        <div class="font-heading font-semibold text-white mb-1">TTTR Annual Impact Report</div>
+        <div class="font-heading font-bold mb-1" style="font-size: 2.5rem; color: var(--purple-light);">2023</div>
+        <div class="font-heading font-semibold mb-1" style="color:var(--text);">TTTR Annual Impact Report</div>
         <div style="color: var(--muted); font-size: 0.82rem; margin-bottom: 16px;">820 nonprofits · 180 companies · 61 countries</div>
         <!-- Replace href with real URL -->
         <a href="#" class="cta-link">View report <span>→</span></a>
@@ -780,8 +821,8 @@
 
       <!-- 2022 -->
       <div class="report-card">
-        <div class="font-heading font-bold mb-1" style="font-size: 2.5rem; color: var(--border-bright); opacity: 0.5;">2022</div>
-        <div class="font-heading font-semibold text-white mb-1">TTTR Annual Impact Report</div>
+        <div class="font-heading font-bold mb-1" style="font-size: 2.5rem; color: var(--purple-light);">2022</div>
+        <div class="font-heading font-semibold mb-1" style="color:var(--text);">TTTR Annual Impact Report</div>
         <div style="color: var(--muted); font-size: 0.82rem; margin-bottom: 16px;">540 nonprofits · 130 companies · 48 countries</div>
         <!-- Replace href with real URL -->
         <a href="#" class="cta-link">View report <span>→</span></a>
@@ -789,8 +830,8 @@
 
       <!-- 2021 -->
       <div class="report-card">
-        <div class="font-heading font-bold mb-1" style="font-size: 2.5rem; color: var(--border-bright); opacity: 0.5;">2021</div>
-        <div class="font-heading font-semibold text-white mb-1">TTTR Annual Impact Report</div>
+        <div class="font-heading font-bold mb-1" style="font-size: 2.5rem; color: var(--purple-light);">2021</div>
+        <div class="font-heading font-semibold mb-1" style="color:var(--text);">TTTR Annual Impact Report</div>
         <div style="color: var(--muted); font-size: 0.82rem; margin-bottom: 16px;">310 nonprofits · 90 companies · 34 countries</div>
         <!-- Replace href with real URL -->
         <a href="#" class="cta-link">View report <span>→</span></a>
@@ -798,8 +839,8 @@
 
       <!-- 2020 -->
       <div class="report-card">
-        <div class="font-heading font-bold mb-1" style="font-size: 2.5rem; color: var(--border-bright); opacity: 0.5;">2020</div>
-        <div class="font-heading font-semibold text-white mb-1">TTTR Founding Year Report</div>
+        <div class="font-heading font-bold mb-1" style="font-size: 2.5rem; color: var(--purple-light);">2020</div>
+        <div class="font-heading font-semibold mb-1" style="color:var(--text);">TTTR Founding Year Report</div>
         <div style="color: var(--muted); font-size: 0.82rem; margin-bottom: 16px;">42 nonprofits · 28 companies · 12 countries</div>
         <!-- Replace href with real URL -->
         <a href="#" class="cta-link">View report <span>→</span></a>
@@ -815,7 +856,7 @@
 <!-- ═══════════════════════════════════════════════════════
      FOOTER
 ═══════════════════════════════════════════════════════ -->
-<footer style="padding: 64px 24px 40px; background: var(--bg);">
+<footer style="padding: 64px 24px 40px; background: var(--text);">
   <div class="max-w-6xl mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
 
@@ -823,50 +864,49 @@
       <div>
         <div class="flex items-center gap-3 mb-4">
           <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <circle cx="14" cy="14" r="13" stroke="#6C00F0" stroke-width="2"/>
-            <circle cx="14" cy="14" r="8" stroke="#AA80FF" stroke-width="1.5"/>
-            <rect x="12" y="4" width="4" height="7" rx="2" fill="#8AFFE3"/>
-            <rect x="12" y="17" width="4" height="7" rx="2" fill="#8AFFE3"/>
-            <rect x="4" y="12" width="7" height="4" rx="2" fill="#8AFFE3"/>
-            <rect x="17" y="12" width="7" height="4" rx="2" fill="#8AFFE3"/>
+            <circle cx="14" cy="14" r="13" stroke="#AA80FF" stroke-width="2"/>
+            <circle cx="14" cy="14" r="8" stroke="#C5B2FF" stroke-width="1.5"/>
+            <rect x="12" y="4" width="4" height="7" rx="2" fill="#AA80FF"/>
+            <rect x="12" y="17" width="4" height="7" rx="2" fill="#AA80FF"/>
+            <rect x="4" y="12" width="7" height="4" rx="2" fill="#AA80FF"/>
+            <rect x="17" y="12" width="7" height="4" rx="2" fill="#AA80FF"/>
           </svg>
-          <span class="font-heading font-bold text-white">Tech To The Rescue</span>
+          <span class="font-heading font-bold" style="color:#FFFFFF;">Tech To The Rescue</span>
         </div>
-        <p style="color: var(--muted); font-size: 0.85rem; line-height: 1.7; margin-bottom: 16px;">
+        <p style="color: #94A3B8; font-size: 0.85rem; line-height: 1.7; margin-bottom: 16px;">
           Building the infrastructure for tech-powered social change.
         </p>
-        <div style="color: var(--muted); font-size: 0.78rem;">© 2026 Tech To The Rescue</div>
+        <div style="color: #94A3B8; font-size: 0.78rem;">© 2026 Tech To The Rescue</div>
       </div>
 
       <!-- Col 2: Quick links -->
       <div>
-        <div class="stat-label mb-4">Quick Links</div>
+        <div class="stat-label mb-4" style="color:#94A3B8;">Quick Links</div>
         <div class="flex flex-col gap-2" style="font-size: 0.88rem;">
-          <a href="https://techtotherescue.org" class="cta-link" style="color: var(--muted); font-family: 'DM Sans';">About TTTR</a>
-          <a href="#ai4c" class="cta-link" style="color: var(--muted); font-family: 'DM Sans';">AI for Changemakers</a>
-          <a href="#aisp" class="cta-link" style="color: var(--muted); font-family: 'DM Sans';">AI Impact Scaling Program</a>
-          <a href="https://techtotherescue.org" class="cta-link" style="color: var(--muted); font-family: 'DM Sans';">Join as a Nonprofit</a>
-          <a href="https://techtotherescue.org" class="cta-link" style="color: var(--muted); font-family: 'DM Sans';">Join as a Tech Company</a>
+          <a href="https://techtotherescue.org" class="cta-link" style="color: #94A3B8;">About TTTR</a>
+          <a href="#ai4c" class="cta-link" style="color: #94A3B8;">AI for Changemakers</a>
+          <a href="#aisp" class="cta-link" style="color: #94A3B8;">AI Impact Scaling Program</a>
+          <a href="https://techtotherescue.org" class="cta-link" style="color: #94A3B8;">Join as a Nonprofit</a>
+          <a href="https://techtotherescue.org" class="cta-link" style="color: #94A3B8;">Join as a Tech Company</a>
         </div>
       </div>
 
       <!-- Col 3: Data note -->
       <div>
-        <div class="stat-label mb-4">About this data</div>
-        <p style="color: var(--muted); font-size: 0.82rem; line-height: 1.7; margin-bottom: 12px;">
+        <div class="stat-label mb-4" style="color:#94A3B8;">About this data</div>
+        <p style="color: #94A3B8; font-size: 0.82rem; line-height: 1.7; margin-bottom: 12px;">
           Data reflects TTTR's full programme portfolio as of March 2026. AI for Changemakers metrics from Cohort 1 MEL survey (Nov–Dec 2025). All figures are independently verified.
         </p>
-        <p style="color: var(--muted); font-size: 0.82rem; line-height: 1.7; margin-bottom: 12px;">
+        <p style="color: #94A3B8; font-size: 0.82rem; line-height: 1.7; margin-bottom: 12px;">
           No personally identifiable information is published on this dashboard. Organisation names (SIOs and tech companies) may be referenced.
         </p>
-        <!-- Replace href with real methodology link -->
-        <a href="#" class="cta-link" style="font-size: 0.82rem;">View methodology →</a>
+        <a href="#" class="cta-link" style="font-size: 0.82rem; color: var(--purple-light);">View methodology →</a>
       </div>
 
     </div>
 
     <hr class="divider" />
-    <div class="flex flex-col md:flex-row justify-between items-center gap-3 mt-6" style="color: var(--muted); font-size: 0.78rem;">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-3 mt-6" style="color: #64748B; font-size: 0.78rem;">
       <span>Dashboard prototype · Dummy data for demonstration purposes</span>
       <span>Built for investor and funder review</span>
     </div>
@@ -980,10 +1020,10 @@ geoData.forEach(d => {
   const row = document.createElement('div');
   row.innerHTML = `
     <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-      <span style="font-size:0.85rem; color:#fff; font-family:'DM Sans';">${d.region}</span>
-      <span style="font-size:0.8rem; color:var(--muted); font-family:'Space Grotesk';">${d.count.toLocaleString()}</span>
+      <span style="font-size:0.85rem; color:var(--text); font-family:'DM Sans';">${d.region}</span>
+      <span style="font-size:0.8rem; color:var(--muted); font-family:'DM Sans'; font-weight:600;">${d.count.toLocaleString()}</span>
     </div>
-    <div style="height:6px; background:rgba(255,255,255,0.06); border-radius:4px; overflow:hidden;">
+    <div style="height:6px; background:rgba(108,0,240,0.1); border-radius:4px; overflow:hidden;">
       <div class="geo-bar-fill" data-pct="${pct}" style="width:0%;"></div>
     </div>
   `;
