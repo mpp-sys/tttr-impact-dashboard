@@ -1,4 +1,31 @@
+import { readFileSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// ─── Tier 2: Confirmed metrics (no runtime API cost) ──────────────────────────
+// These were computed by paginating all monday.com items manually.
+// Update data/stats.json quarterly — never recompute at runtime.
+function loadConfirmedStats() {
+  try {
+    const raw = readFileSync(join(__dirname, '../data/stats.json'), 'utf8');
+    return JSON.parse(raw);
+  } catch {
+    // Fallback if file missing
+    return {
+      totalMatches: 1407,
+      activeProjects: 115,
+      techValueUSD: 21200000,
+      countriesReached: 154,
+      livesImpacted: 8000000,
+      newCompaniesThisMonth: 56
+    };
+  }
+}
+
 export default async function handler(req, res) {
+  // Cache for 1 hour on Vercel edge — monday.com is only queried once per hour
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate');
 
@@ -7,14 +34,14 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'MONDAY_API_KEY not configured' });
   }
 
+  // ─── Tier 1: Live metrics — single lightweight query, no pagination ───────
+  // Only fetches items_count per board — monday.com returns this instantly.
   const query = `{
-    ngos: boards(ids: [1393564287]) { items_count }
-    techCompanies: boards(ids: [1393563282]) { items_count }
-    projects: boards(ids: [1393566085]) { items_count }
-    techOpportunities: boards(ids: [1393553068]) { items_count }
-    scalingProgram: boards(ids: [5088415028]) { items_count }
-    ai4cClimate: boards(ids: [1597395187]) { items_count }
-    ai4cDisaster: boards(ids: [1527927882]) { items_count }
+    ngos:            boards(ids: [1393564287]) { items_count }
+    techCompanies:   boards(ids: [1393563282]) { items_count }
+    scalingProgram:  boards(ids: [5088415028]) { items_count }
+    ai4cClimate:     boards(ids: [1597395187]) { items_count }
+    ai4cDisaster:    boards(ids: [1527927882]) { items_count }
     ai4cSubmissions: boards(ids: [1978810620]) { items_count }
   }`;
 
@@ -31,21 +58,26 @@ export default async function handler(req, res) {
 
     const data = await response.json();
     const d = data.data;
-
-    const ai4cTotal = (d.ai4cClimate[0]?.items_count || 0) + (d.ai4cDisaster[0]?.items_count || 0);
+    const confirmed = loadConfirmedStats();
 
     const stats = {
-      nonprofits:       d.ngos[0]?.items_count || 0,
-      techCompanies:    d.techCompanies[0]?.items_count || 0,
-      projects:         d.projects[0]?.items_count || 0,
-      collaborations:   d.techOpportunities[0]?.items_count || 0,
-      scalingProgram:   d.scalingProgram[0]?.items_count || 0,
-      ai4cParticipants: ai4cTotal,
-      ai4cSubmissions:  d.ai4cSubmissions[0]?.items_count || 0,
-      techValueUSD:     24700000,
-      livesImpacted:    4200000,
-      countriesReached: 89,
-      lastUpdated:      new Date().toISOString()
+      // Tier 1 — live, updated every page load (cached 1h)
+      nonprofits:            d.ngos[0]?.items_count            || 0,
+      techCompanies:         d.techCompanies[0]?.items_count   || 0,
+      scalingProgram:        d.scalingProgram[0]?.items_count  || 0,
+      ai4cParticipants:     (d.ai4cClimate[0]?.items_count    || 0) +
+                             (d.ai4cDisaster[0]?.items_count   || 0),
+      ai4cSubmissions:       d.ai4cSubmissions[0]?.items_count || 0,
+
+      // Tier 2 — confirmed, read from data/stats.json (zero API cost)
+      collaborations:        confirmed.totalMatches,
+      activeProjects:        confirmed.activeProjects,
+      techValueUSD:          confirmed.techValueUSD,
+      countriesReached:      confirmed.countriesReached,
+      livesImpacted:         confirmed.livesImpacted,
+      newCompaniesThisMonth: confirmed.newCompaniesThisMonth,
+
+      lastUpdated: new Date().toISOString()
     };
 
     res.status(200).json(stats);

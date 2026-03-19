@@ -1,0 +1,12 @@
+{
+  "_comment": "Tier 2 metrics — computed manually by paginating monday.com. Update quarterly or when numbers change significantly. Do NOT compute these at runtime — it requires looping through thousands of items.",
+  "_lastComputed": "2026-03-19",
+  "_computedBy": "manual monday.com pagination via Claude Code",
+
+  "totalMatches": 1407,
+  "activeProjects": 115,
+  "techValueUSD": 21200000,
+  "countriesReached": 154,
+  "livesImpacted": 8000000,
+  "newCompaniesThisMonth": 56
+}
