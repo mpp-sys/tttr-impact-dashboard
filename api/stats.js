@@ -19,7 +19,10 @@ function loadConfirmedStats() {
       techValueUSD: 21200000,
       countriesReached: 154,
       livesImpacted: 8000000,
-      newCompaniesThisMonth: 56
+      newCompaniesThisMonth: 56,
+      scalingProgramProjects: 21,
+      scalingProgramCountries: 20,
+      ai4cOrgs: 122
     };
   }
 }
@@ -65,8 +68,9 @@ export default async function handler(req, res) {
       nonprofits:            d.ngos[0]?.items_count            || 0,
       techCompanies:         d.techCompanies[0]?.items_count   || 0,
       scalingProgram:        d.scalingProgram[0]?.items_count  || 0,
-      ai4cParticipants:     (d.ai4cClimate[0]?.items_count    || 0) +
-                             (d.ai4cDisaster[0]?.items_count   || 0),
+      // ai4cParticipants is Tier 2 — real count requires filtering full NGOs board (3,311 items)
+      // Confirmed by filtering NGOs.ai4c_cohort is_not_empty. Update in data/stats.json quarterly.
+      ai4cParticipants:      confirmed.ai4cOrgs,
       ai4cSubmissions:       d.ai4cSubmissions[0]?.items_count || 0,
 
       // Tier 2 — confirmed, read from data/stats.json (zero API cost)
@@ -75,7 +79,9 @@ export default async function handler(req, res) {
       techValueUSD:          confirmed.techValueUSD,
       countriesReached:      confirmed.countriesReached,
       livesImpacted:         confirmed.livesImpacted,
-      newCompaniesThisMonth: confirmed.newCompaniesThisMonth,
+      newCompaniesThisMonth:   confirmed.newCompaniesThisMonth,
+      scalingProgramProjects:  confirmed.scalingProgramProjects,
+      scalingProgramCountries: confirmed.scalingProgramCountries,
 
       lastUpdated: new Date().toISOString()
     };

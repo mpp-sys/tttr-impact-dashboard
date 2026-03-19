@@ -306,16 +306,10 @@
 <header class="sticky-header">
   <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
     <!-- Logo -->
-    <div class="flex items-center gap-3">
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="14" cy="14" r="13" stroke="#6C00F0" stroke-width="2"/>
-        <circle cx="14" cy="14" r="8" stroke="#AA80FF" stroke-width="1.5"/>
-        <rect x="12" y="4" width="4" height="7" rx="2" fill="#6C00F0"/>
-        <rect x="12" y="17" width="4" height="7" rx="2" fill="#6C00F0"/>
-        <rect x="4" y="12" width="7" height="4" rx="2" fill="#6C00F0"/>
-        <rect x="17" y="12" width="7" height="4" rx="2" fill="#6C00F0"/>
-      </svg>
-      <span class="font-heading font-bold text-sm tracking-wide" style="color: var(--text);">Tech To The Rescue</span>
+    <div class="flex items-center">
+      <img src="https://cdn.prod.website-files.com/689da9d726097c727a4fc8a8/68e8cbfcfa9af31a8781e709_TechToTheRescue-logo-horizontal-default.svg"
+           alt="Tech To The Rescue"
+           style="height: 32px; width: auto;">
     </div>
     <!-- Live indicator -->
     <div class="flex items-center gap-2 text-xs" style="color: var(--muted);">
@@ -330,12 +324,22 @@
      SECTION 1 — HERO
 ═══════════════════════════════════════════════════════ -->
 <section id="hero" class="hero-bg relative overflow-hidden" style="min-height: 92vh; display: flex; align-items: center;">
-  <!-- Mosaic colour blobs -->
-  <div class="mosaic-blob" style="width:420px;height:320px;background:#AA80FF;top:-60px;right:8%;"></div>
-  <div class="mosaic-blob" style="width:260px;height:220px;background:#FFD874;top:80px;right:2%;border-radius:55% 45% 40% 60% / 45% 55% 50% 50%;"></div>
-  <div class="mosaic-blob" style="width:180px;height:160px;background:#FA4E4B;top:200px;right:20%;border-radius:50% 50% 60% 40% / 40% 60% 45% 55%;"></div>
-  <div class="mosaic-blob" style="width:140px;height:120px;background:#8AFFE3;bottom:80px;right:5%;border-radius:45% 55% 50% 50% / 55% 45% 55% 45%;opacity:0.25;"></div>
-  <div class="mosaic-blob" style="width:100px;height:90px;background:#055740;bottom:120px;right:28%;border-radius:50%;opacity:0.15;"></div>
+  <!-- TTTR brand shapes & doodles -->
+  <img src="https://cdn.prod.website-files.com/689da9d726097c727a4fc8a8/68d56e3abb216ab5561f06f9_shape%2001.png"
+       alt="" aria-hidden="true"
+       style="position:absolute;top:-40px;right:5%;width:460px;max-width:45vw;opacity:0.9;pointer-events:none;z-index:0;">
+  <img src="https://cdn.prod.website-files.com/689da9d726097c727a4fc8a8/68d56e3af2aa1b312b4f667d_shape%2002.png"
+       alt="" aria-hidden="true"
+       style="position:absolute;bottom:0;right:2%;width:280px;max-width:28vw;opacity:0.75;pointer-events:none;z-index:0;">
+  <img src="https://cdn.prod.website-files.com/689da9d726097c727a4fc8a8/68ba52b3b164aa4d046a01bf_doodle15_yellow.png"
+       alt="" aria-hidden="true"
+       style="position:absolute;top:60px;right:36%;width:90px;opacity:0.7;pointer-events:none;z-index:0;">
+  <img src="https://cdn.prod.website-files.com/689da9d726097c727a4fc8a8/68bafebe493421771a47767d_doodle14_purple75.png"
+       alt="" aria-hidden="true"
+       style="position:absolute;bottom:100px;right:28%;width:70px;opacity:0.55;pointer-events:none;z-index:0;">
+  <img src="https://cdn.prod.website-files.com/689da9d726097c727a4fc8a8/68c2f02b4a17b8835cc740e2_doodle13_green20.png"
+       alt="" aria-hidden="true"
+       style="position:absolute;bottom:40px;right:8%;width:60px;opacity:0.6;pointer-events:none;z-index:0;">
 
   <div class="relative max-w-6xl mx-auto px-6 py-24 w-full">
     <!-- Label -->
@@ -351,7 +355,7 @@
 
     <!-- Subheadline -->
     <p class="mb-12 text-lg" style="color: var(--muted); max-width: 560px; line-height: 1.7;">
-      Connecting nonprofits and tech companies to multiply impact — now with AI at the centre.
+      We help social impact organisations scale what already works — by connecting them with the right technology partners and expertise to multiply their proven impact with AI.
     </p>
 
     <!-- Hero stat strip -->
@@ -385,26 +389,46 @@
      SECTION 2 — NARRATIVE / STORY
 ═══════════════════════════════════════════════════════ -->
 <section id="story" style="background: var(--surface); padding: 96px 24px;">
-  <div class="max-w-3xl mx-auto">
-    <div class="section-label">Our Story</div>
-    <h2 class="font-heading mb-8 leading-snug" style="font-size: clamp(1.6rem, 3.5vw, 2.4rem); color: var(--text);">
-      We believe technology can multiply social impact — if the right people connect.
-    </h2>
+  <div class="max-w-6xl mx-auto">
+    <div class="flex flex-col md:flex-row gap-16 items-center">
 
-    <div style="color: var(--muted); line-height: 1.6; font-size: 1.05rem;">
-      <p class="mb-5">
-        Nonprofits carry the mission. Tech companies hold the tools. But these two worlds rarely meet — and when they do, it's often by accident. TTTR exists to make that connection deliberate, repeatable, and scalable.
-      </p>
-      <p class="mb-5">
-        Since 2019, we've been building the infrastructure layer for tech-powered social change: matching rigorous nonprofits with skilled tech volunteers, facilitating pro-bono collaborations, and measuring real-world outcomes. Today that infrastructure spans dozens of countries and has delivered millions in pro-bono tech value.
-      </p>
-      <p class="mb-8">
-        Now, AI is the defining inflection point. TTTR is building AI readiness for the social sector — helping nonprofits that would otherwise be left behind become confident, capable adopters of AI for good.
-      </p>
-    </div>
+      <!-- Left: text -->
+      <div style="flex: 1; max-width: 560px;">
+        <div class="section-label">Who We Are</div>
+        <h2 class="font-heading mb-8 leading-snug" style="font-size: clamp(1.6rem, 3.5vw, 2.4rem); color: var(--text);">
+          Build What Matters. Scale What Works.
+        </h2>
 
-    <div class="pull-quote">
-      "We are not a marketplace. We are the infrastructure for tech-powered social change."
+        <div style="color: var(--muted); line-height: 1.6; font-size: 1.05rem;">
+          <p class="mb-5">
+            Changemakers around the world already have social solutions that work. They just need the technology to reach everyone who needs them.
+          </p>
+          <p class="mb-5">
+            Since 2019, we have worked with over 2,000 social impact organisations and mobilised a global network of 1,800+ tech companies to contribute their expertise in service of social good. Our programmes — AI Impact Lab and AI Impact Scaling Program — equip organisations with AI strategy, pro-bono tech partnerships, and end-to-end implementation support to multiply their impact while using AI responsibly.
+          </p>
+          <p class="mb-8">
+            We are one of the largest tech-for-good communities building the ecosystem for AI-powered social impact. The result: proven social interventions that reach more people, faster.
+          </p>
+        </div>
+
+        <div class="pull-quote">
+          "We are building a global ecosystem that helps changemakers harness AI for greater impact."
+        </div>
+      </div>
+
+      <!-- Right: imagery -->
+      <div style="flex: 0 0 420px; max-width: 420px; position: relative;">
+        <img src="https://cdn.prod.website-files.com/689da9d726097c727a4fc8a8/68e8c7b14ee010ce20e68c76_global-ecosystem.jpg"
+             alt="TTTR global ecosystem"
+             style="width: 100%; border-radius: 20px; object-fit: cover; box-shadow: 0 12px 40px rgba(108,0,240,0.12);">
+        <img src="https://cdn.prod.website-files.com/689da9d726097c727a4fc8a8/68af9d2ca24c93517e0191ff_doodle6_blue75.png"
+             alt="" aria-hidden="true"
+             style="position:absolute;bottom:-24px;left:-28px;width:80px;opacity:0.7;pointer-events:none;">
+        <img src="https://cdn.prod.website-files.com/689da9d726097c727a4fc8a8/68ba52b3b164aa4d046a01bf_doodle15_yellow.png"
+             alt="" aria-hidden="true"
+             style="position:absolute;top:-24px;right:-20px;width:70px;opacity:0.65;pointer-events:none;">
+      </div>
+
     </div>
   </div>
 </section>
@@ -413,81 +437,35 @@
 
 
 <!-- ═══════════════════════════════════════════════════════
-     SECTION 3 — ECOSYSTEM OVERVIEW
+     SECTION 3 — MATCHES & TESTIMONIALS
 ═══════════════════════════════════════════════════════ -->
 <section id="ecosystem" style="padding: 96px 24px;">
   <div class="max-w-6xl mx-auto">
-    <div class="section-label">The TTTR Ecosystem</div>
-    <h2 class="font-heading mb-3" style="font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--text);">
-      Three pillars. One movement.
-    </h2>
-    <p class="mb-12" style="color: var(--muted); max-width: 520px; line-height: 1.7;">
-      Every collaboration in our ecosystem creates a ripple — more missions fulfilled, more tech skills applied for good.
-    </p>
 
-    <!-- 3-column cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-
-      <!-- Card 1 -->
-      <div class="card card-accent">
-        <div class="mb-4">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-            <circle cx="10" cy="16" r="7" stroke="#6C00F0" stroke-width="2"/>
-            <circle cx="22" cy="16" r="7" stroke="#AA80FF" stroke-width="2"/>
-            <ellipse cx="16" cy="16" rx="3" ry="7" fill="rgba(108,0,240,0.2)" stroke="none"/>
-          </svg>
-        </div>
-        <h3 class="font-heading font-semibold text-lg mb-2">Pro-Bono Tech Matching</h3>
-        <div class="stat-num-sm mb-1" data-count="1407" data-separator="," data-live="collaborations">—</div>
-        <div class="stat-label mb-4">matches made</div>
-        <p style="color: var(--muted); font-size: 0.88rem; line-height: 1.65;">
-          We match nonprofits with skilled tech volunteers for time-bound, impact-focused projects. Each collaboration is scoped, facilitated, and measured for real outcomes.
+    <!-- Hero match number -->
+    <div class="flex flex-col md:flex-row gap-12 items-center mb-12">
+      <!-- Left: big number + text -->
+      <div style="flex: 1;">
+        <div class="section-label mb-4">Real Impact, Real Stories</div>
+        <div class="font-heading font-bold" style="font-size: clamp(4rem, 10vw, 7rem); line-height: 1; color: var(--purple);" data-count="1407" data-separator="," data-live="collaborations">—</div>
+        <div class="font-heading font-bold mb-4" style="font-size: clamp(1.4rem, 3vw, 2rem); color: var(--text); margin-top: 4px;">matches made since 2019</div>
+        <p style="color: var(--muted); max-width: 480px; line-height: 1.7; font-size: 1rem;">
+          Behind every number is a nonprofit that got the technology it needed — and a tech company that used its skills for something that truly matters.
         </p>
       </div>
-
-      <!-- Card 2 -->
-      <div class="card" style="border-left: 3px solid var(--neon-green);">
-        <div class="mb-4">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-            <path d="M16 4L19 10H25L20 14L22 20L16 16.5L10 20L12 14L7 10H13L16 4Z" fill="rgba(133,246,0,0.15)" stroke="#85F600" stroke-width="1.5"/>
-            <circle cx="16" cy="16" r="4" fill="rgba(133,246,0,0.2)" stroke="#85F600" stroke-width="1"/>
-          </svg>
-        </div>
-        <h3 class="font-heading font-semibold text-lg mb-2" style="color:var(--text);">AI Enablement</h3>
-        <div class="stat-num-sm mb-1" data-count="23">0</div>
-        <div class="stat-label mb-3">AI-specific projects active</div>
-        <p style="color: var(--muted); font-size: 0.88rem; line-height: 1.65; margin-bottom: 12px;">
-          Two flagship programmes help nonprofits move from AI-curious to AI-capable — with structured cohorts, expert mentorship, and responsible adoption frameworks.
-        </p>
-        <div class="flex flex-wrap gap-2">
-          <span class="chip-green chip">AI for Changemakers</span>
-          <span class="chip-green chip">AI Impact Scaling</span>
-        </div>
+      <!-- Right: case study image -->
+      <div style="flex: 0 0 380px; max-width: 380px; position: relative;">
+        <img src="https://cdn.prod.website-files.com/689da9d726097c727a4fc8a8/68e65b3961b12571acd9d946_2691f241307f9173d08b02db82c86861_SIO-humanitarian-OpenStreetMap.png"
+             alt="Humanitarian OpenStreetMap — a TTTR match"
+             style="width:100%; border-radius:20px; object-fit:cover; box-shadow:0 12px 40px rgba(108,0,240,0.1);">
+        <img src="https://cdn.prod.website-files.com/689da9d726097c727a4fc8a8/68af9d2ca24c93517e0191ff_doodle6_blue75.png"
+             alt="" aria-hidden="true"
+             style="position:absolute;top:-20px;right:-18px;width:64px;opacity:0.65;pointer-events:none;">
       </div>
-
-      <!-- Card 3 -->
-      <div class="card card-accent">
-        <div class="mb-4">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-            <circle cx="16" cy="16" r="12" stroke="#6C00F0" stroke-width="2"/>
-            <ellipse cx="16" cy="16" rx="5" ry="12" stroke="#AA80FF" stroke-width="1.5"/>
-            <line x1="4" y1="16" x2="28" y2="16" stroke="#AA80FF" stroke-width="1"/>
-            <line x1="8" y1="9" x2="24" y2="9" stroke="rgba(170,128,255,0.4)" stroke-width="1"/>
-            <line x1="8" y1="23" x2="24" y2="23" stroke="rgba(170,128,255,0.4)" stroke-width="1"/>
-          </svg>
-        </div>
-        <h3 class="font-heading font-semibold text-lg mb-2">Global Ecosystem</h3>
-        <div class="stat-num-sm mb-1" data-count="154">0</div>
-        <div class="stat-label mb-4">countries reached</div>
-        <p style="color: var(--muted); font-size: 0.88rem; line-height: 1.65;">
-          Our ecosystem spans every continent, with the fastest growth in Africa and Southeast Asia. Every new joiner expands the network effect for all members.
-        </p>
-      </div>
-
     </div>
 
-    <!-- Secondary stats strip -->
-    <div class="card" style="padding: 16px 24px;">
+    <!-- Stats strip -->
+    <div class="card mb-16" style="padding: 16px 24px;">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
         <div>
           <div class="font-heading font-bold text-2xl" data-count="115" style="color:var(--text);">0</div>
@@ -502,85 +480,74 @@
           <div class="stat-label">Nonprofits supported</div>
         </div>
         <div>
-          <div class="font-heading font-bold text-2xl" style="color:var(--muted);">—</div>
-          <div class="stat-label">Total value delivered</div>
+          <div class="font-heading font-bold text-2xl" data-count="21.2" data-prefix="$" data-suffix="M" data-decimals="1" style="color:var(--purple);">$0M</div>
+          <div class="stat-label">Pro-bono value delivered</div>
         </div>
       </div>
     </div>
-  </div>
-</section>
 
-<hr class="divider" />
+    <!-- Testimonials headline -->
+    <div class="section-label mb-3">What nonprofits say</div>
+    <h2 class="font-heading mb-10" style="font-size: clamp(1.4rem, 3vw, 2rem); color: var(--text); max-width: 560px; line-height: 1.4;">
+      From uncertainty to action — in their own words.
+    </h2>
 
+    <!-- Testimonial cards grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-<!-- ═══════════════════════════════════════════════════════
-     SECTION 4 — AI FOR CHANGEMAKERS
-═══════════════════════════════════════════════════════ -->
-<section id="ai4c" style="padding: 96px 24px; background: var(--surface);">
-  <div class="max-w-6xl mx-auto">
-    <div class="section-label">Programme Spotlight</div>
-
-    <div class="section-split flex flex-col md:flex-row gap-12">
-
-      <!-- Left: text -->
-      <div style="flex: 0 0 38%;">
-        <h2 class="font-heading mb-4 leading-snug" style="font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--text);">
-          AI for<br/>Changemakers
-        </h2>
-        <p class="mb-4" style="color: var(--muted); line-height: 1.75; font-size: 0.95rem;">
-          A structured cohort programme that takes nonprofits from AI-curious to AI-ready in 16 weeks. Participants map use cases, receive expert coaching, and are matched with a tech partner for hands-on implementation.
+      <!-- 1. Life From Water Foundation -->
+      <div class="card" style="border-left: 3px solid var(--purple); display: flex; flex-direction: column; gap: 16px;">
+        <img src="https://logo.clearbit.com/lifefromwater.org" alt="Life From Water Foundation"
+          style="height: 36px; width: auto; object-fit: contain; object-position: left;"
+          onerror="this.style.display='none'">
+        <p style="color: var(--text); font-size: 0.95rem; line-height: 1.75; font-style: italic; flex: 1;">
+          "The Bootcamp helped us systematically study which AI use cases are most relevant and impactful for our organization, understand the gaps we have, and identify where AI can truly add value — rather than just being 'nice to have'."
         </p>
-        <p class="mb-6" style="color: var(--muted); line-height: 1.75; font-size: 0.95rem;">
-          Cohort 1 is complete. Cohort 2 is now launching with a focus on data readiness and responsible AI adoption.
-        </p>
-        <div class="flex items-center gap-2 mb-6">
-          <span class="chip chip-green">● Active — Cohort 2 Launching</span>
-        </div>
-        <a href="#" class="cta-link">
-          View full AI4C dashboard <span>→</span>
-        </a>
+        <div class="font-heading font-bold text-sm" style="color: var(--purple);">Life From Water Foundation</div>
       </div>
 
-      <!-- Right: metrics grid -->
-      <div style="flex: 1;">
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-          <div class="card" style="border-left: 3px solid var(--neon-green);">
-            <div class="stat-num-sm" data-count="0" data-live="ai4cParticipants">—</div>
-            <div class="stat-label">Orgs enrolled</div>
-          </div>
-          <div class="card card-accent">
-            <div class="stat-num-sm" style="color:var(--muted);">—</div>
-            <div class="stat-label">Projects in pipeline</div>
-          </div>
-          <div class="card card-accent">
-            <div class="stat-num-sm" style="color:var(--muted);">—</div>
-            <div class="stat-label">Countries represented</div>
-          </div>
-          <div class="card card-accent">
-            <div class="stat-num-sm" style="color:var(--muted);">—</div>
-            <div class="stat-label">Plan to expand AI use post-programme</div>
-          </div>
-          <div class="card card-accent">
-            <div class="stat-num-sm" style="color:var(--muted);">—</div>
-            <div class="stat-label">Matched with a tech partner</div>
-          </div>
-          <div class="card" style="border-left: 3px solid var(--neon-green);">
-            <div class="stat-num-sm" style="color:var(--muted);">—</div>
-            <div class="stat-label">AI competence score (post)</div>
-          </div>
-        </div>
+      <!-- 2. Emergency Medicine Kenya Foundation -->
+      <div class="card" style="border-left: 3px solid var(--coral); display: flex; flex-direction: column; gap: 16px;">
+        <img src="https://logo.clearbit.com/emergencymedicinekenya.org" alt="Emergency Medicine Kenya Foundation"
+          style="height: 36px; width: auto; object-fit: contain; object-position: left;"
+          onerror="this.style.display='none'">
+        <p style="color: var(--text); font-size: 0.95rem; line-height: 1.75; font-style: italic; flex: 1;">
+          "The structured approach to identifying, prioritizing, and mitigating ethical risks proved invaluable — allowing us to proactively address a core mission requirement: inclusiveness."
+        </p>
+        <div class="font-heading font-bold text-sm" style="color: var(--purple);">Emergency Medicine Kenya Foundation</div>
+      </div>
 
-        <!-- Pipeline status -->
-        <div class="card" style="padding: 16px 20px;">
-          <div class="stat-label mb-3">Solution status — Cohort 1</div>
-          <div class="flex flex-wrap gap-4 text-sm" style="color: var(--text);">
-            <span><span class="pipeline-dot" style="background:#055740;"></span>Implemented <span style="color:var(--muted);">(—)</span></span>
-            <span><span class="pipeline-dot" style="background:#85F600;"></span>Piloting <span style="color:var(--muted);">(—)</span></span>
-            <span><span class="pipeline-dot" style="background:#6C00F0;"></span>In development <span style="color:var(--muted);">(—)</span></span>
-            <span><span class="pipeline-dot" style="background:#AA80FF;"></span>Concept <span style="color:var(--muted);">(—)</span></span>
-            <span><span class="pipeline-dot" style="background:#FFD874;border:1px solid #cca030;"></span>Matching <span style="color:var(--muted);">(—)</span></span>
-          </div>
-        </div>
+      <!-- 3. Centrum Edukacji Obywatelskiej -->
+      <div class="card" style="border-left: 3px solid var(--yellow); display: flex; flex-direction: column; gap: 16px;">
+        <img src="https://logo.clearbit.com/ceo.org.pl" alt="Centrum Edukacji Obywatelskiej"
+          style="height: 36px; width: auto; object-fit: contain; object-position: left;"
+          onerror="this.style.display='none'">
+        <p style="color: var(--text); font-size: 0.95rem; line-height: 1.75; font-style: italic; flex: 1;">
+          "We learnt that we can approach AI with courage, but also with small, realistic steps. This helped us build solutions that actually fit our organization and have a real chance to succeed and scale."
+        </p>
+        <div class="font-heading font-bold text-sm" style="color: var(--purple);">Centrum Edukacji Obywatelskiej</div>
+      </div>
+
+      <!-- 4. Aflatoun International -->
+      <div class="card" style="border-left: 3px solid var(--green); display: flex; flex-direction: column; gap: 16px;">
+        <img src="https://logo.clearbit.com/aflatoun.org" alt="Aflatoun International"
+          style="height: 36px; width: auto; object-fit: contain; object-position: left;"
+          onerror="this.style.display='none'">
+        <p style="color: var(--text); font-size: 0.95rem; line-height: 1.75; font-style: italic; flex: 1;">
+          "The design thinking workshops helped us to redefine our needs and approach the task of creating an AI agent from the right perspective — especially useful while building our AI product for the matching day."
+        </p>
+        <div class="font-heading font-bold text-sm" style="color: var(--purple);">Aflatoun International</div>
+      </div>
+
+      <!-- 5. Fundación Paraguaya -->
+      <div class="card" style="border-left: 3px solid var(--purple-light); display: flex; flex-direction: column; gap: 16px;">
+        <img src="https://logo.clearbit.com/fundacionparaguaya.org.py" alt="Fundación Paraguaya"
+          style="height: 36px; width: auto; object-fit: contain; object-position: left;"
+          onerror="this.style.display='none'">
+        <p style="color: var(--text); font-size: 0.95rem; line-height: 1.75; font-style: italic; flex: 1;">
+          "The course successfully introduced several tools directly relevant to our work, which we are now actively exploring for implementation. This is already changing how we think about our technology strategy."
+        </p>
+        <div class="font-heading font-bold text-sm" style="color: var(--purple);">Fundación Paraguaya</div>
       </div>
 
     </div>
@@ -591,65 +558,104 @@
 
 
 <!-- ═══════════════════════════════════════════════════════
-     SECTION 5 — AI IMPACT SCALING PROGRAM
+     SECTION 4 — ACTIVE PROGRAMS
 ═══════════════════════════════════════════════════════ -->
-<section id="aisp" style="padding: 96px 24px;">
+<section id="programs" style="padding: 96px 24px; background: var(--surface);">
   <div class="max-w-6xl mx-auto">
+    <div class="section-label">Our Programs</div>
+    <h2 class="font-heading mb-3 leading-snug" style="font-size: clamp(1.6rem, 3.5vw, 2.4rem); color: var(--text);">
+      From AI readiness to scaled impact.
+    </h2>
+    <p class="mb-12" style="color: var(--muted); font-size: 1rem; line-height: 1.75; max-width: 600px;">
+      Three standalone programmes supporting social impact organisations at every stage of their AI journey.
+    </p>
 
-    <div class="card" style="padding: 48px; border: 1px solid var(--border-bright); border-radius: 20px; background: linear-gradient(135deg, var(--purple-pale) 0%, #FCFBF3 100%);">
-      <div class="section-label">AI Impact Scaling Program</div>
-      <h2 class="font-heading mb-4" style="font-size: clamp(1.4rem, 3vw, 2rem); color: var(--text);">
-        From AI-ready to AI-powered
-      </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-      <div class="flex flex-col md:flex-row gap-10 items-start">
-        <div style="flex: 1;">
-          <p class="mb-4" style="color: var(--muted); line-height: 1.75; font-size: 0.95rem;">
-            For nonprofits that have completed initial AI adoption, the AI Impact Scaling Program provides long-term enablement — helping organisations build sustainable internal AI capabilities, data infrastructure, and governance frameworks.
-          </p>
-          <p class="mb-6" style="color: var(--muted); line-height: 1.75; font-size: 0.95rem;">
-            Participants receive access to a community of practice, dedicated mentorship from senior tech volunteers, and quarterly impact reviews.
-          </p>
-          <div class="flex flex-wrap gap-2 mb-4">
-            <span class="chip">Mentorship</span>
-            <span class="chip">Data Readiness</span>
-            <span class="chip">Responsible AI</span>
-            <span class="chip">Community of Practice</span>
+      <!-- Card 1: AI for Changemakers -->
+      <div id="ai4c" class="card" style="padding: 36px; display: flex; flex-direction: column; border: 1px solid var(--border-bright); border-top: 4px solid var(--purple);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+          <span class="chip chip-green" style="font-size: 0.72rem;">● Active</span>
+          <span class="section-label" style="font-size: 0.65rem; margin-bottom: 0;">Program 01</span>
+        </div>
+        <h3 class="font-heading mb-3" style="font-size: 1.4rem; color: var(--text); line-height: 1.3;">
+          AI for Changemakers
+        </h3>
+        <p class="mb-6" style="color: var(--muted); line-height: 1.7; font-size: 0.9rem; flex: 1;">
+          A cohort programme taking social impact organisations from AI-curious to AI-ready — with use case mapping, expert coaching, and pro-bono tech matching.
+        </p>
+        <!-- KPI grid -->
+        <div class="grid grid-cols-2 gap-3 mb-4">
+          <div style="background: var(--purple-pale); border-radius: 12px; padding: 14px;">
+            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--purple); line-height: 1;" data-count="0" data-live="ai4cParticipants">—</div>
+            <div class="stat-label" style="font-size: 0.72rem; margin-top: 4px;">Orgs engaged</div>
+          </div>
+          <div style="background: var(--purple-pale); border-radius: 12px; padding: 14px;">
+            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--purple); line-height: 1;" data-count="0" data-live="ai4cSubmissions">—</div>
+            <div class="stat-label" style="font-size: 0.72rem; margin-top: 4px;">Project submissions</div>
+          </div>
+          <div style="background: var(--purple-pale); border-radius: 12px; padding: 14px;">
+            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--muted); line-height: 1;">—</div>
+            <div class="stat-label" style="font-size: 0.72rem; margin-top: 4px;">Matches made</div>
+          </div>
+          <div style="background: var(--purple-pale); border-radius: 12px; padding: 14px;">
+            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--muted); line-height: 1;">—</div>
+            <div class="stat-label" style="font-size: 0.72rem; margin-top: 4px;">Tech value delivered</div>
           </div>
         </div>
-
-        <div style="flex: 0 0 220px;">
-          <div class="card movement-card text-center" style="padding: 32px;">
-            <div class="stat-num mb-1" data-count="0" data-live="scalingProgram">—</div>
-            <div class="stat-label">Organisations enrolled</div>
-            <div class="trend-up mt-3">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 9L6 3L10 9" stroke="#8AFFE3" stroke-width="2" stroke-linecap="round"/></svg>
-              Growing programme
-            </div>
-          </div>
-        </div>
+        <a href="#" class="cta-link" style="font-size: 0.85rem;">Learn more →</a>
       </div>
 
-      <!-- What participants receive -->
-      <div class="mt-4">
-        <div class="stat-label mb-3">What participants receive</div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm" style="color: var(--muted);">
-          <div class="flex items-start gap-2">
-            <span style="color:var(--purple); margin-top: 2px;">✓</span> 12-month structured learning pathway
+      <!-- Card 2: AI Impact Scaling Program -->
+      <div id="aisp" class="card" style="padding: 36px; display: flex; flex-direction: column; border: 1px solid var(--border-bright); border-top: 4px solid #3b0094;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+          <span class="chip" style="font-size: 0.72rem; background: var(--purple-pale); color: var(--purple);">● Active</span>
+          <span class="section-label" style="font-size: 0.65rem; margin-bottom: 0;">Program 02</span>
+        </div>
+        <h3 class="font-heading mb-3" style="font-size: 1.4rem; color: var(--text); line-height: 1.3;">
+          AI Impact Scaling Program
+        </h3>
+        <p class="mb-6" style="color: var(--muted); line-height: 1.7; font-size: 0.9rem; flex: 1;">
+          Long-term enablement for organisations that have completed initial AI adoption — building sustainable capabilities, data infrastructure, and governance frameworks.
+        </p>
+        <!-- KPI grid -->
+        <div class="grid grid-cols-2 gap-3 mb-4">
+          <div style="background: var(--purple-pale); border-radius: 12px; padding: 14px;">
+            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--purple); line-height: 1;" data-count="0" data-live="scalingProgram">—</div>
+            <div class="stat-label" style="font-size: 0.72rem; margin-top: 4px;">Orgs enrolled</div>
           </div>
-          <div class="flex items-start gap-2">
-            <span style="color:var(--purple); margin-top: 2px;">✓</span> 1:1 mentorship from senior tech professionals
+          <div style="background: var(--purple-pale); border-radius: 12px; padding: 14px;">
+            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--purple); line-height: 1;" data-count="0" data-live="scalingProgramProjects">—</div>
+            <div class="stat-label" style="font-size: 0.72rem; margin-top: 4px;">Projects</div>
           </div>
-          <div class="flex items-start gap-2">
-            <span style="color:var(--purple); margin-top: 2px;">✓</span> Access to TTTR's global tech volunteer network
-          </div>
-          <div class="flex items-start gap-2">
-            <span style="color:var(--purple); margin-top: 2px;">✓</span> Quarterly impact measurement & reporting support
+          <div style="background: var(--purple-pale); border-radius: 12px; padding: 14px; grid-column: span 2;">
+            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--purple); line-height: 1;" data-count="0" data-live="scalingProgramCountries">—</div>
+            <div class="stat-label" style="font-size: 0.72rem; margin-top: 4px;">Countries represented</div>
           </div>
         </div>
+        <a href="#" class="cta-link" style="font-size: 0.85rem;">Learn more →</a>
       </div>
+
+      <!-- Card 3: AI Impact Lab — Coming Soon -->
+      <div class="card" style="padding: 36px; display: flex; flex-direction: column; border: 1px solid var(--border-bright); border-top: 4px solid #e0d0ff; background: linear-gradient(160deg, #f9f7ff 0%, var(--bg) 100%); opacity: 0.85;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+          <span class="chip" style="font-size: 0.72rem; background: #f0e8ff; color: #9370d8; border: 1px solid #d4baff;">◌ Coming Soon</span>
+          <span class="section-label" style="font-size: 0.65rem; margin-bottom: 0;">Program 03</span>
+        </div>
+        <h3 class="font-heading mb-3" style="font-size: 1.4rem; color: var(--text); line-height: 1.3;">
+          AI Impact Lab
+        </h3>
+        <p class="mb-6" style="color: var(--muted); line-height: 1.7; font-size: 0.9rem; flex: 1;">
+          A dedicated space for experimentation, prototyping, and responsible AI development — where social impact organisations build, test, and deploy AI solutions with expert guidance.
+        </p>
+        <div style="border: 1.5px dashed #c4a8f5; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 16px;">
+          <div class="font-heading font-bold" style="font-size: 1rem; color: #9370d8; margin-bottom: 4px;">Launching soon</div>
+          <div class="stat-label" style="font-size: 0.8rem;">Be the first to know when we open applications</div>
+        </div>
+        <a href="https://www.techtotherescue.org" target="_blank" class="cta-link" style="font-size: 0.85rem; color: #9370d8;">Stay in touch →</a>
+      </div>
+
     </div>
-
   </div>
 </section>
 
@@ -876,8 +882,8 @@
         <div class="stat-label mb-4" style="color:#94A3B8;">Quick Links</div>
         <div class="flex flex-col gap-2" style="font-size: 0.88rem;">
           <a href="https://techtotherescue.org" class="cta-link" style="color: #94A3B8;">About TTTR</a>
-          <a href="#ai4c" class="cta-link" style="color: #94A3B8;">AI for Changemakers</a>
-          <a href="#aisp" class="cta-link" style="color: #94A3B8;">AI Impact Scaling Program</a>
+          <a href="#programs" class="cta-link" style="color: #94A3B8;">AI Impact Lab</a>
+          <a href="#programs" class="cta-link" style="color: #94A3B8;">AI Impact Scaling Program</a>
           <a href="https://techtotherescue.org" class="cta-link" style="color: #94A3B8;">Join as a Nonprofit</a>
           <a href="https://techtotherescue.org" class="cta-link" style="color: #94A3B8;">Join as a Tech Company</a>
         </div>
@@ -919,12 +925,15 @@ async function loadLiveStats() {
 
     // Map live data onto data-count attributes before count-up runs
     const map = {
-      'nonprofits':     s.nonprofits,
-      'techCompanies':  s.techCompanies,
-      'collaborations': s.collaborations,
-      'scalingProgram': s.scalingProgram,
-      'ai4cParticipants': s.ai4cParticipants,
-      'projects':       s.projects,
+      'nonprofits':              s.nonprofits,
+      'techCompanies':           s.techCompanies,
+      'collaborations':          s.collaborations,
+      'scalingProgram':          s.scalingProgram,
+      'scalingProgramProjects':  s.scalingProgramProjects,
+      'scalingProgramCountries': s.scalingProgramCountries,
+      'ai4cParticipants':        s.ai4cParticipants,
+      'ai4cSubmissions':         s.ai4cSubmissions,
+      'projects':                s.projects,
     };
 
     document.querySelectorAll('[data-live]').forEach(el => {

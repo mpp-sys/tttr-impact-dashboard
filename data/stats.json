@@ -8,5 +8,10 @@
   "techValueUSD": 21200000,
   "countriesReached": 154,
   "livesImpacted": 8000000,
-  "newCompaniesThisMonth": 56
+  "newCompaniesThisMonth": 56,
+
+  "scalingProgramProjects": 21,
+  "scalingProgramCountries": 20,
+
+  "ai4cOrgs": 122
 }
