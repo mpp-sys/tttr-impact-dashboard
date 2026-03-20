@@ -660,7 +660,7 @@
             <div class="stat-label" style="font-size: 0.72rem; margin-top: 4px;">Tech value delivered</div>
           </div>
         </div>
-        <a href="#ai4c-deep-dive" class="cta-link" style="font-size: 0.85rem;">Deep dive →</a>
+        <a href="#ai4c-deep-dive" class="cta-link" style="font-size: 0.85rem;" id="ai4c-toggle">Deep dive →</a>
       </div>
 
       <!-- Card 2: AI Impact Scaling Program -->
@@ -720,7 +720,7 @@
 <!-- ═══════════════════════════════════════════════════════
      SECTION 5 — AI FOR CHANGEMAKERS DEEP DIVE
 ═══════════════════════════════════════════════════════ -->
-<section id="ai4c-deep-dive" style="padding: 96px 24px; background: var(--bg);">
+<section id="ai4c-deep-dive" style="padding: 96px 24px; background: var(--bg); display: none;">
   <div class="max-w-6xl mx-auto">
 
     <!-- Section header -->
@@ -1369,6 +1369,26 @@ geoData.forEach(d => {
     </div>
   `;
   container.appendChild(row);
+});
+
+// ─── AI4C deep dive — reveal on click ────────────────────────────────────────
+document.getElementById('ai4c-toggle').addEventListener('click', function (e) {
+  e.preventDefault();
+  const section = document.getElementById('ai4c-deep-dive');
+  section.style.display = 'block';
+  // small delay so display:block is painted before scroll
+  requestAnimationFrame(() => {
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  this.textContent = 'Deep dive ↑';
+  this.addEventListener('click', function collapseHandler(ev) {
+    ev.preventDefault();
+    section.style.display = 'none';
+    section.closest('section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('programs').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    this.textContent = 'Deep dive →';
+    this.removeEventListener('click', collapseHandler);
+  }, { once: true });
 });
 </script>
 
