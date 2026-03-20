@@ -296,6 +296,20 @@
       .hero-stats { grid-template-columns: repeat(2, 1fr); }
       .section-split { flex-direction: column; }
     }
+
+    /* Logo ticker */
+    @keyframes ticker-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .ticker-track {
+      display: flex;
+      align-items: center;
+      gap: 56px;
+      width: max-content;
+      animation: ticker-scroll 38s linear infinite;
+    }
+    .ticker-track:hover { animation-play-state: paused; }
   </style>
 </head>
 <body>
@@ -492,11 +506,11 @@
       From uncertainty to action — in their own words.
     </h2>
 
-    <!-- Testimonial cards grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Testimonial cards — centered flex so last row is always centred -->
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 24px;">
 
       <!-- 1. Life From Water Foundation -->
-      <div class="card" style="border-left: 3px solid var(--purple); display: flex; flex-direction: column; gap: 16px;">
+      <div class="card" style="flex: 0 0 calc(33.33% - 16px); min-width: 260px; max-width: 380px; border-left: 3px solid var(--purple); display: flex; flex-direction: column; gap: 16px;">
         <img src="https://logo.clearbit.com/lifefromwater.org" alt="Life From Water Foundation"
           style="height: 36px; width: auto; object-fit: contain; object-position: left;"
           onerror="this.style.display='none'">
@@ -507,7 +521,7 @@
       </div>
 
       <!-- 2. Emergency Medicine Kenya Foundation -->
-      <div class="card" style="border-left: 3px solid var(--coral); display: flex; flex-direction: column; gap: 16px;">
+      <div class="card" style="flex: 0 0 calc(33.33% - 16px); min-width: 260px; max-width: 380px; border-left: 3px solid var(--coral); display: flex; flex-direction: column; gap: 16px;">
         <img src="https://logo.clearbit.com/emergencymedicinekenya.org" alt="Emergency Medicine Kenya Foundation"
           style="height: 36px; width: auto; object-fit: contain; object-position: left;"
           onerror="this.style.display='none'">
@@ -518,7 +532,7 @@
       </div>
 
       <!-- 3. Centrum Edukacji Obywatelskiej -->
-      <div class="card" style="border-left: 3px solid var(--yellow); display: flex; flex-direction: column; gap: 16px;">
+      <div class="card" style="flex: 0 0 calc(33.33% - 16px); min-width: 260px; max-width: 380px; border-left: 3px solid var(--yellow); display: flex; flex-direction: column; gap: 16px;">
         <img src="https://logo.clearbit.com/ceo.org.pl" alt="Centrum Edukacji Obywatelskiej"
           style="height: 36px; width: auto; object-fit: contain; object-position: left;"
           onerror="this.style.display='none'">
@@ -529,7 +543,7 @@
       </div>
 
       <!-- 4. Aflatoun International -->
-      <div class="card" style="border-left: 3px solid var(--green); display: flex; flex-direction: column; gap: 16px;">
+      <div class="card" style="flex: 0 0 calc(33.33% - 16px); min-width: 260px; max-width: 380px; border-left: 3px solid var(--green); display: flex; flex-direction: column; gap: 16px;">
         <img src="https://logo.clearbit.com/aflatoun.org" alt="Aflatoun International"
           style="height: 36px; width: auto; object-fit: contain; object-position: left;"
           onerror="this.style.display='none'">
@@ -540,7 +554,7 @@
       </div>
 
       <!-- 5. Fundación Paraguaya -->
-      <div class="card" style="border-left: 3px solid var(--purple-light); display: flex; flex-direction: column; gap: 16px;">
+      <div class="card" style="flex: 0 0 calc(33.33% - 16px); min-width: 260px; max-width: 380px; border-left: 3px solid var(--purple-light); display: flex; flex-direction: column; gap: 16px;">
         <img src="https://logo.clearbit.com/fundacionparaguaya.org.py" alt="Fundación Paraguaya"
           style="height: 36px; width: auto; object-fit: contain; object-position: left;"
           onerror="this.style.display='none'">
@@ -551,6 +565,123 @@
       </div>
 
     </div>
+
+    <!-- Organisation logo ticker -->
+    <div style="margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--border);">
+      <div class="stat-label" style="text-align: center; margin-bottom: 28px; letter-spacing: 0.1em;">Organisations we work with</div>
+
+      <div style="position: relative; overflow: hidden;">
+        <!-- Fade masks -->
+        <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 120px; z-index: 2; background: linear-gradient(to right, var(--bg), transparent); pointer-events: none;"></div>
+        <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 120px; z-index: 2; background: linear-gradient(to left, var(--bg), transparent); pointer-events: none;"></div>
+
+        <div class="ticker-track">
+          <!-- Set 1 -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/savethechildren.org" alt="Save the Children" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>Save the Children</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">Save the Children</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/mercycorps.org" alt="Mercy Corps" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>Mercy Corps</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">Mercy Corps</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/lifefromwater.org" alt="Life from Water Foundation" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>Life from Water</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">Life from Water</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/whitehelmets.org" alt="White Helmets" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>White Helmets</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">White Helmets</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/werobotics.org" alt="Flying Labs Brazil" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>Flying Labs Brazil</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">Flying Labs Brazil</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/justdiggit.org" alt="Justdiggit" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>Justdiggit</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">Justdiggit</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/rootcapital.org" alt="Root Capital" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>Root Capital</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">Root Capital</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/solarsister.org" alt="Solar Sister" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>Solar Sister</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">Solar Sister</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/helpmum.org" alt="HelpMum" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>HelpMum</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">HelpMum</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/africa-emobility.org" alt="E-Mobility Africa" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>E-Mobility Africa</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">E-Mobility Africa</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/jacarandahealth.org" alt="Jacaranda Health" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>Jacaranda Health</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">Jacaranda Health</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/aif.org" alt="American India Foundation" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>American India Foundation</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">American India Foundation</span>
+          </div>
+          <!-- Separator dot -->
+          <div style="flex-shrink:0;width:6px;height:6px;border-radius:50%;background:var(--border-bright);"></div>
+
+          <!-- Set 2 — exact duplicate for seamless loop -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/savethechildren.org" alt="Save the Children" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>Save the Children</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">Save the Children</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/mercycorps.org" alt="Mercy Corps" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>Mercy Corps</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">Mercy Corps</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/lifefromwater.org" alt="Life from Water Foundation" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>Life from Water</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">Life from Water</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/whitehelmets.org" alt="White Helmets" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>White Helmets</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">White Helmets</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/werobotics.org" alt="Flying Labs Brazil" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>Flying Labs Brazil</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">Flying Labs Brazil</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/justdiggit.org" alt="Justdiggit" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>Justdiggit</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">Justdiggit</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/rootcapital.org" alt="Root Capital" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>Root Capital</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">Root Capital</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/solarsister.org" alt="Solar Sister" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>Solar Sister</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">Solar Sister</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/helpmum.org" alt="HelpMum" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>HelpMum</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">HelpMum</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/africa-emobility.org" alt="E-Mobility Africa" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>E-Mobility Africa</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">E-Mobility Africa</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/jacarandahealth.org" alt="Jacaranda Health" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>Jacaranda Health</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">Jacaranda Health</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+            <img src="https://logo.clearbit.com/aif.org" alt="American India Foundation" style="height:36px;width:auto;max-width:110px;object-fit:contain;filter:grayscale(0.2);" onerror="this.outerHTML='<span style=\'font-size:0.78rem;font-weight:700;color:var(--muted)\'>American India Foundation</span>'">
+            <span style="font-size:0.68rem;color:var(--muted);font-weight:600;white-space:nowrap;">American India Foundation</span>
+          </div>
+          <div style="flex-shrink:0;width:6px;height:6px;border-radius:50%;background:var(--border-bright);"></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -576,7 +707,6 @@
       <div id="ai4c" class="card" style="padding: 36px; display: flex; flex-direction: column; border: 1px solid var(--border-bright); border-top: 4px solid var(--purple);">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
           <span class="chip chip-green" style="font-size: 0.72rem;">● Active</span>
-          <span class="section-label" style="font-size: 0.65rem; margin-bottom: 0;">Program 01</span>
         </div>
         <h3 class="font-heading mb-3" style="font-size: 1.4rem; color: var(--text); line-height: 1.3;">
           AI for Changemakers
@@ -587,30 +717,29 @@
         <!-- KPI grid -->
         <div class="grid grid-cols-2 gap-3 mb-4">
           <div style="background: var(--purple-pale); border-radius: 12px; padding: 14px;">
-            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--purple); line-height: 1;" data-count="0" data-live="ai4cParticipants">—</div>
+            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--purple); line-height: 1;" data-count="122" data-live="ai4cParticipants">122</div>
             <div class="stat-label" style="font-size: 0.72rem; margin-top: 4px;">Orgs engaged</div>
           </div>
           <div style="background: var(--purple-pale); border-radius: 12px; padding: 14px;">
-            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--purple); line-height: 1;" data-count="0" data-live="ai4cSubmissions">—</div>
+            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--purple); line-height: 1;" data-count="171" data-live="ai4cSubmissions">171</div>
             <div class="stat-label" style="font-size: 0.72rem; margin-top: 4px;">Project submissions</div>
           </div>
           <div style="background: var(--purple-pale); border-radius: 12px; padding: 14px;">
-            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--muted); line-height: 1;">—</div>
+            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--purple); line-height: 1;">98</div>
             <div class="stat-label" style="font-size: 0.72rem; margin-top: 4px;">Matches made</div>
           </div>
           <div style="background: var(--purple-pale); border-radius: 12px; padding: 14px;">
-            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--muted); line-height: 1;">—</div>
+            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--purple); line-height: 1;">$5M</div>
             <div class="stat-label" style="font-size: 0.72rem; margin-top: 4px;">Tech value delivered</div>
           </div>
         </div>
-        <a href="#" class="cta-link" style="font-size: 0.85rem;">Learn more →</a>
+        <a href="#ai4c-deep-dive" class="cta-link" style="font-size: 0.85rem;">Deep dive →</a>
       </div>
 
       <!-- Card 2: AI Impact Scaling Program -->
       <div id="aisp" class="card" style="padding: 36px; display: flex; flex-direction: column; border: 1px solid var(--border-bright); border-top: 4px solid #3b0094;">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
           <span class="chip" style="font-size: 0.72rem; background: var(--purple-pale); color: var(--purple);">● Active</span>
-          <span class="section-label" style="font-size: 0.65rem; margin-bottom: 0;">Program 02</span>
         </div>
         <h3 class="font-heading mb-3" style="font-size: 1.4rem; color: var(--text); line-height: 1.3;">
           AI Impact Scaling Program
@@ -621,15 +750,15 @@
         <!-- KPI grid -->
         <div class="grid grid-cols-2 gap-3 mb-4">
           <div style="background: var(--purple-pale); border-radius: 12px; padding: 14px;">
-            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--purple); line-height: 1;" data-count="0" data-live="scalingProgram">—</div>
+            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--purple); line-height: 1;" data-count="31" data-live="scalingProgram">31</div>
             <div class="stat-label" style="font-size: 0.72rem; margin-top: 4px;">Orgs enrolled</div>
           </div>
           <div style="background: var(--purple-pale); border-radius: 12px; padding: 14px;">
-            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--purple); line-height: 1;" data-count="0" data-live="scalingProgramProjects">—</div>
+            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--purple); line-height: 1;" data-count="21" data-live="scalingProgramProjects">21</div>
             <div class="stat-label" style="font-size: 0.72rem; margin-top: 4px;">Projects</div>
           </div>
           <div style="background: var(--purple-pale); border-radius: 12px; padding: 14px; grid-column: span 2;">
-            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--purple); line-height: 1;" data-count="0" data-live="scalingProgramCountries">—</div>
+            <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--purple); line-height: 1;" data-count="20" data-live="scalingProgramCountries">20</div>
             <div class="stat-label" style="font-size: 0.72rem; margin-top: 4px;">Countries represented</div>
           </div>
         </div>
@@ -640,7 +769,6 @@
       <div class="card" style="padding: 36px; display: flex; flex-direction: column; border: 1px solid var(--border-bright); border-top: 4px solid #e0d0ff; background: linear-gradient(160deg, #f9f7ff 0%, var(--bg) 100%); opacity: 0.85;">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
           <span class="chip" style="font-size: 0.72rem; background: #f0e8ff; color: #9370d8; border: 1px solid #d4baff;">◌ Coming Soon</span>
-          <span class="section-label" style="font-size: 0.65rem; margin-bottom: 0;">Program 03</span>
         </div>
         <h3 class="font-heading mb-3" style="font-size: 1.4rem; color: var(--text); line-height: 1.3;">
           AI Impact Lab
@@ -656,6 +784,290 @@
       </div>
 
     </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 5 — AI FOR CHANGEMAKERS DEEP DIVE
+═══════════════════════════════════════════════════════ -->
+<section id="ai4c-deep-dive" style="padding: 96px 24px; background: var(--bg);">
+  <div class="max-w-6xl mx-auto">
+
+    <!-- Section header -->
+    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;">
+      <span class="chip chip-green" style="font-size: 0.72rem;">● Active — Phase 2</span>
+      <span class="section-label" style="margin-bottom: 0;">Program 01 — Deep Dive</span>
+    </div>
+    <h2 class="font-heading mb-4 leading-snug" style="font-size: clamp(1.6rem, 3.5vw, 2.4rem); color: var(--text);">
+      AI for Changemakers:<br>the transformation is already happening.
+    </h2>
+    <p style="color: var(--muted); font-size: 1rem; line-height: 1.75; max-width: 660px; margin-bottom: 52px;">
+      Nearly 20 months in, 122 nonprofits are no longer exploring AI as a distant possibility — they are actively building it. This is a live report on where the program stands, what we're learning, and the early impact already taking shape. Supported by <strong style="color: var(--text);">Google.org</strong> and <strong style="color: var(--text);">Lenovo</strong>.
+    </p>
+
+    <!-- Key outputs strip — dark bar -->
+    <div style="background: var(--purple-dark); border-radius: 20px; padding: 36px; margin-bottom: 56px;">
+      <div class="stat-label" style="color: var(--purple-pale); margin-bottom: 24px; font-size: 0.7rem; letter-spacing: 0.08em;">Program Outputs — as of February 2026</div>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div>
+          <div class="font-heading font-bold" style="font-size: 2rem; color: #fff; line-height: 1;">122</div>
+          <div style="color: var(--purple-pale); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 6px; line-height: 1.4;">Nonprofits enrolled</div>
+        </div>
+        <div>
+          <div class="font-heading font-bold" style="font-size: 2rem; color: #fff; line-height: 1;">400+</div>
+          <div style="color: var(--purple-pale); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 6px; line-height: 1.4;">Staff trained in Bootcamps</div>
+        </div>
+        <div>
+          <div class="font-heading font-bold" style="font-size: 2rem; color: #fff; line-height: 1;">170</div>
+          <div style="color: var(--purple-pale); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 6px; line-height: 1.4;">AI projects defined & pitched</div>
+        </div>
+        <div>
+          <div class="font-heading font-bold" style="font-size: 2rem; color: #fff; line-height: 1;">98</div>
+          <div style="color: var(--purple-pale); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 6px; line-height: 1.4;">Pro-bono matches made</div>
+        </div>
+        <div>
+          <div class="font-heading font-bold" style="font-size: 2rem; color: #fff; line-height: 1;">$5M</div>
+          <div style="color: var(--purple-pale); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 6px; line-height: 1.4;">Value of matched projects</div>
+        </div>
+        <div>
+          <div class="font-heading font-bold" style="font-size: 2rem; color: #fff; line-height: 1;">50</div>
+          <div style="color: var(--purple-pale); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 6px; line-height: 1.4;">Expert mentors active</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Three outcome pillars -->
+    <div style="margin-bottom: 12px;">
+      <div class="section-label" style="margin-bottom: 8px;">Three things we are seeing</div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" style="margin-bottom: 56px;">
+
+      <div class="card" style="padding: 28px; border-top: 3px solid var(--purple);">
+        <div style="font-size: 1.6rem; margin-bottom: 14px;">🧠</div>
+        <h3 class="font-heading font-bold mb-3" style="font-size: 1.05rem; color: var(--text);">Confidence is now measurable</h3>
+        <p style="color: var(--muted); font-size: 0.875rem; line-height: 1.75; margin-bottom: 18px;">
+          Before the Bootcamps, 29 out of 31 surveyed organisations rated their AI understanding at zero. Today, <strong style="color: var(--text);">62% report significant gains</strong> — from basic literacy to confidently scoping MVPs and leading responsible implementations with tech partners.
+        </p>
+        <div style="background: var(--purple-pale); border-radius: 10px; padding: 14px 16px;">
+          <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--purple); line-height: 1;">62%</div>
+          <div class="stat-label" style="font-size: 0.68rem; margin-top: 4px;">of surveyed orgs reported increased AI competence or confidence</div>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 28px; border-top: 3px solid var(--purple);">
+        <div style="font-size: 1.6rem; margin-bottom: 14px;">⚙️</div>
+        <h3 class="font-heading font-bold mb-3" style="font-size: 1.05rem; color: var(--text);">From strategy to real software</h3>
+        <p style="color: var(--muted); font-size: 0.875rem; line-height: 1.75; margin-bottom: 18px;">
+          More than 60% of AI projects have been matched and kick-started. <strong style="color: var(--text);">27 are fully completed</strong> by tech partners, 13 are in active pilots, and 4 are already deployed at scale — serving real users in real communities right now.
+        </p>
+        <div class="grid grid-cols-3 gap-2">
+          <div style="background: var(--purple-pale); border-radius: 10px; padding: 12px; text-align: center;">
+            <div class="font-heading font-bold" style="font-size: 1.25rem; color: var(--purple);">27</div>
+            <div class="stat-label" style="font-size: 0.62rem; margin-top: 3px;">completed</div>
+          </div>
+          <div style="background: var(--purple-pale); border-radius: 10px; padding: 12px; text-align: center;">
+            <div class="font-heading font-bold" style="font-size: 1.25rem; color: var(--purple);">13</div>
+            <div class="stat-label" style="font-size: 0.62rem; margin-top: 3px;">in pilots</div>
+          </div>
+          <div style="background: var(--purple-pale); border-radius: 10px; padding: 12px; text-align: center;">
+            <div class="font-heading font-bold" style="font-size: 1.25rem; color: var(--purple);">4</div>
+            <div class="stat-label" style="font-size: 0.62rem; margin-top: 3px;">at scale</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 28px; border-top: 3px solid var(--purple);">
+        <div style="font-size: 1.6rem; margin-bottom: 14px;">🚪</div>
+        <h3 class="font-heading font-bold mb-3" style="font-size: 1.05rem; color: var(--text);">AI opens funding doors</h3>
+        <p style="color: var(--muted); font-size: 0.875rem; line-height: 1.75; margin-bottom: 18px;">
+          Building an AI strategy isn't just about technology. <strong style="color: var(--text);">1 in 3 respondents</strong> say their AI4C participation has already positively impacted their fundraising — elevated proposals, new funding streams, and stronger investor conversations, even before deployment.
+        </p>
+        <div style="background: var(--purple-pale); border-radius: 10px; padding: 14px 16px;">
+          <div class="font-heading font-bold" style="font-size: 1.5rem; color: var(--purple); line-height: 1;">33%</div>
+          <div class="stat-label" style="font-size: 0.68rem; margin-top: 4px;">say AI4C has already helped their fundraising, even before deployment</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Deployed at scale -->
+    <div style="margin-bottom: 12px;">
+      <div class="section-label" style="margin-bottom: 8px;">Already deployed at scale</div>
+      <h3 class="font-heading font-bold mb-8" style="font-size: 1.4rem; color: var(--text);">Four solutions live. Thousands of users. More on the way.</h3>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" style="margin-bottom: 56px;">
+
+      <!-- Cosecha -->
+      <div class="card" style="padding: 28px; border-left: 3px solid var(--neon-green);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">
+          <div>
+            <div class="font-heading font-bold" style="color: var(--text); font-size: 1rem;">Cosecha — Central America</div>
+            <div class="stat-label" style="font-size: 0.68rem; margin-top: 3px;">Climate & Agriculture · Economic Opportunity</div>
+          </div>
+          <span class="chip chip-green" style="font-size: 0.68rem; white-space: nowrap; flex-shrink: 0; margin-left: 8px;">● Live</span>
+        </div>
+        <p style="color: var(--muted); font-size: 0.875rem; line-height: 1.75; margin-bottom: 16px;">
+          <strong style="color: var(--text);">MILA</strong> is a 24/7 AI assistant giving smallholder farmers hyper-localised regenerative agriculture advice and computer-vision crop yield estimates from a single phone photo — eliminating manual field surveys and putting expert knowledge in the pockets of farmers who never had it before.
+        </p>
+        <div class="grid grid-cols-2 gap-3">
+          <div style="background: var(--surface2); border-radius: 8px; padding: 12px;">
+            <div class="font-heading font-bold" style="font-size: 1.2rem; color: var(--purple);">2,691</div>
+            <div class="stat-label" style="font-size: 0.65rem; margin-top: 3px;">farmers with app downloaded</div>
+          </div>
+          <div style="background: var(--surface2); border-radius: 8px; padding: 12px;">
+            <div class="font-heading font-bold" style="font-size: 1.2rem; color: var(--purple);">1,000+</div>
+            <div class="stat-label" style="font-size: 0.65rem; margin-top: 3px;">monthly active users</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEAM for Vietnam -->
+      <div class="card" style="padding: 28px; border-left: 3px solid var(--neon-green);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">
+          <div>
+            <div class="font-heading font-bold" style="color: var(--text); font-size: 1rem;">STEAM for Vietnam</div>
+            <div class="stat-label" style="font-size: 0.68rem; margin-top: 3px;">Education · Southeast Asia</div>
+          </div>
+          <span class="chip chip-green" style="font-size: 0.68rem; white-space: nowrap; flex-shrink: 0; margin-left: 8px;">● Live</span>
+        </div>
+        <p style="color: var(--muted); font-size: 0.875rem; line-height: 1.75; margin-bottom: 16px;">
+          <strong style="color: var(--text);">OctoAI</strong> is an AI Co-Teacher that generates lesson plans, quizzes, and assessments for K-12 educators — with a strict human-in-the-loop design. Teachers review all AI-generated content before classroom use.
+        </p>
+        <div class="grid grid-cols-2 gap-3">
+          <div style="background: var(--surface2); border-radius: 8px; padding: 12px;">
+            <div class="font-heading font-bold" style="font-size: 1.2rem; color: var(--purple);">75,000</div>
+            <div class="stat-label" style="font-size: 0.65rem; margin-top: 3px;">educators actively reached</div>
+          </div>
+          <div style="background: var(--surface2); border-radius: 8px; padding: 12px;">
+            <div class="font-heading font-bold" style="font-size: 1.2rem; color: var(--purple);">24M</div>
+            <div class="stat-label" style="font-size: 0.65rem; margin-top: 3px;">students in scaling pathway</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Humanitarian OpenStreetMap -->
+      <div class="card" style="padding: 28px; border-left: 3px solid var(--neon-green);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">
+          <div>
+            <div class="font-heading font-bold" style="color: var(--text); font-size: 1rem;">Humanitarian OpenStreetMap Team</div>
+            <div class="stat-label" style="font-size: 0.68rem; margin-top: 3px;">Disaster Response · Global</div>
+          </div>
+          <span class="chip chip-green" style="font-size: 0.68rem; white-space: nowrap; flex-shrink: 0; margin-left: 8px;">● Live</span>
+        </div>
+        <p style="color: var(--muted); font-size: 0.875rem; line-height: 1.75; margin-bottom: 16px;">
+          <strong style="color: var(--text);">fAIr</strong> is open-source AI mapping that lets local communities train their own models to detect buildings and roads from drone imagery — critical for disaster preparedness and rapid humanitarian response in areas where commercial mapping doesn't reach.
+        </p>
+        <div class="grid grid-cols-2 gap-3">
+          <div style="background: var(--surface2); border-radius: 8px; padding: 12px;">
+            <div class="font-heading font-bold" style="font-size: 1.2rem; color: var(--purple);">427</div>
+            <div class="stat-label" style="font-size: 0.65rem; margin-top: 3px;">registered users worldwide</div>
+          </div>
+          <div style="background: var(--surface2); border-radius: 8px; padding: 12px;">
+            <div class="font-heading font-bold" style="font-size: 1.2rem; color: var(--purple);">90</div>
+            <div class="stat-label" style="font-size: 0.65rem; margin-top: 3px;">localised mapping models created</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WeRobotics -->
+      <div class="card" style="padding: 28px; border-left: 3px solid var(--neon-green);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">
+          <div>
+            <div class="font-heading font-bold" style="color: var(--text); font-size: 1rem;">WeRobotics — Brazil Flying Labs</div>
+            <div class="stat-label" style="font-size: 0.68rem; margin-top: 3px;">Climate & Disaster Response · Brazil</div>
+          </div>
+          <span class="chip" style="font-size: 0.68rem; white-space: nowrap; flex-shrink: 0; margin-left: 8px; background: var(--yellow); color: #5a4000;">● Recently deployed</span>
+        </div>
+        <p style="color: var(--muted); font-size: 0.875rem; line-height: 1.75; margin-bottom: 16px;">
+          An AI wildfire damage classifier that ingests drone and satellite imagery to automatically map fire damage severity in Brazilian conservation units — replacing weeks of manual image analysis with near-instant, high-precision assessments for conservation managers.
+        </p>
+        <div style="background: var(--surface2); border-radius: 8px; padding: 14px 16px;">
+          <div style="color: var(--muted); font-size: 0.82rem; line-height: 1.65;">Enabling faster resource allocation and safer, data-driven recovery efforts in critical biodiversity hotspots.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Voices from the field -->
+    <div style="margin-bottom: 12px;">
+      <div class="section-label" style="margin-bottom: 8px;">Voices from the field</div>
+      <h3 class="font-heading font-bold mb-8" style="font-size: 1.4rem; color: var(--text);">In their own words.</h3>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" style="margin-bottom: 56px;">
+
+      <div class="card" style="padding: 24px; border-left: 3px solid var(--purple-light); display: flex; flex-direction: column; gap: 16px;">
+        <p style="color: var(--text); font-size: 0.92rem; line-height: 1.8; font-style: italic; flex: 1;">
+          "Thank you for your support — it gave us so much confidence to design, develop, and implement AI solutions. We gained the confidence to train and deploy Small Language Models."
+        </p>
+        <div class="font-heading font-bold" style="font-size: 0.85rem; color: var(--purple);">Studio Bahia</div>
+      </div>
+
+      <div class="card" style="padding: 24px; border-left: 3px solid var(--purple-light); display: flex; flex-direction: column; gap: 16px;">
+        <p style="color: var(--text); font-size: 0.92rem; line-height: 1.8; font-style: italic; flex: 1;">
+          "It has opened important doors for us. Being part of AI4C has strengthened our credibility, helped us position our work more strategically, and increased our chances of securing future investment."
+        </p>
+        <div class="font-heading font-bold" style="font-size: 0.85rem; color: var(--purple);">AI4C participant, Economic Opportunities cohort</div>
+      </div>
+
+      <div class="card" style="padding: 24px; border-left: 3px solid var(--purple-light); display: flex; flex-direction: column; gap: 16px;">
+        <p style="color: var(--text); font-size: 0.92rem; line-height: 1.8; font-style: italic; flex: 1;">
+          "The Bootcamp helped us systematically study which AI use cases are most relevant and impactful for our organisation, understand our gaps, and identify where AI can truly add value — rather than just being 'nice to have'."
+        </p>
+        <div class="font-heading font-bold" style="font-size: 0.85rem; color: var(--purple);">Life from Water Foundation</div>
+      </div>
+
+    </div>
+
+    <!-- Reach in numbers -->
+    <div style="background: var(--surface); border-radius: 20px; padding: 40px; margin-bottom: 48px;">
+      <div class="section-label" style="margin-bottom: 8px;">Reach in numbers</div>
+      <h3 class="font-heading font-bold mb-8" style="font-size: 1.3rem; color: var(--text);">100,000+ users today. 150 million+ in reach.</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <div class="font-heading font-bold" style="font-size: 2.2rem; color: var(--purple); line-height: 1;">500–1,500</div>
+          <div class="stat-label" style="font-size: 0.7rem; margin-top: 6px; margin-bottom: 10px;">Core project team members building AI solutions</div>
+          <p style="color: var(--muted); font-size: 0.82rem; line-height: 1.7;">NGO staff, IT leads, and programme managers shaping tools that will scale their organisations' impact.</p>
+        </div>
+        <div>
+          <div class="font-heading font-bold" style="font-size: 2.2rem; color: var(--purple); line-height: 1;">100,000+</div>
+          <div class="stat-label" style="font-size: 0.7rem; margin-top: 6px; margin-bottom: 10px;">Active and pilot-phase direct end-users today</div>
+          <p style="color: var(--muted); font-size: 0.82rem; line-height: 1.7;">Including 75,000 educators in Vietnam, 20,000 students and 600 teachers in India, 5,000 emergency workers in Kenya, and 2,691 farmers in Central America.</p>
+        </div>
+        <div>
+          <div class="font-heading font-bold" style="font-size: 2.2rem; color: var(--purple); line-height: 1;">150M+</div>
+          <div class="stat-label" style="font-size: 0.7rem; margin-top: 6px; margin-bottom: 10px;">Estimated indirect beneficiaries through participating orgs</div>
+          <p style="color: var(--muted); font-size: 0.82rem; line-height: 1.7;">BRAC reaches 75M people in Bangladesh. Aflatoun serves 45M children globally. Start Network reached 26M across 76 countries in disaster response.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- What comes next -->
+    <div style="border: 1px solid var(--border-bright); border-radius: 20px; padding: 40px; background: linear-gradient(135deg, rgba(108,0,240,0.04) 0%, rgba(44,0,102,0.07) 100%);">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;">
+        <span class="chip" style="font-size: 0.72rem; background: var(--purple-pale); color: var(--purple);">● In progress</span>
+        <span class="section-label" style="margin-bottom: 0;">What comes next</span>
+      </div>
+      <h3 class="font-heading font-bold mb-4" style="font-size: 1.3rem; color: var(--text);">Turning momentum into sustained, measurable impact.</h3>
+      <p style="color: var(--muted); font-size: 0.9rem; line-height: 1.8; margin-bottom: 28px; max-width: 680px;">In 2026, we continue supporting nonprofits with pro-bono matching, educational events, and systematic impact monitoring. A <strong style="color: var(--text);">Demo Day</strong> is planned to connect AI4C organisations with funders and infrastructure partners — and we are actively identifying which organisations are ready for long-term support through our new AI Impact Lab and Scaling Program.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div style="background: var(--purple-pale); border-radius: 12px; padding: 18px;">
+          <div class="font-heading font-bold" style="font-size: 0.9rem; color: var(--purple); margin-bottom: 6px;">Demo Day 2026</div>
+          <div style="color: var(--muted); font-size: 0.82rem; line-height: 1.65;">Connecting AI4C organisations with funders and infrastructure partners to unlock next-stage capital</div>
+        </div>
+        <div style="background: var(--purple-pale); border-radius: 12px; padding: 18px;">
+          <div class="font-heading font-bold" style="font-size: 0.9rem; color: var(--purple); margin-bottom: 6px;">Deployment &amp; Validation</div>
+          <div style="color: var(--muted); font-size: 0.82rem; line-height: 1.65;">80+ AI projects currently in development, moving from pilot to production across 5 impact sectors</div>
+        </div>
+        <div style="background: var(--purple-pale); border-radius: 12px; padding: 18px;">
+          <div class="font-heading font-bold" style="font-size: 0.9rem; color: var(--purple); margin-bottom: 6px;">Scaling Successful Models</div>
+          <div style="color: var(--muted); font-size: 0.82rem; line-height: 1.65;">Proven tools like MILA, fAIr, and OctoAI being readied for replication across regions and sectors</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
