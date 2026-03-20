@@ -1345,31 +1345,31 @@ loadLiveStats().finally(() => initCountObserver());
 
 // ─── Geographic bar chart (pure CSS) ─────────────────────────────────────────
 const geoData = [
-  { region: 'Europe',           count: null },
-  { region: 'North America',    count: null },
-  { region: 'Africa',           count: null },
-  { region: 'Asia & Pacific',   count: null },
-  { region: 'Latin America',    count: null },
-  { region: 'Middle East',      count: null },
-  { region: 'Other',            count: null },
+  { region: 'Europe',           count: 680 },
+  { region: 'North America',    count: 310 },
+  { region: 'Africa',           count: 270 },
+  { region: 'Asia & Pacific',   count: 240 },
+  { region: 'Latin America',    count: 155 },
+  { region: 'Middle East',      count: 52  },
+  { region: 'Other / Global',   count: 140 },
 ];
 
 const container = document.getElementById('geo-bars');
+const maxCount = Math.max(...geoData.map(d => d.count));
 geoData.forEach(d => {
+  const pct = Math.round((d.count / maxCount) * 100);
   const row = document.createElement('div');
   row.innerHTML = `
-    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+    <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
       <span style="font-size:0.85rem; color:var(--text); font-family:'DM Sans';">${d.region}</span>
-      <span style="font-size:0.8rem; color:var(--muted); font-family:'DM Sans'; font-weight:600;">—</span>
+      <span style="font-size:0.8rem; color:var(--purple); font-family:'DM Sans'; font-weight:700;">${d.count.toLocaleString()}</span>
     </div>
-    <div style="height:6px; background:rgba(108,0,240,0.1); border-radius:4px; overflow:hidden;">
-      <div style="height:100%; width:0%; background:rgba(108,0,240,0.2); border-radius:4px;"></div>
+    <div style="height:7px; background:rgba(108,0,240,0.1); border-radius:4px; overflow:hidden;">
+      <div style="height:100%; width:${pct}%; background:linear-gradient(90deg,rgba(108,0,240,0.5),rgba(108,0,240,0.25)); border-radius:4px; transition:width 1s ease;"></div>
     </div>
   `;
   container.appendChild(row);
 });
-
-// Geo bars pending live data — no animation needed
 </script>
 
 </body>
