@@ -31,3 +31,11 @@ lerna-debug.log*
 
 # TypeScript
 *.tsbuildinfo
+
+# Veer.me app — lives in /Users/marapuacz/Veer.me (separate repo)
+src/
+package.json
+vite.config.js
+tailwind.config.js
+postcss.config.js
+CLAUDE.md
