@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI for Changemakers — Impact Dashboard | Tech To The Rescue</title>
+  <meta name="description" content="AI4C is the most rigorous AI enablement programme for social impact organisations in the sector. Live programme data and MEL outcomes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <style>
+    /* ===== CSS CUSTOM PROPERTIES ===== */
+    :root {
+      --purple:        #6C00F0;
+      --purple-light:  #AA80FF;
+      --purple-dim:    #3D0880;
+      --purple-faint:  rgba(108,0,240,0.12);
+      --teal:          #8AFFE3;
+      --teal-dim:      #4ECBA8;
+      --teal-faint:    rgba(138,255,227,0.08);
+      --navy:          #050024;
+      --navy-mid:      #0D0040;
+      --white:         #FFFFFF;
+      --off-white:     #FCFBF3;
+      --text-muted:    #7A6FAA;
+      --text-mid:      #C5B2FF;
+      --border:        rgba(108,0,240,0.25);
+      --border-teal:   rgba(138,255,227,0.2);
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--navy);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.2;
+    }
+
+    a { color: var(--teal); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    a:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; border-radius: 3px; }
+
+    button:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+
+    /* ===== LAYOUT ===== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 72px 0 80px;
+      background-color: var(--navy);
+    }
+
+    /* Grid background pattern */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(108,0,240,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(108,0,240,0.06) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    /* Radial glow — offset right */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -120px;
+      right: -80px;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(ellipse at center, rgba(108,0,240,0.22) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 48px;
+      align-items: center;
+    }
+
+    /* TTTR logo + brand */
+    .hero-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .hero-brand svg { flex-shrink: 0; }
+
+    .hero-brand-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* Live data tag */
+    .live-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--teal-faint);
+      border: 1px solid var(--border-teal);
+      border-radius: 100px;
+      padding: 6px 14px;
+      margin-bottom: 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--teal);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+      animation: pulse 2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    /* Hero headline */
+    .hero-headline {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(42px, 5vw, 64px);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    .hero-headline .accent { color: var(--teal); }
+
+    .hero-subheadline {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--text-mid);
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+
+    .hero-meta {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ===== MOSAIC PLACEHOLDER CARDS ===== */
+    .hero-mosaic {
+      position: relative;
+      height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mosaic-card {
+      position: absolute;
+      width: 160px;
+      height: 220px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 16px;
+    }
+
+    .mosaic-card:nth-child(1) {
+      background: linear-gradient(160deg, #3D0880 0%, #1a0060 100%);
+      transform: rotate(-3deg) translateX(-100px) translateY(20px);
+      z-index: 1;
+    }
+
+    .mosaic-card:nth-child(2) {
+      background: linear-gradient(160deg, #6C00F0 0%, #3D0880 100%);
+      transform: rotate(0deg) translateY(-10px);
+      z-index: 2;
+    }
+
+    .mosaic-card:nth-child(3) {
+      background: linear-gradient(160deg, #0D4040 0%, #052830 100%);
+      transform: rotate(2deg) translateX(100px) translateY(30px);
+      z-index: 1;
+    }
+
+    .mosaic-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .mosaic-card:nth-child(1) .mosaic-icon { background: var(--purple-faint); color: var(--purple-light); border: 1px solid var(--border); }
+    .mosaic-card:nth-child(2) .mosaic-icon { background: rgba(138,255,227,0.1); color: var(--teal); border: 1px solid var(--border-teal); }
+    .mosaic-card:nth-child(3) .mosaic-icon { background: rgba(138,255,227,0.1); color: var(--teal); border: 1px solid var(--border-teal); }
+
+    .mosaic-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* ===== STICKY TAB NAV ===== */
+    .tab-nav-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: var(--navy);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .tab-nav-wrapper.is-stuck {
+      box-shadow: 0 4px 32px rgba(0,0,0,0.6);
+    }
+
+    .tab-nav {
+      display: flex;
+      gap: 0;
+      list-style: none;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 18px 28px;
+      transition: color 0.2s ease, border-color 0.2s ease;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover { color: var(--white); }
+
+    .tab-btn.active {
+      color: var(--white);
+      border-bottom-color: var(--purple);
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    main { min-height: 60vh; }
+
+    .tab-panel {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      padding: 64px 0;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .tab-panel.fade-in {
+      opacity: 1;
+    }
+
+    /* ===== SECTION HEADERS ===== */
+    .section-header {
+      margin-bottom: 40px;
+    }
+
+    .section-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    /* ===== STAT CARDS GRID ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 64px;
+    }
+
+    .stat-card {
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--purple);
+      border-radius: 12px 0 0 12px;
+    }
+
+    .stat-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* ===== CHARTS SECTION ===== */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 64px;
+    }
+
+    .chart-card {
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+    }
+
+    .chart-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .chart-subtitle {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    .chart-canvas-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    /* Custom doughnut legend */
+    .doughnut-layout {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .doughnut-canvas-wrap {
+      flex-shrink: 0;
+      width: 180px;
+      height: 180px;
+    }
+
+    .doughnut-legend {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text-mid);
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .legend-count {
+      margin-left: auto;
+      font-weight: 500;
+      color: var(--white);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ===== MEL OUTCOMES ===== */
+    .mel-section { margin-bottom: 64px; }
+
+    .progress-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .progress-item {}
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+
+    .progress-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--off-white);
+    }
+
+    .progress-pct {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--purple-light);
+    }
+
+    .progress-track {
+      height: 6px;
+      background: rgba(108,0,240,0.15);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--purple) 0%, var(--purple-light) 100%);
+      width: 0%;
+      transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* ===== GEOGRAPHY CHART ===== */
+    .geo-section {
+      margin-bottom: 64px;
+    }
+
+    .geo-chart-card {
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+    }
+
+    /* ===== CHALLENGE CALLOUT ===== */
+    .challenge-card {
+      background: var(--teal-faint);
+      border: 1px solid var(--border-teal);
+      border-left: 3px solid var(--teal);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 64px;
+    }
+
+    .challenge-card p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-style: italic;
+      color: var(--text-mid);
+      line-height: 1.6;
+    }
+
+    /* ===== IMPACT STORIES ===== */
+    .stories-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .story-card {
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .story-card:hover {
+      border-color: var(--purple);
+      transform: translateY(-2px);
+    }
+
+    .story-card summary {
+      list-style: none;
+      padding: 28px;
+      cursor: pointer;
+    }
+
+    .story-card summary::-webkit-details-marker { display: none; }
+
+    .story-card summary:focus-visible {
+      outline: 2px solid var(--teal);
+      outline-offset: -2px;
+    }
+
+    .story-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .story-org {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.3;
+    }
+
+    .story-flag {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .story-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+
+    .badge-piloting {
+      background: rgba(255,216,116,0.12);
+      color: #FFD874;
+      border: 1px solid rgba(255,216,116,0.3);
+    }
+
+    .badge-scale {
+      background: rgba(133,246,0,0.12);
+      color: #85F600;
+      border: 1px solid rgba(133,246,0,0.3);
+    }
+
+    .story-solution-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--purple-light);
+      margin-bottom: 8px;
+    }
+
+    .story-problem {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .story-expand-hint {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      color: var(--purple-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .story-expand-hint::after {
+      content: '↓';
+      transition: transform 0.2s ease;
+    }
+
+    details[open] .story-expand-hint::after { transform: rotate(180deg); }
+
+    .story-details {
+      padding: 0 28px 28px;
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+    }
+
+    .story-quote {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-style: italic;
+      color: var(--teal);
+      border-left: 2px solid var(--teal);
+      padding-left: 16px;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .story-stat {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .story-stat-pill {
+      background: var(--purple-faint);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 4px 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--purple-light);
+    }
+
+    /* ===== METHODOLOGY ===== */
+
+    /* Theory of Change */
+    .toc-flow {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 64px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .toc-box {
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      flex-shrink: 0;
+      min-width: 140px;
+      max-width: 160px;
+    }
+
+    .toc-box-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .toc-box-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.3;
+    }
+
+    .toc-box.toc-outcome {
+      border-color: var(--teal);
+      background: var(--teal-faint);
+    }
+
+    .toc-box.toc-outcome .toc-box-title { color: var(--teal); }
+
+    .toc-arrow {
+      flex-shrink: 0;
+      width: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--purple);
+      font-size: 18px;
+    }
+
+    /* MEL Framework table */
+    .mel-table { margin-bottom: 64px; }
+
+    .mel-table-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+
+    .mel-row {
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 12px;
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      overflow: hidden;
+    }
+
+    .mel-row-level {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      border-right: 1px solid var(--border);
+    }
+
+    .mel-level-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .mel-row-content {
+      padding: 20px 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text-mid);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mel-tag {
+      background: var(--purple-faint);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-size: 13px;
+      color: var(--text-mid);
+    }
+
+    /* Programme Design columns */
+    .prog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 64px;
+    }
+
+    .prog-card {
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+    }
+
+    .prog-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      margin-bottom: 12px;
+    }
+
+    .prog-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .prog-desc {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Responsible AI cards */
+    .rai-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 64px;
+    }
+
+    .rai-card {
+      background: var(--purple-faint);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .rai-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .rai-desc {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ===== FOOTER CTA ===== */
+    .footer-cta {
+      background: var(--navy-mid);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 72px 0;
+      text-align: center;
+    }
+
+    .footer-cta-headline {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 32px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      padding: 14px 28px;
+      border: 1px solid var(--purple);
+      border-radius: 100px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      text-decoration: none;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+      letter-spacing: 0.01em;
+    }
+
+    .cta-btn:hover {
+      background-color: var(--purple);
+      text-decoration: none;
+    }
+
+    .cta-btn:focus-visible {
+      outline: 2px solid var(--teal);
+      outline-offset: 3px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-brand-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .footer-link {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .footer-link:hover { color: var(--white); }
+
+    .footer-copyright {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .footer-data-note {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 24px;
+      text-align: center;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ===== DIVIDER ===== */
+    .section-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 48px 0;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-mosaic { display: none; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .charts-grid { grid-template-columns: 1fr; }
+      .stories-grid { grid-template-columns: 1fr; }
+      .prog-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .hero { padding: 48px 0 56px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .stat-number { font-size: 36px; }
+      .rai-grid { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .tab-btn { padding: 14px 16px; font-size: 13px; }
+      .toc-flow { flex-direction: column; align-items: flex-start; }
+      .toc-arrow { transform: rotate(90deg); }
+      .mel-row { grid-template-columns: 1fr; }
+      .mel-row-level { border-right: none; border-bottom: 1px solid var(--border); }
+      .doughnut-layout { flex-direction: column; }
+      .doughnut-canvas-wrap { width: 160px; height: 160px; margin: 0 auto; }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .cta-buttons { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero" role="banner">
+    <div class="container">
+      <div class="hero-inner">
+
+        <!-- Left: Text content -->
+        <div class="hero-content">
+          <!-- TTTR Brand -->
+          <div class="hero-brand">
+            <!-- TTTR Lifesaver SVG logo -->
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Tech To The Rescue logo">
+              <circle cx="20" cy="20" r="19" stroke="#6C00F0" stroke-width="2" fill="none"/>
+              <circle cx="20" cy="20" r="11" stroke="#6C00F0" stroke-width="2" fill="none"/>
+              <line x1="20" y1="1" x2="20" y2="9" stroke="#6C00F0" stroke-width="2" stroke-linecap="round"/>
+              <line x1="20" y1="31" x2="20" y2="39" stroke="#6C00F0" stroke-width="2" stroke-linecap="round"/>
+              <line x1="1" y1="20" x2="9" y2="20" stroke="#6C00F0" stroke-width="2" stroke-linecap="round"/>
+              <line x1="31" y1="20" x2="39" y2="20" stroke="#6C00F0" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="20" cy="20" r="3" fill="#6C00F0"/>
+            </svg>
+            <div>
+              <div class="hero-brand-text">by Tech To The Rescue</div>
+            </div>
+          </div>
+
+          <!-- Live tag -->
+          <div class="live-tag" role="status" aria-live="polite">
+            <span class="pulse-dot" aria-hidden="true"></span>
+            Live Programme Data
+          </div>
+
+          <!-- Headline -->
+          <h1 class="hero-headline">
+            AI for <span class="accent">Changemakers</span>
+          </h1>
+
+          <p class="hero-subheadline">
+            Building the infrastructure for AI-powered social change — with the most rigorous AI enablement programme for social impact organisations in the sector.
+          </p>
+
+          <p class="hero-meta">MEL outcomes from Cohort 1 · Feb 2026</p>
+        </div>
+
+        <!-- Right: Mosaic image placeholders -->
+        <div class="hero-mosaic" role="img" aria-label="Programme participants: a woman in a design session, a man at a laptop, and a woman studying">
+          <div class="mosaic-card" aria-hidden="true">
+            <div class="mosaic-icon">A</div>
+            <div class="mosaic-label">Design Session</div>
+          </div>
+          <div class="mosaic-card" aria-hidden="true">
+            <div class="mosaic-icon">B</div>
+            <div class="mosaic-label">Tech Partner</div>
+          </div>
+          <div class="mosaic-card" aria-hidden="true">
+            <div class="mosaic-icon">C</div>
+            <div class="mosaic-label">Learning</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== STICKY TAB NAV ===== -->
+  <div class="tab-nav-wrapper" id="tab-nav-wrapper" role="navigation" aria-label="Dashboard sections">
+    <div class="container">
+      <ul class="tab-nav" role="tablist">
+        <li role="none">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-overview" id="btn-overview" data-tab="overview">
+            Overview
+          </button>
+        </li>
+        <li role="none">
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-stories" id="btn-stories" data-tab="stories">
+            Impact Stories
+          </button>
+        </li>
+        <li role="none">
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-methodology" id="btn-methodology" data-tab="methodology">
+            Methodology
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main id="main-content" tabindex="-1">
+
+    <!-- ===== TAB 1: OVERVIEW ===== -->
+    <div class="tab-panel active fade-in" id="tab-overview" role="tabpanel" aria-labelledby="btn-overview">
+      <div class="container">
+
+        <!-- Stat Cards -->
+        <section aria-labelledby="stats-heading">
+          <div class="section-header">
+            <div class="section-label">Programme at a Glance</div>
+            <h2 class="section-title" id="stats-heading">Scale &amp; Reach</h2>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-card" aria-label="115 unique NGOs enabled across 6 cohort themes">
+              <div class="stat-number" data-target="115" data-suffix="">115</div>
+              <div class="stat-label">Unique NGOs enabled across 6 cohort themes</div>
+            </div>
+            <div class="stat-card" aria-label="172 projects in pipeline from concept to at-scale">
+              <div class="stat-number" data-target="172" data-suffix="">172</div>
+              <div class="stat-label">Projects in pipeline from concept to at-scale</div>
+            </div>
+            <div class="stat-card" aria-label="99 matched with tech partners via pro-bono engagements">
+              <div class="stat-number" data-target="99" data-suffix="">99</div>
+              <div class="stat-label">Matched with tech partners pro-bono engagements</div>
+            </div>
+            <div class="stat-card" aria-label="30+ countries represented across 6 continents">
+              <div class="stat-number" data-target="30" data-suffix="+">30+</div>
+              <div class="stat-label">Countries represented across 6 continents</div>
+            </div>
+            <div class="stat-card" aria-label="81% plan to expand AI further post-programme survey">
+              <div class="stat-number" data-target="81" data-suffix="%">81%</div>
+              <div class="stat-label">Plan to expand AI further post-programme survey</div>
+            </div>
+            <div class="stat-card" aria-label="3.8 out of 5 AI competence score self-assessed post-bootcamp">
+              <div class="stat-number" data-target-decimal="3.8" data-suffix="/5">3.8/5</div>
+              <div class="stat-label">AI competence score self-assessed, post-bootcamp</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Charts: Pipeline + Cohort -->
+        <section aria-labelledby="pipeline-heading">
+          <div class="section-header">
+            <div class="section-label">Solution Pipeline</div>
+            <h2 class="section-title" id="pipeline-heading">From Concept to Scale</h2>
+          </div>
+          <div class="charts-grid">
+
+            <!-- Doughnut: Pipeline Status -->
+            <div class="chart-card">
+              <div class="chart-title">Solution Status Pipeline</div>
+              <div class="chart-subtitle">172 projects across all stages</div>
+              <div class="doughnut-layout">
+                <div class="doughnut-canvas-wrap">
+                  <canvas id="pipelineChart" aria-label="Doughnut chart showing solution status pipeline: Implemented at scale 2, Piloting/Testing 9, In Development 6, In Concept/Design 10, Matching/In progress 4" role="img"></canvas>
+                </div>
+                <div class="doughnut-legend" aria-hidden="true">
+                  <div class="legend-item">
+                    <span class="legend-dot" style="background:#85F600"></span>
+                    <span>Implemented at scale</span>
+                    <span class="legend-count">2</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot" style="background:#FFD874"></span>
+                    <span>Piloting / Testing</span>
+                    <span class="legend-count">9</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot" style="background:#85A5FF"></span>
+                    <span>In Development</span>
+                    <span class="legend-count">6</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot" style="background:#C5B2FF"></span>
+                    <span>In Concept / Design</span>
+                    <span class="legend-count">10</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot" style="background:#FA4E4B"></span>
+                    <span>Matching / In progress</span>
+                    <span class="legend-count">4</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bar: Cohort Breakdown -->
+            <div class="chart-card">
+              <div class="chart-title">Cohort Breakdown</div>
+              <div class="chart-subtitle">Projects by sector theme</div>
+              <div class="chart-canvas-wrapper" style="height: 220px;">
+                <canvas id="cohortChart" aria-label="Bar chart showing projects by cohort: Health 41, Education 35, Climate 43, Disaster Management 32, Economic Opportunity 21" role="img"></canvas>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- MEL Outcomes -->
+        <section class="mel-section" aria-labelledby="mel-heading">
+          <div class="section-header">
+            <div class="section-label">MEL Check-In Survey · Nov–Dec 2025</div>
+            <h2 class="section-title" id="mel-heading">Outcomes</h2>
+          </div>
+          <div class="progress-list" id="progress-list">
+            <div class="progress-item">
+              <div class="progress-meta">
+                <span class="progress-label">Leadership directly engaged in programme</span>
+                <span class="progress-pct">74%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" data-width="74" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" aria-label="74% leadership directly engaged"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-meta">
+                <span class="progress-label">Improved AI competence post-bootcamp</span>
+                <span class="progress-pct">84%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" data-width="84" role="progressbar" aria-valuenow="84" aria-valuemin="0" aria-valuemax="100" aria-label="84% improved AI competence post-bootcamp"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-meta">
+                <span class="progress-label">Successfully matched with tech partner</span>
+                <span class="progress-pct">87%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" data-width="87" role="progressbar" aria-valuenow="87" aria-valuemin="0" aria-valuemax="100" aria-label="87% successfully matched with tech partner"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-meta">
+                <span class="progress-label">Actively tracking impact of AI solution</span>
+                <span class="progress-pct">58%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" data-width="58" role="progressbar" aria-valuenow="58" aria-valuemin="0" aria-valuemax="100" aria-label="58% actively tracking impact"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-meta">
+                <span class="progress-label">Responsible AI framework in place</span>
+                <span class="progress-pct">52%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" data-width="52" role="progressbar" aria-valuenow="52" aria-valuemin="0" aria-valuemax="100" aria-label="52% have responsible AI framework in place"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-meta">
+                <span class="progress-label">Talked to donors about AI tools</span>
+                <span class="progress-pct">55%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" data-width="55" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100" aria-label="55% talked to donors about AI tools"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-meta">
+                <span class="progress-label">Plan to expand AI to other org areas</span>
+                <span class="progress-pct">81%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" data-width="81" role="progressbar" aria-valuenow="81" aria-valuemin="0" aria-valuemax="100" aria-label="81% plan to expand AI to other areas"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Geographic Reach -->
+        <section class="geo-section" aria-labelledby="geo-heading">
+          <div class="section-header">
+            <div class="section-label">Global Footprint</div>
+            <h2 class="section-title" id="geo-heading">Geographic Reach</h2>
+          </div>
+          <div class="geo-chart-card">
+            <div class="chart-title">NGOs by Region</div>
+            <div class="chart-subtitle">30+ countries across 6 continents</div>
+            <div class="chart-canvas-wrapper" style="height: 300px;">
+              <canvas id="geoChart" aria-label="Horizontal bar chart showing NGOs by region: North America 21, Europe 18, South Asia 14, Africa 13, Latin America 9, Southeast Asia 6, Middle East 4, Global/Other 7" role="img"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- Challenge Callout -->
+        <div class="challenge-card" role="note" aria-label="Programme reflection note">
+          <p>"Not every partnership succeeded on the first attempt — we learned from each one, and have improved our vetting, onboarding, and project management support as a result."</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ===== TAB 2: IMPACT STORIES ===== -->
+    <div class="tab-panel" id="tab-stories" role="tabpanel" aria-labelledby="btn-stories">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="section-label">From the Field</div>
+          <h2 class="section-title">Impact Stories</h2>
+        </div>
+
+        <div class="stories-grid">
+
+          <!-- Story 1: Life From Water Foundation -->
+          <article class="story-card">
+            <details>
+              <summary>
+                <div class="story-header">
+                  <h3 class="story-org">Life From Water Foundation</h3>
+                  <span class="story-flag" aria-label="Egypt flag">🇪🇬</span>
+                </div>
+                <span class="story-badge badge-piloting">Piloting</span>
+                <div class="story-solution-name">Water Eye — Computer Vision for Water Meters</div>
+                <p class="story-problem">No reliable way to monitor water treatment units in remote communities without manual on-site visits — leading to missed failures and unsafe water.</p>
+                <div class="story-expand-hint">Read more</div>
+              </summary>
+              <div class="story-details">
+                <blockquote class="story-quote">
+                  "We realised that an AI solution is not just about having a smart chatbot. For it to be adopted, it has to fit into their existing workflow — not attempt to change them from day one."
+                </blockquote>
+                <div class="story-stat">
+                  <span class="story-stat-pill">Scaling to 15 units</span>
+                  <span class="story-stat-pill">2,000+ people per unit</span>
+                </div>
+              </div>
+            </details>
+          </article>
+
+          <!-- Story 2: STEAM for Vietnam -->
+          <article class="story-card">
+            <details>
+              <summary>
+                <div class="story-header">
+                  <h3 class="story-org">STEAM for Vietnam</h3>
+                  <span class="story-flag" aria-label="Vietnam flag">🇻🇳</span>
+                </div>
+                <span class="story-badge badge-scale">At Scale</span>
+                <div class="story-solution-name">OctoAI — AI-Powered Lesson Plan Generator</div>
+                <p class="story-problem">2 million teachers across Vietnam lack time, tools, and support to create high-quality, personalised lesson plans — especially in under-resourced provinces.</p>
+                <div class="story-expand-hint">Read more</div>
+              </summary>
+              <div class="story-details">
+                <blockquote class="story-quote">
+                  "We became much better at explaining AI to non-technical stakeholders — teachers, ministries, donors, and partners. AI4C helped us reframe OctoAI from a tool into a systemic solution."
+                </blockquote>
+                <div class="story-stat">
+                  <span class="story-stat-pill">Supports 2M teachers</span>
+                  <span class="story-stat-pill">24M students in reach</span>
+                </div>
+              </div>
+            </details>
+          </article>
+
+          <!-- Story 3: Emergency Medicine Kenya Foundation -->
+          <article class="story-card">
+            <details>
+              <summary>
+                <div class="story-header">
+                  <h3 class="story-org">Emergency Medicine Kenya Foundation</h3>
+                  <span class="story-flag" aria-label="Kenya flag">🇰🇪</span>
+                </div>
+                <span class="story-badge badge-piloting">Piloting</span>
+                <div class="story-solution-name">Swahili Voice Guidance — Casualty App</div>
+                <p class="story-problem">Over 5,000 Kenyans use the Casualty App — but it was passive and text-only. Language barriers limit who can access help during a medical emergency.</p>
+                <div class="story-expand-hint">Read more</div>
+              </summary>
+              <div class="story-details">
+                <blockquote class="story-quote">
+                  "The structured approach to identifying ethical risks allowed us to immediately prioritise AI-powered translation for Swahili and speech-based interaction — ensuring all citizens could access lifesaving guidance."
+                </blockquote>
+                <div class="story-stat">
+                  <span class="story-stat-pill">~5,000 active users</span>
+                  <span class="story-stat-pill">Swahili + English</span>
+                </div>
+              </div>
+            </details>
+          </article>
+
+          <!-- Story 4: Sevamob -->
+          <article class="story-card">
+            <details>
+              <summary>
+                <div class="story-header">
+                  <h3 class="story-org">Sevamob</h3>
+                  <span class="story-flag" aria-label="India flag">🇮🇳</span>
+                </div>
+                <span class="story-badge badge-piloting">Piloting</span>
+                <div class="story-solution-name">8 AI-Powered Medical Devices</div>
+                <p class="story-problem">Frontline health workers in underserved communities lack point-of-care diagnostic tools — leading to delayed detection of treatable conditions.</p>
+                <div class="story-expand-hint">Read more</div>
+              </summary>
+              <div class="story-details">
+                <blockquote class="story-quote">
+                  "The guidance received during technical consulting and mentorship helped us develop more AI-based medical devices using the latest technologies."
+                </blockquote>
+                <div class="story-stat">
+                  <span class="story-stat-pill">8 AI medical devices</span>
+                  <span class="story-stat-pill">5 B2B pilot customers</span>
+                  <span class="story-stat-pill">25% of org staff using AI</span>
+                </div>
+              </div>
+            </details>
+          </article>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB 3: METHODOLOGY ===== -->
+    <div class="tab-panel" id="tab-methodology" role="tabpanel" aria-labelledby="btn-methodology">
+      <div class="container">
+
+        <!-- Theory of Change -->
+        <section aria-labelledby="toc-heading">
+          <div class="section-header">
+            <div class="section-label">Theory of Change</div>
+            <h2 class="section-title" id="toc-heading">How AI4C Creates Change</h2>
+          </div>
+
+          <div class="toc-flow" role="list" aria-label="Theory of Change flow">
+            <div class="toc-box" role="listitem">
+              <div class="toc-box-label">Input</div>
+              <div class="toc-box-title">SIOs with proven interventions</div>
+            </div>
+            <div class="toc-arrow" aria-hidden="true">→</div>
+            <div class="toc-box" role="listitem">
+              <div class="toc-box-label">Activity</div>
+              <div class="toc-box-title">AI Impact Lab: 7-week bootcamp</div>
+            </div>
+            <div class="toc-arrow" aria-hidden="true">→</div>
+            <div class="toc-box" role="listitem">
+              <div class="toc-box-label">Activity</div>
+              <div class="toc-box-title">Pro-bono tech matching</div>
+            </div>
+            <div class="toc-arrow" aria-hidden="true">→</div>
+            <div class="toc-box" role="listitem">
+              <div class="toc-box-label">Activity</div>
+              <div class="toc-box-title">AI Impact Scaling Program</div>
+            </div>
+            <div class="toc-arrow" aria-hidden="true">→</div>
+            <div class="toc-box" role="listitem">
+              <div class="toc-box-label">Outcome</div>
+              <div class="toc-box-title">Competence + Connections + Implementation</div>
+            </div>
+            <div class="toc-arrow" aria-hidden="true">→</div>
+            <div class="toc-box toc-outcome" role="listitem">
+              <div class="toc-box-label">Impact</div>
+              <div class="toc-box-title">Impact Multiplication</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MEL Framework -->
+        <section class="mel-table" aria-labelledby="mel-framework-heading">
+          <h3 class="mel-table-title" id="mel-framework-heading">What We Measure</h3>
+
+          <div class="mel-row" role="row">
+            <div class="mel-row-level" style="border-left: 3px solid var(--purple);">
+              <span class="mel-level-label" style="color: var(--purple-light);">Outputs</span>
+            </div>
+            <div class="mel-row-content">
+              <span class="mel-tag">SIOs enrolled</span>
+              <span class="mel-tag">Bootcamp NPS</span>
+              <span class="mel-tag">Pro-bono value unlocked</span>
+              <span class="mel-tag">Matches made</span>
+            </div>
+          </div>
+
+          <div class="mel-row" role="row">
+            <div class="mel-row-level" style="border-left: 3px solid var(--teal);">
+              <span class="mel-level-label" style="color: var(--teal);">Outcomes</span>
+            </div>
+            <div class="mel-row-content">
+              <span class="mel-tag">AI competence improvement</span>
+              <span class="mel-tag">Implementation progress</span>
+              <span class="mel-tag">Connections made</span>
+              <span class="mel-tag">Donor visibility</span>
+            </div>
+          </div>
+
+          <div class="mel-row" role="row">
+            <div class="mel-row-level" style="border-left: 3px solid #FFD874;">
+              <span class="mel-level-label" style="color: #FFD874;">Impact</span>
+            </div>
+            <div class="mel-row-content">
+              <span class="mel-tag">Beneficiaries reached</span>
+              <span class="mel-tag">Deployment scale</span>
+              <span class="mel-tag">5× impact multiplication evidence</span>
+            </div>
+          </div>
+
+          <div class="mel-row" role="row">
+            <div class="mel-row-level" style="border-left: 3px solid #85F600;">
+              <span class="mel-level-label" style="color: #85F600;">Movement</span>
+            </div>
+            <div class="mel-row-content">
+              <span class="mel-tag">Spread of pro-bono AI culture</span>
+              <span class="mel-tag">Ecosystem growth</span>
+              <span class="mel-tag">Replication by others</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Programme Design -->
+        <section aria-labelledby="prog-heading">
+          <div class="section-header">
+            <div class="section-label">Programme Design</div>
+            <h2 class="section-title" id="prog-heading">Three Pillars of Enablement</h2>
+          </div>
+          <div class="prog-grid">
+            <div class="prog-card">
+              <div class="prog-number">Pillar 01</div>
+              <div class="prog-title">AI Impact Lab</div>
+              <p class="prog-desc">7-week cohort-based bootcamp. Hands-on AI literacy, design thinking (IDEO), responsible AI framework, use-case mapping, prototype development, and pitch day.</p>
+            </div>
+            <div class="prog-card">
+              <div class="prog-number">Pillar 02</div>
+              <div class="prog-title">Pro-Bono Matching</div>
+              <p class="prog-desc">Each NGO is matched with a vetted tech company partner. TTTR facilitates, structures, and monitors the collaboration. Partners include global software agencies, AI startups, and specialist firms.</p>
+            </div>
+            <div class="prog-card">
+              <div class="prog-number">Pillar 03</div>
+              <div class="prog-title">AI Impact Scaling Program</div>
+              <p class="prog-desc">Long-term enablement beyond the bootcamp. Ongoing pro-bono matching, mentors, community of practice, specialised workshops in data readiness, cybersecurity, and responsible AI.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Responsible AI -->
+        <section aria-labelledby="rai-heading">
+          <div class="section-header">
+            <div class="section-label">Our Commitment</div>
+            <h2 class="section-title" id="rai-heading">Responsible AI</h2>
+          </div>
+          <div class="rai-grid">
+            <div class="rai-card">
+              <div class="rai-title">Transparent</div>
+              <p class="rai-desc">All AI decisions are explainable to beneficiaries and stakeholders.</p>
+            </div>
+            <div class="rai-card">
+              <div class="rai-title">Inclusive</div>
+              <p class="rai-desc">Solutions are built with and for the communities they serve.</p>
+            </div>
+            <div class="rai-card">
+              <div class="rai-title">Sustainable</div>
+              <p class="rai-desc">Tech partners transfer knowledge so organisations can maintain solutions independently.</p>
+            </div>
+            <div class="rai-card">
+              <div class="rai-title">Accountable</div>
+              <p class="rai-desc">Impact is monitored and organisations are supported to evaluate their own results.</p>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ===== FOOTER CTA ===== -->
+  <section class="footer-cta" aria-labelledby="cta-heading">
+    <div class="container">
+      <h2 class="footer-cta-headline" id="cta-heading">Want to bring AI to your organisation?</h2>
+      <div class="cta-buttons">
+        <a href="https://techtotherescue.org" class="cta-btn" target="_blank" rel="noopener noreferrer">Apply to AI4C →</a>
+        <a href="https://techtotherescue.org" class="cta-btn" target="_blank" rel="noopener noreferrer">Partner with us →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Tech To The Rescue logo">
+            <circle cx="20" cy="20" r="19" stroke="#6C00F0" stroke-width="2" fill="none"/>
+            <circle cx="20" cy="20" r="11" stroke="#6C00F0" stroke-width="2" fill="none"/>
+            <line x1="20" y1="1" x2="20" y2="9" stroke="#6C00F0" stroke-width="2" stroke-linecap="round"/>
+            <line x1="20" y1="31" x2="20" y2="39" stroke="#6C00F0" stroke-width="2" stroke-linecap="round"/>
+            <line x1="1" y1="20" x2="9" y2="20" stroke="#6C00F0" stroke-width="2" stroke-linecap="round"/>
+            <line x1="31" y1="20" x2="39" y2="20" stroke="#6C00F0" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="20" cy="20" r="3" fill="#6C00F0"/>
+          </svg>
+          <div>
+            <div class="footer-brand-text">AI for Changemakers</div>
+            <div class="footer-copyright">© 2025 Tech To The Rescue</div>
+          </div>
+        </div>
+        <div class="footer-links">
+          <a href="https://techtotherescue.org" class="footer-link" target="_blank" rel="noopener noreferrer">techtotherescue.org</a>
+        </div>
+      </div>
+      <p class="footer-data-note">Data reflects AI4C Cohort 1 MEL outcomes (Nov–Dec 2025) and full programme portfolio as of February 2026.</p>
+    </div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // ===== TAB SWITCHING =====
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    function switchTab(targetTab) {
+      tabBtns.forEach(btn => {
+        const isTarget = btn.dataset.tab === targetTab;
+        btn.classList.toggle('active', isTarget);
+        btn.setAttribute('aria-selected', isTarget ? 'true' : 'false');
+      });
+
+      tabPanels.forEach(panel => {
+        panel.classList.remove('active', 'fade-in');
+        panel.style.display = 'none';
+      });
+
+      const targetPanel = document.getElementById('tab-' + targetTab);
+      if (targetPanel) {
+        targetPanel.style.display = 'block';
+        // Trigger reflow for fade animation
+        targetPanel.offsetHeight;
+        targetPanel.classList.add('active');
+        requestAnimationFrame(() => {
+          targetPanel.classList.add('fade-in');
+        });
+
+        // Animate progress bars if switching to overview
+        if (targetTab === 'overview') {
+          setTimeout(() => {
+            animateProgressBars();
+          }, 50);
+        }
+
+        // Scroll to main content
+        const mainEl = document.getElementById('main-content');
+        if (mainEl) {
+          const navHeight = document.getElementById('tab-nav-wrapper').offsetHeight;
+          const top = mainEl.getBoundingClientRect().top + window.scrollY - navHeight;
+          window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+        }
+      }
+    }
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        switchTab(btn.dataset.tab);
+      });
+    });
+
+    // ===== STICKY NAV =====
+    const tabNavWrapper = document.getElementById('tab-nav-wrapper');
+    const hero = document.querySelector('.hero');
+
+    function checkSticky() {
+      const heroBottom = hero.getBoundingClientRect().bottom;
+      if (heroBottom <= 0) {
+        tabNavWrapper.classList.add('is-stuck');
+      } else {
+        tabNavWrapper.classList.remove('is-stuck');
+      }
+    }
+
+    window.addEventListener('scroll', checkSticky, { passive: true });
+    checkSticky();
+
+    // ===== COUNT-UP ANIMATION =====
+    function easeOut(t) {
+      return 1 - Math.pow(1 - t, 3);
+    }
+
+    function animateCountUp(el) {
+      const isDecimal = el.hasAttribute('data-target-decimal');
+      const suffix = el.getAttribute('data-suffix') || '';
+
+      if (isDecimal) {
+        const target = parseFloat(el.getAttribute('data-target-decimal'));
+        const duration = 1200;
+        const start = performance.now();
+
+        function update(now) {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const value = (easeOut(progress) * target).toFixed(1);
+          el.textContent = value + suffix;
+          if (progress < 1) requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+      } else {
+        const target = parseInt(el.getAttribute('data-target'), 10);
+        const duration = 1200;
+        const start = performance.now();
+
+        function update(now) {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const value = Math.round(easeOut(progress) * target);
+          el.textContent = value + suffix;
+          if (progress < 1) requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+      }
+    }
+
+    const statNumbers = document.querySelectorAll('.stat-number[data-target], .stat-number[data-target-decimal]');
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCountUp(entry.target);
+          countObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    statNumbers.forEach(el => countObserver.observe(el));
+
+    // ===== PROGRESS BAR ANIMATION =====
+    function animateProgressBars() {
+      const fills = document.querySelectorAll('.progress-fill');
+      fills.forEach(fill => {
+        const width = fill.getAttribute('data-width');
+        if (width) {
+          fill.style.width = width + '%';
+        }
+      });
+    }
+
+    const progressList = document.getElementById('progress-list');
+    if (progressList) {
+      const progressObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            animateProgressBars();
+            progressObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+      progressObserver.observe(progressList);
+    }
+
+    // ===== CHART.JS SETUP =====
+    Chart.defaults.color = '#7A6FAA';
+    Chart.defaults.font.family = "'DM Sans', sans-serif";
+
+    // Pipeline Doughnut Chart
+    const pipelineCtx = document.getElementById('pipelineChart');
+    if (pipelineCtx) {
+      new Chart(pipelineCtx, {
+        type: 'doughnut',
+        data: {
+          labels: [
+            'Implemented at scale',
+            'Piloting / Testing',
+            'In Development',
+            'In Concept / Design',
+            'Matching / In progress'
+          ],
+          datasets: [{
+            data: [2, 9, 6, 10, 4],
+            backgroundColor: ['#85F600', '#FFD874', '#85A5FF', '#C5B2FF', '#FA4E4B'],
+            borderColor: '#0D0040',
+            borderWidth: 3,
+            hoverBorderColor: '#0D0040',
+            hoverBorderWidth: 3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          cutout: '68%',
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#0D0040',
+              borderColor: 'rgba(108,0,240,0.25)',
+              borderWidth: 1,
+              titleColor: '#FFFFFF',
+              bodyColor: '#C5B2FF',
+              padding: 12,
+              callbacks: {
+                label: function(context) {
+                  return ' ' + context.label + ': ' + context.parsed;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Cohort Bar Chart
+    const cohortCtx = document.getElementById('cohortChart');
+    if (cohortCtx) {
+      new Chart(cohortCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Health', 'Education', 'Climate', 'Disaster Mgmt', 'Econ. Opportunity'],
+          datasets: [{
+            data: [41, 35, 43, 32, 21],
+            backgroundColor: 'rgba(108,0,240,0.5)',
+            hoverBackgroundColor: 'rgba(138,255,227,0.4)',
+            borderColor: '#6C00F0',
+            borderWidth: 1,
+            borderRadius: 6,
+            borderSkipped: false
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#0D0040',
+              borderColor: 'rgba(108,0,240,0.25)',
+              borderWidth: 1,
+              titleColor: '#FFFFFF',
+              bodyColor: '#C5B2FF',
+              padding: 12,
+              callbacks: {
+                label: function(context) {
+                  return ' ' + context.parsed.y + ' projects';
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: 'rgba(108,0,240,0.08)', drawBorder: false },
+              ticks: {
+                color: '#7A6FAA',
+                font: { family: "'DM Sans', sans-serif", size: 12 }
+              },
+              border: { display: false }
+            },
+            y: {
+              grid: { color: 'rgba(108,0,240,0.08)', drawBorder: false },
+              ticks: {
+                color: '#7A6FAA',
+                font: { family: "'DM Sans', sans-serif", size: 12 },
+                stepSize: 10
+              },
+              border: { display: false },
+              min: 0,
+              max: 55
+            }
+          }
+        }
+      });
+    }
+
+    // Geography Horizontal Bar Chart
+    const geoCtx = document.getElementById('geoChart');
+    if (geoCtx) {
+      new Chart(geoCtx, {
+        type: 'bar',
+        data: {
+          labels: ['North America', 'Europe', 'South Asia', 'Africa', 'Latin America', 'Global/Other', 'Southeast Asia', 'Middle East'],
+          datasets: [{
+            data: [21, 18, 14, 13, 9, 7, 6, 4],
+            backgroundColor: 'rgba(108,0,240,0.5)',
+            hoverBackgroundColor: 'rgba(138,255,227,0.4)',
+            borderColor: '#6C00F0',
+            borderWidth: 1,
+            borderRadius: 4,
+            borderSkipped: false
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#0D0040',
+              borderColor: 'rgba(108,0,240,0.25)',
+              borderWidth: 1,
+              titleColor: '#FFFFFF',
+              bodyColor: '#C5B2FF',
+              padding: 12,
+              callbacks: {
+                label: function(context) {
+                  return ' ' + context.parsed.x + ' NGOs';
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: 'rgba(108,0,240,0.08)', drawBorder: false },
+              ticks: {
+                color: '#7A6FAA',
+                font: { family: "'DM Sans', sans-serif", size: 12 },
+                stepSize: 5
+              },
+              border: { display: false },
+              min: 0,
+              max: 25
+            },
+            y: {
+              grid: { display: false },
+              ticks: {
+                color: '#C5B2FF',
+                font: { family: "'DM Sans', sans-serif", size: 13 }
+              },
+              border: { display: false }
+            }
+          }
+        }
+      });
+    }
+
+    // ===== INITIAL STATE =====
+    // Show first tab, trigger animations after short delay
+    document.getElementById('tab-overview').style.display = 'block';
+    setTimeout(animateProgressBars, 300);
+
+  </script>
+</body>
+</html>
