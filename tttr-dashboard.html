@@ -1014,47 +1014,137 @@
       Our fastest-growing regions are Africa and Southeast Asia — where the need for tech-for-good is most acute.
     </p>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <!-- hidden geo-bars retained so existing JS doesn't crash -->
+    <div id="geo-bars" style="display:none;"></div>
 
-      <!-- Regional breakdown bars -->
-      <div>
-        <div class="stat-label mb-4">Nonprofits by region</div>
-        <div id="geo-bars" class="flex flex-col gap-4">
-          <!-- JS will render bars -->
-        </div>
+    <!-- ── Interactive World Map ── -->
+    <div class="stat-label mb-5">Hover over a region to explore our nonprofit community</div>
+
+    <style>
+      .c-shape {
+        fill: rgba(108,0,240,0.11);
+        stroke: rgba(108,0,240,0.22);
+        stroke-width: 1.2;
+        cursor: pointer;
+        transition: fill .18s, filter .18s;
+      }
+      .c-shape:hover, .c-shape.c-active {
+        fill: rgba(108,0,240,0.38);
+        filter: drop-shadow(0 0 7px rgba(108,0,240,0.28));
+      }
+      .c-label {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 8.5px;
+        fill: rgba(60,0,160,0.5);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        pointer-events: none;
+        user-select: none;
+      }
+    </style>
+
+    <div style="position:relative;" id="map-wrap">
+
+      <!-- Tooltip -->
+      <div id="map-tt" style="display:none; position:absolute; z-index:200; pointer-events:none;
+        background:#fff; border:1.5px solid rgba(108,0,240,0.18); border-radius:14px;
+        padding:15px 18px; min-width:200px; box-shadow:0 12px 40px rgba(108,0,240,0.16);">
+        <div id="tt-region" style="font-family:'DM Sans',sans-serif; font-size:0.72rem; font-weight:800;
+          text-transform:uppercase; letter-spacing:0.07em; color:var(--purple);
+          padding-bottom:8px; margin-bottom:9px; border-bottom:1px solid rgba(108,0,240,0.1);"></div>
+        <ul id="tt-orgs" style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:5px;"></ul>
       </div>
 
-      <!-- Countries spotlight -->
-      <div>
-        <div class="stat-label mb-4">Top countries by activity</div>
-        <div class="grid grid-cols-2 gap-3">
-          <div class="card card-accent" style="padding: 14px 18px;">
-            <div class="font-heading font-bold text-xl" style="color:var(--text);">🇺🇸 United States</div>
-            <div class="stat-label">— nonprofits</div>
-          </div>
-          <div class="card card-accent" style="padding: 14px 18px;">
-            <div class="font-heading font-bold text-xl" style="color:var(--text);">🇬🇧 United Kingdom</div>
-            <div class="stat-label">— nonprofits</div>
-          </div>
-          <div class="card card-accent" style="padding: 14px 18px;">
-            <div class="font-heading font-bold text-xl" style="color:var(--text);">🇵🇱 Poland</div>
-            <div class="stat-label">— nonprofits</div>
-          </div>
-          <div class="card card-accent" style="padding: 14px 18px;">
-            <div class="font-heading font-bold text-xl" style="color:var(--text);">🇰🇪 Kenya</div>
-            <div class="stat-label">— nonprofits</div>
-          </div>
-          <div class="card card-accent" style="padding: 14px 18px;">
-            <div class="font-heading font-bold text-xl" style="color:var(--text);">🇳🇬 Nigeria</div>
-            <div class="stat-label">— nonprofits</div>
-          </div>
-          <div class="card card-accent" style="padding: 14px 18px;">
-            <div class="font-heading font-bold text-xl" style="color:var(--text);">🇮🇳 India</div>
-            <div class="stat-label">— nonprofits</div>
-          </div>
-        </div>
-      </div>
+      <!-- SVG Map  viewBox 0 0 860 420 -->
+      <svg id="world-map-svg" viewBox="0 0 860 420" xmlns="http://www.w3.org/2000/svg"
+        style="width:100%; height:auto; display:block; border-radius:16px;
+          background:rgba(108,0,240,0.035); border:1px solid rgba(108,0,240,0.08);">
 
+        <!-- equator + meridian (decorative) -->
+        <line x1="0" y1="210" x2="860" y2="210" stroke="rgba(108,0,240,0.05)" stroke-width="1" stroke-dasharray="4 4"/>
+        <line x1="430" y1="0" x2="430" y2="420" stroke="rgba(108,0,240,0.05)" stroke-width="1" stroke-dasharray="4 4"/>
+
+        <!-- Greenland (decorative only) -->
+        <path style="fill:rgba(108,0,240,0.06);stroke:rgba(108,0,240,0.1);stroke-width:1;pointer-events:none;"
+          d="M 252,12 L 305,8 L 316,33 L 290,50 L 256,46 Z"/>
+
+        <!-- ── NORTH AMERICA ── -->
+        <path class="c-shape" data-region="North America"
+          d="M 45,36 L 176,18 L 228,42 L 250,82 L 238,142 L 212,177 L 174,196 L 130,192 L 82,169 L 50,134 L 38,89 Z"/>
+        <text class="c-label" x="132" y="112">North America</text>
+
+        <!-- ── LATIN AMERICA ── -->
+        <path class="c-shape" data-region="Latin America"
+          d="M 162,210 L 216,200 L 246,226 L 252,274 L 239,340 L 210,367 L 177,360 L 150,334 L 140,279 L 142,234 Z"/>
+        <text class="c-label" x="163" y="296">Latin America</text>
+
+        <!-- ── EUROPE ── -->
+        <path class="c-shape" data-region="Europe"
+          d="M 315,22 L 398,15 L 422,44 L 424,85 L 402,112 L 366,122 L 332,116 L 312,91 L 308,56 Z"/>
+        <text class="c-label" x="340" y="76">Europe</text>
+
+        <!-- ── AFRICA ── -->
+        <path class="c-shape" data-region="Africa"
+          d="M 317,134 L 415,126 L 441,154 L 449,210 L 437,287 L 413,327 L 379,338 L 343,328 L 321,290 L 309,214 L 309,166 Z"/>
+        <text class="c-label" x="358" y="240">Africa</text>
+
+        <!-- ── MIDDLE EAST ── -->
+        <path class="c-shape" data-region="Middle East"
+          d="M 428,126 L 490,120 L 507,143 L 504,178 L 482,193 L 444,190 L 426,170 L 425,143 Z"/>
+        <text class="c-label" x="444" y="162">M. East</text>
+
+        <!-- ── ASIA main ── -->
+        <path class="c-shape" data-region="Asia &amp; Pacific"
+          d="M 508,19 L 698,11 L 743,45 L 743,152 L 715,234 L 655,260 L 585,254 L 521,224 L 501,172 L 497,89 Z"/>
+
+        <!-- India peninsula -->
+        <path class="c-shape" data-region="Asia &amp; Pacific"
+          d="M 578,214 L 621,209 L 629,270 L 601,284 L 574,267 Z"/>
+
+        <!-- SE Asia -->
+        <path class="c-shape" data-region="Asia &amp; Pacific"
+          d="M 699,180 L 749,174 L 765,202 L 747,226 L 701,222 Z"/>
+
+        <!-- Japan -->
+        <ellipse class="c-shape" data-region="Asia &amp; Pacific" cx="757" cy="148" rx="11" ry="8"/>
+
+        <text class="c-label" x="618" y="118">Asia &amp; Pacific</text>
+
+        <!-- ── OCEANIA / AUSTRALIA ── -->
+        <path class="c-shape" data-region="Asia &amp; Pacific"
+          d="M 622,282 L 723,272 L 759,297 L 757,344 L 717,364 L 663,357 L 629,334 L 619,308 Z"/>
+        <text class="c-label" x="665" y="330">Oceania</text>
+
+      </svg>
+    </div>
+
+    <!-- Region count strip -->
+    <div class="grid grid-cols-3 md:grid-cols-6 gap-3 mt-6">
+      <div style="background:var(--purple-pale);border-radius:10px;padding:12px 14px;text-align:center;">
+        <div class="font-heading font-bold" style="color:var(--purple);font-size:1.15rem;line-height:1;">680</div>
+        <div class="stat-label" style="font-size:0.62rem;margin-top:3px;">Europe</div>
+      </div>
+      <div style="background:var(--purple-pale);border-radius:10px;padding:12px 14px;text-align:center;">
+        <div class="font-heading font-bold" style="color:var(--purple);font-size:1.15rem;line-height:1;">310</div>
+        <div class="stat-label" style="font-size:0.62rem;margin-top:3px;">North America</div>
+      </div>
+      <div style="background:var(--purple-pale);border-radius:10px;padding:12px 14px;text-align:center;">
+        <div class="font-heading font-bold" style="color:var(--purple);font-size:1.15rem;line-height:1;">270</div>
+        <div class="stat-label" style="font-size:0.62rem;margin-top:3px;">Africa</div>
+      </div>
+      <div style="background:var(--purple-pale);border-radius:10px;padding:12px 14px;text-align:center;">
+        <div class="font-heading font-bold" style="color:var(--purple);font-size:1.15rem;line-height:1;">240</div>
+        <div class="stat-label" style="font-size:0.62rem;margin-top:3px;">Asia &amp; Pacific</div>
+      </div>
+      <div style="background:var(--purple-pale);border-radius:10px;padding:12px 14px;text-align:center;">
+        <div class="font-heading font-bold" style="color:var(--purple);font-size:1.15rem;line-height:1;">155</div>
+        <div class="stat-label" style="font-size:0.62rem;margin-top:3px;">Latin America</div>
+      </div>
+      <div style="background:var(--purple-pale);border-radius:10px;padding:12px 14px;text-align:center;">
+        <div class="font-heading font-bold" style="color:var(--purple);font-size:1.15rem;line-height:1;">52</div>
+        <div class="stat-label" style="font-size:0.62rem;margin-top:3px;">Middle East</div>
+      </div>
     </div>
 
     <!-- Callout -->
@@ -1370,6 +1460,91 @@ geoData.forEach(d => {
   `;
   container.appendChild(row);
 });
+
+// ─── Interactive World Map tooltip ───────────────────────────────────────────
+(function () {
+  const regionOrgs = {
+    'North America': [
+      'Mercy Corps','Tech Matters (Aselo)','ACT Group','Food Rescue Hero',
+      'Catalyst Now','Root Capital','Global Citizenship Foundation',
+      'Teach the World Foundation','Start Network','Reap Benefit'
+    ],
+    'Latin America': [
+      'Cosecha','Emkubar','WeRobotics / Brazil Flying Labs','Studio Bahia',
+      'Laboratoria','Fundación Paraguaya','WEConnect International',
+      'Techo','Ashoka Latin America','CocoaAction'
+    ],
+    'Europe': [
+      'Sistech','ReDi School of Digital Integration','ClimateCulture',
+      'Feminoteka','Life from Water Foundation','Bridging Gaps',
+      'Savana Signatures','Reboot the Future','Edu-fy Global CIC',
+      'High Alert Institute'
+    ],
+    'Africa': [
+      'JA Africa','HelpMum','Emergency Medicine Kenya Foundation',
+      'Solar Sister','APRI — Africa Policy Research Institute',
+      'Africa E-Mobility Alliance','Jacaranda Health','Justdiggit',
+      'Brain Builders Youth Development Initiative','White Helmets'
+    ],
+    'Middle East': [
+      'Questscope','Anera','Mercy Corps MENA','War Child',
+      'International Medical Corps','CARE MENA','Direct Relief MENA',
+      'Palestine Children\'s Relief Fund','Syria Relief','Bonyan'
+    ],
+    'Asia & Pacific': [
+      'BRAC','STEAM for Vietnam Foundation','Learning Links Foundation',
+      'Madhi Foundation','All India Disaster Mitigation Institute',
+      'American India Foundation','Save the Children in Viet Nam',
+      'Aflatoun International','Humanitarian OpenStreetMap Team',
+      'TakingITGlobal'
+    ]
+  };
+
+  const tt       = document.getElementById('map-tt');
+  const ttRegion = document.getElementById('tt-region');
+  const ttOrgs   = document.getElementById('tt-orgs');
+  const wrap     = document.getElementById('map-wrap');
+  const shapes   = document.querySelectorAll('.c-shape');
+
+  let active = null;
+
+  shapes.forEach(el => {
+    el.addEventListener('mouseenter', function (e) {
+      const region = this.dataset.region;
+      if (!region || !regionOrgs[region]) return;
+
+      // highlight all shapes for this region
+      shapes.forEach(s => s.classList.toggle('c-active', s.dataset.region === region));
+      active = region;
+
+      // populate tooltip
+      ttRegion.textContent = region;
+      ttOrgs.innerHTML = regionOrgs[region]
+        .map(n => `<li style="font-family:'DM Sans',sans-serif;font-size:0.78rem;color:#333;line-height:1.4;">${n}</li>`)
+        .join('');
+      tt.style.display = 'block';
+    });
+
+    el.addEventListener('mousemove', function (e) {
+      const rect = wrap.getBoundingClientRect();
+      let x = e.clientX - rect.left + 14;
+      let y = e.clientY - rect.top  + 14;
+      // keep tooltip inside wrapper
+      const ttW = tt.offsetWidth  || 215;
+      const ttH = tt.offsetHeight || 240;
+      if (x + ttW > rect.width)  x = e.clientX - rect.left - ttW - 14;
+      if (y + ttH > rect.height) y = e.clientY - rect.top  - ttH - 14;
+      tt.style.left = x + 'px';
+      tt.style.top  = y + 'px';
+    });
+
+    el.addEventListener('mouseleave', function () {
+      shapes.forEach(s => s.classList.remove('c-active'));
+      tt.style.display = 'none';
+      active = null;
+    });
+  });
+})();
 
 // ─── AI4C deep dive — reveal on click ────────────────────────────────────────
 document.getElementById('ai4c-toggle').addEventListener('click', function (e) {
